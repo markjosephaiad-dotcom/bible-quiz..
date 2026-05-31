@@ -3,104 +3,157 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>&rlm;مسابقة دراسة الكتاب المقدس</title>
+    <title>✝️ مسابقة دراسة الكتاب المقدس الأرثوذكسية</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-    <!-- استدعاء مكتبة يوتيوب للتحكم في الصوت من الأزرار الخارجية -->
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <style>
         :root {
-            --primary-gold: #D4AF37;
-            --dark-gold: #AA7C11;
-            --maroon: #800020;
-            --dark-bg: #1a1a1a;
-            --light-bg: #FAF6EE;
-            --text-dark: #2b2b2b;
-            --success-green: #2E7D32;
-            --error-red: #c62828;
+            --coptic-gold: #D4AF37;
+            --dark-gold: #B8860B;
+            --coptic-maroon: #70001A;
+            --dark-maroon: #4A0010;
+            --church-cream: #FDFBF7;
+            --pure-white: #ffffff;
+            --text-dark: #2B251F;
+            --success-green: #1B5E20;
+            --error-red: #B71C1C;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', 'Amiri', sans-serif; }
-        body { background-color: var(--light-bg); color: var(--text-dark); text-align: center; overflow-x: hidden; padding: 10px; }
+        
+        body { 
+            background-color: #F4EFE6; 
+            background-image: radial-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+            color: var(--text-dark); 
+            text-align: center; 
+            padding: 15px; 
+        }
 
-        .coptic-border { border: 4px double var(--primary-gold); max-width: 900px; margin: 15px auto; padding: 20px; border-radius: 12px; background: #ffffff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; }
-        .header-title { font-family: 'Amiri', serif; color: var(--maroon); font-size: 2.2rem; margin-bottom: 5px; font-weight: bold; }
-        .subtitle { color: var(--dark-gold); font-size: 1.2rem; margin-bottom: 20px; font-weight: 600; }
+        /* الإطار القبطي الذهبي المزدوج */
+        .coptic-border { 
+            border: 4px double var(--coptic-gold); 
+            outline: 2px solid var(--coptic-maroon);
+            outline-offset: -8px;
+            max-width: 950px; 
+            margin: 20px auto; 
+            padding: 30px 20px; 
+            border-radius: 16px; 
+            background: var(--church-cream); 
+            box-shadow: 0 10px 30px rgba(74,0,16,0.15); 
+            position: relative; 
+        }
 
-        .images-container { display: flex; justify-content: center; gap: 25px; margin: 20px 0; }
+        /* أيقونة الصليب القبطي العلوي */
+        .coptic-cross-header {
+            font-size: 2.8rem;
+            color: var(--coptic-maroon);
+            text-shadow: 2px 2px 0px var(--coptic-gold);
+            margin-bottom: 10px;
+            line-height: 1;
+        }
+
+        .header-title { font-family: 'Amiri', serif; color: var(--coptic-maroon); font-size: 2.4rem; margin-bottom: 5px; font-weight: bold; }
+        .subtitle { color: var(--dark-gold); font-size: 1.25rem; margin-bottom: 25px; font-weight: 600; letter-spacing: 0.5px; }
+
+        /* فاصل كنسي مزخرف بالصلبان */
+        .church-separator {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .church-separator::before, .church-separator::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background: linear-gradient(to left, transparent, var(--coptic-gold), transparent);
+        }
+        .church-separator span {
+            padding: 0 15px;
+            color: var(--coptic-gold);
+            font-size: 1.2rem;
+        }
+
+        .images-container { display: flex; justify-content: center; gap: 30px; margin: 20px 0; flex-wrap: wrap; }
         .saint-card { display: flex; flex-direction: column; align-items: center; }
-        .saint-img { width: 140px; height: 180px; object-fit: cover; border-radius: 10px; border: 3px solid var(--primary-gold); box-shadow: 0 6px 12px rgba(0,0,0,0.15); background-color: #eee; }
-        .saint-label { margin-top: 8px; font-weight: bold; color: var(--maroon); font-size: 0.95rem; }
+        .saint-img { width: 145px; height: 185px; object-fit: cover; border-radius: 8px; border: 3px solid var(--coptic-gold); box-shadow: 0 8px 16px rgba(0,0,0,0.2); background-color: #eee; transition: transform 0.3s; }
+        .saint-img:hover { transform: scale(1.03); }
+        .saint-label { margin-top: 10px; font-weight: bold; color: var(--coptic-maroon); font-size: 0.95rem; font-family: 'Amiri', serif; font-size: 1.1rem; }
 
-        .page { display: none; margin-top: 20px; padding: 15px; }
-        .active-page { display: block; animation: fadeIn 0.4s ease-in-out; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+        .page { display: none; margin-top: 20px; padding: 10px; }
+        .active-page { display: block; animation: copticFadeIn 0.5s ease-in-out; }
+        @keyframes copticFadeIn { from { opacity: 0; transform: translateY(12px); } to { opacity: 1; transform: translateY(0); } }
 
-        .btn { padding: 12px 28px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: all 0.3s ease; margin: 6px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
-        .btn-maroon { background-color: var(--maroon); color: white; }
-        .btn-maroon:hover { background-color: #5a0016; }
-        .btn-gold { background-color: var(--primary-gold); color: #000; }
-        .btn-gold:hover { background-color: var(--dark-gold); color: white; }
+        /* أزرار بتصميم كنسي فاخر */
+        .btn { padding: 12px 30px; border: none; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 1.05rem; transition: all 0.3s ease; margin: 8px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .btn-maroon { background-color: var(--coptic-maroon); color: white; border-bottom: 3px solid var(--dark-maroon); }
+        .btn-maroon:hover { background-color: var(--dark-maroon); transform: translateY(-2px); }
+        .btn-gold { background-color: var(--coptic-gold); color: var(--dark-maroon); border-bottom: 3px solid var(--dark-gold); }
+        .btn-gold:hover { background-color: var(--dark-gold); color: white; transform: translateY(-2px); }
         .btn-green { background-color: var(--success-green); color: white; }
-        .btn-green:hover { background-color: #1b5e20; }
+        .btn-green:hover { background-color: #144517; }
         .btn-red { background-color: var(--error-red); color: white; }
-        .btn-red:hover { background-color: #8e1b1b; }
+        .btn-red:hover { background-color: #801010; }
 
-        select, input[type="password"] { width: 85%; max-width: 400px; padding: 12px; margin: 12px 0; border: 2px solid #ddd; border-radius: 6px; font-size: 1.05rem; text-align: center; font-weight: 600; }
-        select:focus, input:focus { border-color: var(--primary-gold); outline: none; }
+        select, input[type="password"] { width: 90%; max-width: 420px; padding: 14px; margin: 12px 0; border: 2px solid #E0D7C6; border-radius: 8px; font-size: 1.1rem; text-align: center; font-weight: 600; background-color: var(--pure-white); color: var(--text-dark); box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); }
+        select:focus, input:focus { border-color: var(--coptic-gold); outline: none; box-shadow: 0 0 8px rgba(212,175,55,0.3); }
         
-        #timer-box { font-size: 1.3rem; color: #d32f2f; font-weight: bold; background: #ffebee; padding: 6px 18px; border-radius: 20px; border: 1px solid #ffcdd2; }
+        #timer-box { font-size: 1.25rem; color: var(--error-red); font-weight: bold; background: #FDEAEA; padding: 8px 20px; border-radius: 25px; border: 1px solid #F9D2D2; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
 
-        .options-container { text-align: right; margin: 20px 0; }
-        .option-card { padding: 15px; margin: 12px 0; border: 2px solid #eee; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; background: #fff; }
-        .option-card:hover { border-color: var(--primary-gold); background-color: #fffdf5; }
-        .option-card.selected { border-color: var(--dark-gold); background-color: #FFF9E6; font-weight: bold; box-shadow: 0 0 12px rgba(212,175,55,0.4); border-width: 2.5px; }
-        .option-card input { width: 18px; height: 18px; margin-left: 15px; cursor: pointer; accent-color: var(--dark-gold); }
+        /* كروت اختيارات الأسئلة */
+        .options-container { text-align: right; margin: 25px 0; }
+        .option-card { padding: 16px; margin: 14px 0; border: 2px solid #EAE4D7; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; background: var(--pure-white); box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+        .option-card:hover { border-color: var(--coptic-gold); background-color: #FFFDF9; }
+        .option-card.selected { border-color: var(--coptic-maroon); background-color: #FDF5F6; font-weight: bold; box-shadow: 0 0 15px rgba(112,0,26,0.1); border-width: 2.5px; }
+        .option-card input { width: 20px; height: 20px; margin-left: 15px; cursor: pointer; accent-color: var(--coptic-maroon); }
 
-        .admin-panel { background-color: var(--maroon); color: white; padding: 25px; border-radius: 12px; box-shadow: inset 0 0 20px rgba(0,0,0,0.2); }
-        .admin-panel h2 { color: var(--primary-gold); margin-bottom: 20px; font-family: 'Amiri', serif; font-size: 2rem; }
+        /* لوحة التحكم للمشرفين */
+        .admin-panel { background-color: var(--coptic-maroon); color: white; padding: 30px; border-radius: 14px; box-shadow: inset 0 0 30px rgba(0,0,0,0.35); border: 3px solid var(--coptic-gold); }
+        .admin-panel h2 { color: var(--coptic-gold); margin-bottom: 20px; font-family: 'Amiri', serif; font-size: 2.2rem; text-shadow: 1px 1px 2px rgba(0,0,0,0.5); }
         
-        /* تصميم كروت قائمة فك الحظر السري */
-        .unblock-zone { background: rgba(255, 255, 255, 0.1); padding: 15px; border-radius: 8px; margin: 15px 0; border: 1px dashed var(--primary-gold); text-align: right; }
-        .unblock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr)); gap: 10px; margin-top: 10px; max-height: 200px; overflow-y: auto; background: white; padding: 10px; border-radius: 6px; color: #333; }
-        .unblock-item { display: flex; align-items: center; gap: 8px; font-size: 0.95rem; cursor: pointer; padding: 5px; }
-        .unblock-item input { width: 16px; height: 16px; cursor: pointer; }
+        .unblock-zone { background: rgba(255, 255, 255, 0.07); padding: 20px; border-radius: 10px; margin: 20px 0; border: 1px dashed var(--coptic-gold); text-align: right; }
+        .unblock-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 12px; margin-top: 12px; max-height: 220px; overflow-y: auto; background: var(--pure-white); padding: 12px; border-radius: 8px; color: var(--text-dark); }
+        .unblock-item { display: flex; align-items: center; gap: 10px; font-size: 1rem; cursor: pointer; padding: 6px; border-bottom: 1px solid #F0F0F0; }
+        .unblock-item input { width: 18px; height: 18px; cursor: pointer; }
 
-        .admin-table { width: 100%; border-collapse: collapse; margin-top: 20px; background: white; color: var(--text-dark); border-radius: 8px; overflow: hidden; }
-        .admin-table th { background-color: var(--dark-gold); color: white; padding: 14px; text-align: center; font-size: 1.05rem; }
-        .admin-table td { padding: 12px; border-bottom: 1px solid #eee; text-align: center; font-size: 0.95rem; }
-        .admin-table tr:nth-child(even) { background-color: #fcfbf7; }
+        .admin-table { width: 100%; border-collapse: collapse; margin-top: 25px; background: var(--pure-white); color: var(--text-dark); border-radius: 10px; overflow: hidden; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
+        .admin-table th { background-color: var(--coptic-maroon); color: var(--coptic-gold); padding: 16px; text-align: center; font-size: 1.1rem; border-bottom: 3px solid var(--coptic-gold); }
+        .admin-table td { padding: 14px; border-bottom: 1px solid #EEE9DC; text-align: center; font-size: 1rem; }
+        .admin-table tr:nth-child(even) { background-color: #FAF8F2; }
         
-        .action-btn { padding: 6px 12px; font-size: 0.85rem; border: none; border-radius: 4px; cursor: pointer; margin: 3px; color: white; font-weight: bold; transition: opacity 0.2s; }
-        .action-btn:hover { opacity: 0.9; }
+        .action-btn { padding: 6px 14px; font-size: 0.85rem; border: none; border-radius: 5px; cursor: pointer; margin: 4px; color: white; font-weight: bold; transition: background 0.2s; }
         .btn-edit-ans { background: #0288d1; }
         .btn-edit-deg { background: #f57c00; }
-        .btn-delete { background: #d32f2f; }
+        .btn-delete { background: var(--error-red); }
 
-        .result-box { padding: 35px; border: 3px dashed var(--primary-gold); background: #fffdf9; border-radius: 12px; display: inline-block; margin: 25px 0; min-width: 280px; }
-        .score-num { font-size: 3.5rem; color: var(--maroon); font-weight: bold; margin-top: 10px; }
+        .result-box { padding: 35px; border: 3px dashed var(--coptic-gold); background: #FFFDF9; border-radius: 14px; display: inline-block; margin: 25px 0; min-width: 300px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); }
+        .score-num { font-size: 3.8rem; color: var(--coptic-maroon); font-weight: bold; margin-top: 10px; font-family: 'Amiri', serif; }
 
-        .review-card { background: #fff; border: 1px solid #ddd; padding: 15px; margin: 15px 0; border-radius: 8px; text-align: right; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
-        .badge { padding: 4px 10px; border-radius: 4px; font-size: 0.85rem; font-weight: bold; display: inline-block; margin-bottom: 8px; color: white; }
+        .review-card { background: var(--pure-white); border: 1px solid #E5DEC9; padding: 18px; margin: 18px 0; border-radius: 10px; text-align: right; box-shadow: 0 3px 6px rgba(0,0,0,0.03); }
+        .badge { padding: 5px 12px; border-radius: 5px; font-size: 0.85rem; font-weight: bold; display: inline-block; margin-bottom: 10px; color: white; }
         .badge-success { background-color: var(--success-green); }
         .badge-error { background-color: var(--error-red); }
-        .review-opt { padding: 8px; margin: 4px 0; border-radius: 5px; background: #f9f9f9; font-size: 0.95rem; }
-        .review-opt.user-picked-wrong { background-color: #FFEBEE; border-right: 4px solid var(--error-red); color: #c62828; }
-        .review-opt.correct-ans { background-color: #E8F5E9; border-right: 4px solid var(--success-green); color: #2E7D32; font-weight: bold; }
+        .review-opt { padding: 10px; margin: 6px 0; border-radius: 6px; background: #FDFDFB; border: 1px solid #F1EDE2; font-size: 1rem; }
+        .review-opt.user-picked-wrong { background-color: #FDEAEA; border-right: 5px solid var(--error-red); color: var(--error-red); }
+        .review-opt.correct-ans { background-color: #E8F5E9; border-right: 5px solid var(--success-green); color: var(--success-green); font-weight: bold; }
         
-        .inline-edit-box { background: #f1f8e9; padding: 15px; border-radius: 8px; margin-top: 10px; border: 1px dashed var(--success-green); text-align: right; color: #333; }
+        .inline-edit-box { background: #F4F9F4; padding: 15px; border-radius: 8px; margin-top: 10px; border: 1px dashed var(--success-green); text-align: right; color: #333; }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
-        .modal-content { background: var(--light-bg); border: 3px solid var(--primary-gold); border-radius: 12px; max-width: 750px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 25px; text-align: right; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
+        /* نافذة عرض الأصحاح البوب أب الفاخرة */
+        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(43,37,31,0.7); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 20px; backdrop-filter: blur(4px); }
+        .modal-content { background: var(--church-cream); border: 4px solid var(--coptic-gold); outline: 2px solid var(--coptic-maroon); outline-offset: -6px; border-radius: 16px; max-width: 800px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 30px; text-align: right; box-shadow: 0 15px 35px rgba(0,0,0,0.4); }
         
-        .modal-body { font-family: 'Amiri', serif; font-size: 22px; line-height: 1.9; color: #1a1a1a; white-space: pre-wrap; text-align: justify; margin: 15px 0; padding: 20px; background: #fff; border-radius: 6px; border: 1px solid #e0e0e0; max-height: 45vh; overflow-y: auto; font-weight: 500; }
+        .modal-body { font-family: 'Amiri', serif; font-size: 1.45rem; line-height: 2; color: #1A1512; white-space: pre-wrap; text-align: justify; margin: 20px 0; padding: 25px; background: var(--pure-white); border-radius: 8px; border: 1px solid #EAE4D3; max-height: 45vh; overflow-y: auto; font-weight: 500; box-shadow: inset 0 2px 6px rgba(0,0,0,0.02); }
         
-        .audio-control-zone { background: #F3E5AB; border: 2px solid var(--primary-gold); border-radius: 8px; padding: 15px; margin: 15px 0; text-align: center; }
-        .progress-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; direction: ltr; }
-        .progress-bar-slider { width: 70%; max-width: 400px; height: 8px; background: #ccc; border-radius: 4px; appearance: none; outline: none; cursor: pointer; accent-color: var(--maroon); transition: background 0.1s; }
-        .time-label { font-size: 0.9rem; font-weight: bold; color: var(--maroon); min-width: 45px; }
+        /* منطقة مشغل الصوت الكنسي */
+        .audio-control-zone { background: #F5EEDC; border: 2px solid var(--coptic-gold); border-radius: 10px; padding: 18px; margin: 15px 0; text-shadow: none; box-shadow: 0 4px 8px rgba(0,0,0,0.04); }
+        .progress-container { display: flex; align-items: center; justify-content: center; gap: 12px; margin-top: 15px; direction: ltr; }
+        .progress-bar-slider { width: 75%; max-width: 450px; height: 8px; background: #D2C9B5; border-radius: 4px; appearance: none; outline: none; cursor: pointer; accent-color: var(--coptic-maroon); }
+        .time-label { font-size: 0.95rem; font-weight: bold; color: var(--coptic-maroon); min-width: 50px; font-family: 'Cairo', sans-serif; }
 
         #yt-hidden-player { display: none; }
     </style>
@@ -108,116 +161,121 @@
 <body>
 
 <div class="coptic-border">
+    <!-- الصليب القبطي المذهب في مقدمة الموقع -->
+    <div class="coptic-cross-header">✝️</div>
     <div class="header-title">كنيسة الشهيد العظيم فيلوباتير مرقوريوس أبي سيفين</div>
-    <div class="subtitle">مدينة عامر - اجتماع الخدام</div>
+    <div class="subtitle">مدينة عامر - اجتماع الخدام والنائبات</div>
     
-    <button class="btn btn-maroon" style="position: absolute; top: 25px; left: 25px; font-size: 0.8rem; padding: 6px 14px;" onclick="showPage('admin-login-page')">⚙️ لوحة التحكم</button>
+    <button class="btn btn-maroon" style="position: absolute; top: 25px; left: 25px; font-size: 0.8rem; padding: 6px 14px; border: 1px solid var(--coptic-gold);" onclick="showPage('admin-login-page')">⚙️ الإدارة</button>
 
-    <!-- الشاشة 1: تسجيل الدخول واختيار الاسم -->
+    <div class="church-separator"><span>✝️ ✝️ ✝️</span></div>
+
+    <!-- الشاشة 1: تسجيل الدخول والمحتوى الدراسي المتفق عليه -->
     <div id="login-page" class="page active-page">
         <div class="images-container">
             <div class="saint-card">
                 <img src="virgin.jpg" alt="أم النور العذراء مريم" class="saint-img">
-                <div class="saint-label">شفاعة أم النور العذراء مريم</div>
+                <div class="saint-label">شفاعة القديسة مريم العذراء</div>
             </div>
             <div class="saint-card">
                 <img src="abusafein.jpg" alt="الشهيد مرقوريوس أبي سيفين" class="saint-img">
-                <div class="saint-label">بركة الشهيد العظيم أبي سيفين</div>
+                <div class="saint-label">بركة الشهيد فيلوباتير مرقوريوس</div>
             </div>
         </div>
         
-        <h3 style="margin: 5px 0 15px 0; color: var(--maroon); font-family: 'Amiri', serif; font-size: 1.8rem;">مسابقة دراسة الكتاب المقدس</h3>
+        <h3 style="margin: 10px 0 15px 0; color: var(--coptic-maroon); font-family: 'Amiri', serif; font-size: 1.9rem; font-weight: bold;">مسابقة دراسة الكتاب المقدس الشهرية</h3>
         
-        <div style="margin: 15px auto; padding: 12px; background: #FFFDE7; border: 1px solid #FFF59D; border-radius: 8px; max-width: 500px;">
-            <p style="font-weight: bold; font-size: 0.95rem; color: #555; margin-bottom: 8px;">قبل ما تدخل الامتحان.. إقرا واسمع المحتوى الدراسي الحالي: </p>
-            <button class="btn btn-maroon" id="btn-open-essah-trigger" style="font-size: 0.9rem; padding: 8px 20px;" onclick="openEssahModal()">📖 قراءة واستماع النص الدراسي الحالي</button>
+        <!-- المحتوى الدراسي الثابت بنظام الأزرار المتفق عليه -->
+        <div style="margin: 20px auto; padding: 16px; background: #FFFFEF; border: 1px solid var(--coptic-gold); border-radius: 10px; max-width: 550px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
+            <p style="font-weight: bold; font-size: 1rem; color: #554E45; margin-bottom: 10px;">قبل البدء في الإجابة.. فضلاً قم بقراءة وسماع نص الأصحاح الحالي: </p>
+            <button class="btn btn-maroon" style="font-size: 1.1rem; padding: 12px 30px; border-bottom: 3px solid var(--dark-maroon);" onclick="openEssahModal()">اقراء الاصحاح من هنا</button>
         </div>
 
-        <div style="margin: 15px 0;">
-            <label style="font-weight: bold;">اختر اسمك من قائمة الخدام:</label><br>
+        <div style="margin: 20px 0;">
+            <label style="font-weight: bold; color: var(--coptic-maroon); font-size: 1.05rem;">اختر اسمك من قائمة الخدام:</label><br>
             <select id="khadim-select">
                 <option value="">-- اضغط هنا لاختيار الاسم --</option>
             </select>
         </div>
         
         <div>
-            <label style="font-weight: bold;">أدخل كود المرور الخاص بك (الباسورد السري):</label><br>
-            <input type="password" id="khadim-password" placeholder="اكتب كودك السري">
+            <label style="font-weight: bold; color: var(--coptic-maroon); font-size: 1.05rem;">أدخل كود المرور الخاص بك (الباسورد السري):</label><br>
+            <input type="password" id="khadim-password" placeholder="اكتب كودك السري الشخصي">
         </div>
         
-        <button class="btn btn-gold" style="margin-top: 15px;" onclick="loginKhadim()">🔓 دخول الامتحان وبدء الوقت</button>
+        <button class="btn btn-gold" style="margin-top: 20px; font-size: 1.1rem;" onclick="loginKhadim()">🔓 دخول الامتحان وبدء الوقت التنازلي</button>
     </div>
 
-    <!-- الشاشة 2: مساحة الامتحان النشطة -->
+    <!-- الشاشة 2: مساحة الامتحان والأسئلة العشرة -->
     <div id="quiz-page" class="page">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 12px; margin-bottom: 15px;">
-            <h3 id="welcome-khadim" style="color: var(--maroon);">الخادم: </h3>
-            <div id="timer-box">المتبقي للسؤال: <span id="time-display">03:00</span></div>
+        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #EAE4D7; padding-bottom: 15px; margin-bottom: 20px;">
+            <h3 id="welcome-khadim" style="color: var(--coptic-maroon); font-family: 'Amiri', serif; font-size: 1.4rem;">الخادم: </h3>
+            <div id="timer-box">⏳ المتبقي للسؤال: <span id="time-display">03:00</span></div>
         </div>
 
-        <div id="question-block" style="margin-top: 20px;">
-            <h3 id="question-text" style="text-align: right; line-height: 1.6; font-size: 1.3rem; color: #111;"></h3>
+        <div id="question-block" style="margin-top: 25px;">
+            <h3 id="question-text" style="text-align: right; line-height: 1.7; font-size: 1.35rem; color: #1A1512; font-weight: 700;"></h3>
             <div id="options-box" class="options-container"></div>
         </div>
 
-        <div style="margin-top: 35px; display: flex; justify-content: space-between; align-items: center;">
-            <button id="btn-prev" class="btn btn-maroon" onclick="navigateQuestion(-1)">⬅️ السابق</button>
-            <span id="question-counter" style="font-weight: bold; font-size: 1.1rem; color: var(--dark-gold);">السؤال 1 من 10</span>
-            <button id="btn-next" class="btn btn-maroon" onclick="navigateQuestion(1)">للأمام ➡️</button>
-            <button id="btn-submit" class="btn btn-green" style="display: none;" onclick="submitQuiz()">🟢 إرسال الإجابات وإنهاء المسابقة</button>
+        <div class="church-separator"><span>✝️</span></div>
+
+        <div style="margin-top: 25px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+            <button id="btn-prev" class="btn btn-maroon" onclick="navigateQuestion(-1)">⬅️ السؤال السابق</button>
+            <span id="question-counter" style="font-weight: bold; font-size: 1.15rem; color: var(--dark-gold);">السؤال 1 من 10</span>
+            <button id="btn-next" class="btn btn-maroon" onclick="navigateQuestion(1)">السؤال التالي ➡️</button>
+            <button id="btn-submit" class="btn btn-green" style="display: none;" onclick="submitQuiz()">🟢 إرسال الإجابات وإنهاء المسابقة بنجاح</button>
         </div>
     </div>
 
-    <!-- الشاشة 3: لوحة إظهار النتيجة ومراجعتها -->
+    <!-- الشاشة 3: لوحة إظهار النتيجة والمراجعة الفردية للخدام -->
     <div id="result-page" class="page">
-        <h2 style="color: var(--success-green); font-family: 'Amiri', serif; font-size: 2rem;">تمت المسابقة بنجاح ونعمة!</h2>
-        <p style="margin-top: 5px; color: #555;">"مُبَارَكٌ الإِنْسَانُ الَّذِي يَتَّكِلُ عَلَى الرَّبِّ"</p>
+        <div style="font-size: 2.5rem; color: var(--coptic-gold);">✝️</div>
+        <h2 style="color: var(--success-green); font-family: 'Amiri', serif; font-size: 2.3rem; font-weight: bold;">تمت المسابقة بنجاح ونعمة!</h2>
+        <p style="margin-top: 5px; color: var(--dark-gold); font-family: 'Amiri', serif; font-size: 1.3rem; font-style: italic;">"مُبَارَكٌ الإِنْسَانُ الَّذِي يَتَّكِلُ عَلَى الرَّبِّ" (إرميا 17 : 7)</p>
         
         <div class="result-box">
-            <p style="font-size: 1.3rem; font-weight: bold; color: var(--text-dark);">نتيجتك الفردية هي:</p>
+            <p style="font-size: 1.3rem; font-weight: bold; color: var(--text-dark);">نتيجتك الفردية الحالية:</p>
             <div class="score-num" id="final-score">0 / 10</div>
         </div>
         <br>
         
-        <button class="btn btn-gold" id="btn-know-results" onclick="toggleKhadimReview()">🔍 اعرف نتيجتك (مراجعة الإجابات)</button>
-        <button class="btn btn-maroon" onclick="window.location.reload()">🔄 الخروج والعودة للرئيسية</button>
+        <button class="btn btn-gold" id="btn-know-results" onclick="toggleKhadimReview()">🔍 اعرف نتيجتك ومراجعة الإجابات</button>
+        <button class="btn btn-maroon" onclick="window.location.reload()">🔄 الخروج والعودة للصفحة الرئيسية</button>
         
-        <div id="khadim-review-zone" style="display: none; margin-top: 25px; border-top: 2px dashed #ddd; padding-top: 20px;">
-            <h3 style="color: var(--maroon); margin-bottom: 15px;">تقرير الإجابات الخاص بك:</h3>
+        <div id="khadim-review-zone" style="display: none; margin-top: 30px; border-top: 2px dashed #D5CDBF; padding-top: 25px;">
+            <h3 style="color: var(--coptic-maroon); margin-bottom: 20px; font-family: 'Amiri', serif; font-size: 1.6rem;">تقرير مراجعة الإجابات والآيات:</h3>
             <div id="khadim-review-list"></div>
         </div>
     </div>
 
-    <!-- الشاشة 4: حماية الدخول لغرفة المشرفين -->
+    <!-- الشاشة 4: شاشة حماية الدخول للمشرفين -->
     <div id="admin-login-page" class="page">
-        <h3 style="color: var(--maroon); margin-bottom: 10px;">دخول إدارة المسابقة 🔐</h3>
+        <h3 style="color: var(--coptic-maroon); margin-bottom: 15px; font-family: 'Amiri', serif; font-size: 1.7rem;">🔐 حماية إدارة المسابقة الأرثوذكسية</h3>
         <input type="password" id="admin-pass-field" placeholder="أدخل كلمة سر الإدارة">
         <br>
-        <button class="btn btn-maroon" onclick="loginAdmin()">تسجيل الدخول</button>
-        <button class="btn btn-gold" onclick="showPage('login-page')">إلغاء وعودة</button>
+        <button class="btn btn-maroon" onclick="loginAdmin()">🔑 تسجيل الدخول</button>
+        <button class="btn btn-gold" onclick="showPage('login-page')">إلغاء والرجوع للرئيسية</button>
     </div>
 
-    <!-- الشاشة 5: لوحة التحكم الإدارية المحدثة -->
+    <!-- الشاشة 5: لوحة التحكم الإدارية الاحترافية الشاملة -->
     <div id="admin-dashboard-page" class="page admin-panel">
-        <h2>غرفة تحكم المسابقات والنتائج والشهرية ⚙️</h2>
+        <h2>غرفة تحكم دراسة الكتاب المقدس والنتائج ⚙️</h2>
         
-        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 20px; gap: 10px;">
-            <button class="btn btn-gold" onclick="exportToExcel()">📥 تحميل النتائج إكسيل فوري (Excel)</button>
-            <button class="btn btn-red" onclick="resetEntireSystem()">⚠️ تصفير المسابقة بالكامل (مسح نهائي وبدء جديد)</button>
-            <button class="btn btn-green" onclick="showPage('login-page')">🚪 تسجيل الخروج للرئيسية</button>
+        <div style="display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 25px; gap: 12px;">
+            <button class="btn btn-gold" onclick="exportToExcel()">📥 تحميل تقرير إكسيل فوري (Excel)</button>
+            <button class="btn btn-red" onclick="resetEntireSystem()">⚠️ تصفير المسابقة مسح كلي وبدء شهر جديد</button>
+            <button class="btn btn-green" onclick="showPage('login-page')">🚪 تسجيل خروج للرئيسية</button>
         </div>
 
-        <!-- اللوحة الفرعية المضافة حديثاً: فك حظر يدوي بالأسماء بالتحديد الفردي -->
         <div class="unblock-zone">
-            <h3 style="color: var(--primary-gold); font-size: 1.1rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 5px;">🔓 إدارة الحظر وإعادة السماح بالدخول (بالتحديد اليدوي)</h3>
-            <p style="font-size: 0.85rem; color: #ddd; margin-top: 5px;">الخدام الظاهرين هنا هم اللي قفل عليهم الامتحان، علم على الأسماء اللي عايز تسمح لهم بالدخول تاني واضغط فك حظر:</p>
+            <h3 style="color: var(--coptic-gold); font-size: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; font-family: 'Amiri', serif; font-size: 1.3rem;">🔓 إدارة فك حظر الخدام (السماح بإعادة المحاولة يدوياً)</h3>
+            <p style="font-size: 0.9rem; color: #EAE0D0; margin-top: 6px;">الخدام المسجلين هنا هم اللي أتموا الامتحان حالياً، حدد الأسماء المراد فك حظرها لتسجيل جديد:</p>
             
-            <div id="unblock-names-container" class="unblock-grid">
-                <!-- هيتم ملؤها برمجياً بالأسماء المحظورة حالياً -->
-            </div>
+            <div id="unblock-names-container" class="unblock-grid"></div>
             
-            <div style="text-align: left; margin-top: 10px;">
-                <button class="btn btn-gold" style="font-size: 0.85rem; padding: 6px 15px;" onclick="executeSelectedUnblock()">🔓 فك حظر الأسماء المحددة فوراً</button>
+            <div style="text-align: left; margin-top: 12px;">
+                <button class="btn btn-gold" style="font-size: 0.9rem; padding: 8px 20px;" onclick="executeSelectedUnblock()">🔓 فك حظر الأسماء المحددة الآن</button>
             </div>
         </div>
 
@@ -228,30 +286,30 @@
                 <thead>
                     <tr>
                         <th>اسم الخادم</th>
-                        <th>الدرجة</th>
+                        <th>الدرجة الفردية</th>
                         <th>تاريخ ووقت الاشتراك</th>
-                        <th>خيارات التعديل والتحكم</th>
+                        <th>خيارات تحكم المشرفين</th>
                     </tr>
                 </thead>
-                <tbody id="results-table-body">
-                </tbody>
+                <tbody id="results-table-body"></tbody>
             </table>
         </div>
     </div>
 
 </div>
 
-<!-- صندوق منبثق لعرض نص الأصحاح + أزرار التحكم وشريط التقدم المطور -->
+<!-- صندوق منبثق كنسي لعرض نص الأصحاح وقراءة المحتوى الدراسي الحالي -->
 <div id="essah-modal" class="modal-overlay" onclick="closeEssahModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
-        <h3 id="essah-modal-dynamic-title" style="color: var(--maroon); font-family: 'Amiri', serif; border-bottom: 2px solid var(--primary-gold); padding-bottom: 10px; font-size: 1.8rem;">📖 نص الأصحاح المُراد دراسته</h3>
+        <!-- يقرأ العنوان الكبير مباشرة من الخلية A1 بالشيت -->
+        <h3 id="essah-modal-dynamic-title" style="color: var(--coptic-maroon); font-family: 'Amiri', serif; border-bottom: 2px solid var(--coptic-gold); padding-bottom: 12px; font-size: 1.9rem; font-weight: bold; text-align: center;">جاري تحميل العنوان الكنسي...</h3>
         
-        <!-- لوحة التحكم بالصوت -->
+        <!-- التحكم الصوتي باليوتيوب لتطابق شريط الوقت والأزرار بالكامل -->
         <div id="audio-zone" class="audio-control-zone" style="display: none;">
-            <div style="margin-bottom: 10px;">
-                <button class="btn btn-green" onclick="playAudio()" style="padding: 10px 20px;">اسمع الاصحاح وانت بتـقرأ ◀️</button>
-                <button class="btn btn-gold" onclick="pauseAudio()" style="padding: 10px 20px;">إيقاف مؤقت ⏸️</button>
-                <button class="btn btn-maroon" onclick="closeEssahModal()" style="padding: 10px 20px;">انهاء و الرجوع للدخول للاسئلة ❌</button>
+            <div style="margin-bottom: 12px; display: flex; justify-content: center; gap: 8px; flex-wrap: wrap;">
+                <button class="btn btn-green" onclick="playAudio()" style="padding: 10px 22px; font-size: 0.95rem;">استماع للمقطع الصوتي ◀️</button>
+                <button class="btn btn-gold" onclick="pauseAudio()" style="padding: 10px 22px; font-size: 0.95rem;">إيقاف مؤقت ⏸️</button>
+                <button class="btn btn-maroon" onclick="closeEssahModal()" style="padding: 10px 22px; font-size: 0.95rem;">إنهاء والعودة للامتحان ❌</button>
             </div>
             
             <div class="progress-container">
@@ -261,13 +319,13 @@
             </div>
         </div>
 
-        <!-- عنصر يوتيوب المخفي المشغل للصوت -->
         <div id="yt-hidden-player"></div>
 
-        <div id="essah-text-container" class="modal-body">جاري تحميل النص الفعلي من شيت جوجل الحالي...</div>
+        <!-- النص الفعلي الكامل المنسق والآيات يقرأ بالكامل من الخلية B2 -->
+        <div id="essah-text-container" class="modal-body">جاري جلب أسطر وآيات الأصحاح بالكامل من قاعدة البيانات الحالية...</div>
         
-        <div style="text-align: center; margin-top: 15px;">
-            <button class="btn btn-maroon" onclick="closeEssahModal()">إغلاق وقراءة المسابقة ❌</button>
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-maroon" onclick="closeEssahModal()">إغلاق الشاشة والبدء في الأسئلة ❌</button>
         </div>
     </div>
 </div>
@@ -278,6 +336,7 @@
     
     const ADMIN_PASSWORD = "284655";
 
+    // قائمة الخدام الـ 71 المحدثة المرتبة أبجدياً تلقائياً مع توليد الأكواد
     let rawServants = [
         "كيرلس يوسف", "نرجس خير", "جورج فايز", "ياسر نبيه", "رؤوف خير", "مريم عماد", "ميرنا عماد", 
         "فادي سليمان", "مينا مجدي", "فيوليت فوزي", "سماح حلمي", "شيري شهدي", "سمير زكي", "مني ميشيل", 
@@ -300,8 +359,8 @@
     let activeKhadimName = "";
     let lastSavedKhadimRecord = null;
     
-    let dynamicEssahTitle = "📖 نص الأصحاح المُراد دراسته"; // الاسم الافتراضي
-    let loadedEssahText = "جاري جلب بيانات الأصحاح الجديدة للآن...";
+    let dynamicEssahTitle = "📖 نص الأصحاح المُراد دراسته"; 
+    let loadedEssahText = "";
     let ytVideoId = "";
     let ytPlayer = null;
     let progressUpdateTimer = null;
@@ -336,7 +395,44 @@
         return (match && match[2].length === 11) ? match[2] : "";
     }
 
-    // تعديل الدالة لتقرأ العنوان الديناميكي من الشيت
+    // دالة فك التشفير الـ CSV المتقدمة لقراءة السطور الكثيرة داخل الخلية الواحدة بدون قص أو حذف آيات
+    function parseCSVCells(text) {
+        let lines = [];
+        let row = [];
+        let inQuotes = false;
+        let currentCell = '';
+
+        for (let i = 0; i < text.length; i++) {
+            let char = text[i];
+            let nextChar = text[i+1];
+
+            if (char === '"') {
+                if (inQuotes && nextChar === '"') {
+                    currentCell += '"';
+                    i++; 
+                } else {
+                    inQuotes = !inQuotes;
+                }
+            } else if (char === ',' && !inQuotes) {
+                row.push(currentCell);
+                currentCell = '';
+            } else if ((char === '\r' || char === '\n') && !inQuotes) {
+                if (char === '\r' && nextChar === '\n') { i++; }
+                row.push(currentCell);
+                lines.push(row);
+                row = [];
+                currentCell = '';
+            } else {
+                currentCell += char;
+            }
+        }
+        if (currentCell || row.length > 0) {
+            row.push(currentCell);
+            lines.push(row);
+        }
+        return lines;
+    }
+
     async function fetchOnlineData() {
         try {
             const qResponse = await fetch(QUESTIONS_SHEET_URL);
@@ -347,42 +443,30 @@
             let eData = await eResponse.text();
             
             if (eData.trim()) {
-                let lines = eData.split("\n");
+                let parsedRows = parseCSVCells(eData);
                 
-                // السطر الأول مخصص بالكامل للعنوان المتغير
-                if(lines[0] && lines[0].trim()) {
-                    let rawTitle = lines[0].trim();
-                    if (rawTitle.startsWith('"') && rawTitle.endsWith('"')) rawTitle = rawTitle.substring(1, rawTitle.length - 1);
-                    dynamicEssahTitle = rawTitle.replace(/""/g, '"').trim();
-                    
-                    // تحديث نصوص الأزرار والواجهة بالعنوان الجديد تلقائياً
-                    document.getElementById("btn-open-essah-trigger").textContent = dynamicEssahTitle;
+                // 1. الخلية A1 (الصف الأول - العمود الأول) هي العنوان المتغير الكبير
+                if (parsedRows[0] && parsedRows[0][0]) {
+                    dynamicEssahTitle = parsedRows[0][0].trim();
                     document.getElementById("essah-modal-dynamic-title").textContent = dynamicEssahTitle;
                 }
 
-                // السطر الثاني يحتوي على النص ورابط اليوتيوب
-                if(lines[1] && lines[1].trim()) {
-                    let contentLine = lines[1];
-                    let parts = contentLine.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-                    if(parts.length >= 2) {
-                        let textPart = parts[0].trim();
-                        let mediaPart = parts[1].trim();
+                // 2. الخلية B2 (الصف الثاني - العمود الثاني) هي نص الأصحاح الكامل بجميع آياته وسطورها
+                if (parsedRows[1] && parsedRows[1][1]) {
+                    loadedEssahText = parsedRows[1][1].trim();
+                } else {
+                    loadedEssahText = "لم يتم كتابة نص الأصحاح الكنسي في الخلية B2 بالشيت الحالي حتى الآن.";
+                }
 
-                        if (textPart.startsWith('"') && textPart.endsWith('"')) textPart = textPart.substring(1, textPart.length - 1);
-                        if (mediaPart.startsWith('"') && mediaPart.endsWith('"')) mediaPart = mediaPart.substring(1, mediaPart.length - 1);
-
-                        loadedEssahText = textPart.replace(/""/g, '"').trim();
-                        ytVideoId = extractYoutubeId(mediaPart.replace(/\r?\n|\r/g, ""));
-                    } else {
-                        let cleaned = contentLine.trim();
-                        if (cleaned.startsWith('"') && cleaned.endsWith('"')) cleaned = cleaned.substring(1, cleaned.length - 1);
-                        loadedEssahText = cleaned.replace(/""/g, '"').trim();
-                        ytVideoId = "";
-                    }
+                // 3. الخلية C2 (الصف الثاني - العمود الثالث) هي لينك اليوتيوب للصوت المرتبط بالعداد
+                if (parsedRows[1] && parsedRows[1][2]) {
+                    ytVideoId = extractYoutubeId(parsedRows[1][2]);
+                } else {
+                    ytVideoId = "";
                 }
             }
         } catch (error) {
-            console.log("تنبيه اتصال: جاري تشغيل النسخة الاحتياطية:", error);
+            console.log("تنبيه اتصال بقاعدة البيانات الفورية: جاري تشغيل النسخة الاحتياطية:", error);
             loadBackupQuestions();
         }
     }
@@ -491,22 +575,20 @@
     }
 
     function parseQuestions(csvText) {
-        const lines = csvText.split("\n");
+        let lines = parseCSVCells(csvText);
         let loadedQs = [];
         
         for(let i = 1; i < lines.length; i++) {
-            if(!lines[i].trim()) continue;
-            let columns = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
-            if(columns.length >= 6) {
-                loadedQs.push({
-                    q: columns[0].replace(/"/g, "").trim(),
-                    opt1: columns[1].replace(/"/g, "").trim(),
-                    opt2: columns[2].replace(/"/g, "").trim(),
-                    opt3: columns[3].replace(/"/g, "").trim(),
-                    opt4: columns[4].replace(/"/g, "").trim(),
-                    correct: columns[5].replace(/"/g, "").replace(/\r?\n|\r/g, "").trim()
-                });
-            }
+            let columns = lines[i];
+            if(!columns || columns.length < 6 || !columns[0].trim()) continue;
+            loadedQs.push({
+                q: columns[0].trim(),
+                opt1: columns[1].trim(),
+                opt2: columns[2].trim(),
+                opt3: columns[3].trim(),
+                opt4: columns[4].trim(),
+                correct: columns[5].trim()
+            });
         }
         if(loadedQs.length > 0) {
             quizQuestions = loadedQs.slice(0, 10);
@@ -529,7 +611,7 @@
 
     function loadBackupQuestions() {
         quizQuestions = [
-            { q: "ما هي أول معجزات السيد المسيح في إنجيل يوحنا؟", opt1: "شفاء المخلع", opt2: "إشباع الجموع", opt3: "تحويل الماء إلى خمر في عرس قانا", opt4: "إقامة لعازر", correct: "تحويل الماء إلى خمر في عرس قانا" }
+            { q: "ما هي أول معجزات السيد المسيح في إنجيل يوحنا الأصحاح الثاني؟", opt1: "شفاء مخلع بيت حسدا", opt2: "إشباع خمسة آلاف شخص", opt3: "تحويل الماء إلى خمر في عرس قانا الجليل", opt4: "إقامة إبن أرملة نايين", correct: "تحويل الماء إلى خمر في عرس قانا الجليل" }
         ];
     }
 
@@ -539,11 +621,10 @@
         if (pageId === 'admin-dashboard-page') {
             document.getElementById("admin-inline-edit-area").style.display = "none";
             renderAdminTable();
-            renderUnblockInterface(); // توليد قائمة التحكم في الحظر بالأسماء
+            renderUnblockInterface();
         }
     }
 
-    // بناء قائمة الحظر اليدوية بالأسماء داخل التحكم
     function renderUnblockInterface() {
         const container = document.getElementById("unblock-names-container");
         container.innerHTML = "";
@@ -551,7 +632,7 @@
         let blockedList = JSON.parse(localStorage.getItem("blocked_servants_list") || "[]");
         
         if(blockedList.length === 0) {
-            container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:#777; padding:10px;">لا توجد أسماء محظورة حالياً (الجميع متاح له الدخول).</div>`;
+            container.innerHTML = `<div style="grid-column: 1/-1; text-align:center; color:#666; padding:10px; font-weight:600;">لا توجد أسماء محظورة حالياً (الجميع متاح له الدخول الفوري).</div>`;
             return;
         }
 
@@ -560,13 +641,12 @@
             label.className = "unblock-item";
             label.innerHTML = `
                 <input type="checkbox" class="unblock-checkbox" value="${name}">
-                <span>${name}</span>
+                <span>✝️ ${name}</span>
             `;
             container.appendChild(label);
         });
     }
 
-    // تنفيذ عملية فك الحظر للملفات المحددة فقط بالـ Checkbox
     function executeSelectedUnblock() {
         const checkboxes = document.querySelectorAll(".unblock-checkbox:checked");
         if(checkboxes.length === 0) {
@@ -577,11 +657,10 @@
         let blockedList = JSON.parse(localStorage.getItem("blocked_servants_list") || "[]");
         let namesToUnblock = Array.from(checkboxes).map(cb => cb.value);
 
-        // تصفية المصفوفة وحذف المحددين فقط
         let updatedBlockedList = blockedList.filter(name => !namesToUnblock.includes(name));
         localStorage.setItem("blocked_servants_list", JSON.stringify(updatedBlockedList));
 
-        alert(`✅ تم بنجاح فك الحظر عن الخدام المحددين، ويمكنهم الآن الدخول لإعادة الامتحان فوراً.`);
+        alert(`✅ تم فك الحظر والتحكم بنجاح عن الخدام، ويمكنهم الآن إعادة الامتحان.`);
         renderUnblockInterface();
     }
 
@@ -590,26 +669,26 @@
         const passwordInput = document.getElementById("khadim-password").value.trim();
         const selectedOption = selectEl.options[selectEl.selectedIndex];
 
-        if (!selectedOption.value) { alert("من فضلك اختر اسمك أولاً من القائمة"); return; }
+        if (!selectedOption.value) { alert("من فضلك اختر اسمك أولاً من قائمة الخدام الكنسية"); return; }
         
         let targetName = selectedOption.value;
 
         let blockedList = JSON.parse(localStorage.getItem("blocked_servants_list") || "[]");
         if(blockedList.includes(targetName)) {
-            alert(`عفواً يا خادم، لقد قمت باجتياز امتحان اليوم بالفعل! لا يسمح بالدخول المتعدد لنفس المسابقة.`);
+            alert(`تنبيه كنسي: عفواً يا خادم، لقد قمت باجتياز مسابقة الأصحاح الحالي بالفعل! لا يسمح بالدخول المتعدد لنفس الخادم.`);
             return;
         }
 
         if (passwordInput === selectedOption.getAttribute("data-pass")) {
             activeKhadimName = targetName;
-            document.getElementById("welcome-khadim").textContent = `الخادم: ${activeKhadimName}`;
+            document.getElementById("welcome-khadim").textContent = `الخادم المشترك: ${activeKhadimName}`;
             showPage("quiz-page");
             currentQuestionIndex = 0;
             selectedAnswers = {};
             startQuestionTimer();
             displayQuestion();
         } else {
-            alert("كود المرور السري غير صحيح!");
+            alert("كود المرور السري الخاص باسمك غير صحيح! يرجى التأكد من الكود الموحد.");
         }
     }
 
@@ -618,7 +697,7 @@
         const currentQ = quizQuestions[currentQuestionIndex];
         
         document.getElementById("question-counter").textContent = `السؤال ${currentQuestionIndex + 1} من ${quizQuestions.length}`;
-        document.getElementById("question-text").textContent = `${currentQuestionIndex + 1}. ${currentQ.q}`;
+        document.getElementById("question-text").textContent = `✝️ س ${currentQuestionIndex + 1}: ${currentQ.q}`;
         
         const optionsBox = document.getElementById("options-box");
         optionsBox.innerHTML = "";
@@ -691,8 +770,8 @@
             
             khadimAnswersSave[idx] = pickedText; 
 
-            let cleanCorrect = q.correct.replace(/\r?\n|\r/g, "").trim().toLowerCase();
-            let cleanPicked = pickedText.replace(/\r?\n|\r/g, "").trim().toLowerCase();
+            let cleanCorrect = q.correct.trim().toLowerCase();
+            let cleanPicked = pickedText.trim().toLowerCase();
 
             if (cleanPicked !== "لم يحل" && cleanPicked === cleanCorrect) {
                 finalScore++;
@@ -736,19 +815,19 @@
 
         quizQuestions.forEach((q, idx) => {
             let userAnsText = lastSavedKhadimRecord.answers[idx];
-            let cleanC = q.correct.replace(/\r?\n|\r/g, "").trim().toLowerCase();
+            let cleanC = q.correct.trim().toLowerCase();
             
-            let isOpt1Correct = q.opt1.replace(/\r?\n|\r/g, "").trim().toLowerCase() === cleanC;
-            let isOpt2Correct = q.opt2.replace(/\r?\n|\r/g, "").trim().toLowerCase() === cleanC;
-            let isOpt3Correct = q.opt3.replace(/\r?\n|\r/g, "").trim().toLowerCase() === cleanC;
-            let isOpt4Correct = q.opt4.replace(/\r?\n|\r/g, "").trim().toLowerCase() === cleanC;
+            let isOpt1Correct = q.opt1.trim().toLowerCase() === cleanC;
+            let isOpt2Correct = q.opt2.trim().toLowerCase() === cleanC;
+            let isOpt3Correct = q.opt3.trim().toLowerCase() === cleanC;
+            let isOpt4Correct = q.opt4.trim().toLowerCase() === cleanC;
 
             let isUserOpt1 = userAnsText === q.opt1;
             let isUserOpt2 = userAnsText === q.opt2;
             let isUserOpt3 = userAnsText === q.opt3;
             let isUserOpt4 = userAnsText === q.opt4;
 
-            let isCorrect = userAnsText.replace(/\r?\n|\r/g, "").trim().toLowerCase() === cleanC;
+            let isCorrect = userAnsText.trim().toLowerCase() === cleanC;
             
             let card = document.createElement("div");
             card.className = "review-card";
@@ -760,7 +839,7 @@
                     </span>
                     <strong>السؤال ${idx + 1}: ${q.q}</strong>
                 </div>
-                <div style="margin-top:10px;">
+                <div style="margin-top:12px;">
                     <div class="review-opt ${isUserOpt1 ? (isOpt1Correct ? 'correct-ans' : 'user-picked-wrong') : (isOpt1Correct?'correct-ans':'')}">أ) ${q.opt1}</div>
                     <div class="review-opt ${isUserOpt2 ? (isOpt2Correct ? 'correct-ans' : 'user-picked-wrong') : (isOpt2Correct?'correct-ans':'')}">ب) ${q.opt2}</div>
                     <div class="review-opt ${isUserOpt3 ? (isOpt3Correct ? 'correct-ans' : 'user-picked-wrong') : (isOpt3Correct?'correct-ans':'')}">ج) ${q.opt3}</div>
@@ -780,7 +859,7 @@
             showPage("admin-dashboard-page");
             document.getElementById("admin-pass-field").value = "";
         } else {
-            alert("كلمة سر الإدارة غير صحيحة!");
+            alert("كلمة سر الإدارة الكنسية غير صحيحة!");
         }
     }
 
@@ -790,7 +869,7 @@
         let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
 
         if(records.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">لا توجد نتائج مسجلة حتى الآن.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:25px; color:#888; font-weight:600;">لا توجد درجات أو اشتراكات مسجلة حالياً في هذا الشهر.</td></tr>`;
             return;
         }
 
@@ -798,12 +877,12 @@
             let tr = document.createElement("tr");
             tr.innerHTML = `
                 <td><strong>${rec.name}</strong></td>
-                <td><span style="color:var(--maroon); font-weight:bold; font-size:1.1rem;">${rec.score} / 10</span></td>
+                <td><span style="color:var(--coptic-maroon); font-weight:bold; font-size:1.15rem;">${rec.score} / 10</span></td>
                 <td>${rec.date}</td>
                 <td>
                     <button class="action-btn btn-edit-ans" onclick="inlineEditAnswers(${idx})">📝 تعديل الإجابات</button>
-                    <button class="action-btn btn-edit-deg" onclick="editDegree(${idx})">⭐ تعديل الدرجة</button>
-                    <button class="action-btn btn-delete" onclick="deleteRecord(${idx})">❌ مسح الإجابة</button>
+                    <button class="action-btn btn-edit-deg" onclick="editDegree(${idx})">⭐ الدرجة يدوياً</button>
+                    <button class="action-btn btn-delete" onclick="deleteRecord(${idx})">❌ حذف السجل</button>
                 </td>
             `;
             tbody.appendChild(tr);
@@ -819,9 +898,10 @@
         area.style.display = "block";
 
         let title = document.createElement("h3");
-        title.style.color = "var(--primary-gold)";
+        title.style.color = "var(--coptic-gold)";
         title.style.marginBottom = "15px";
-        title.textContent = `مراجعة وتعديل إجابات الخادم: ${record.name}`;
+        title.fontFamily = "Amiri";
+        title.textContent = `تحديث ومراجعة اختيارات الخادم الكنسي: ${record.name}`;
         area.appendChild(title);
 
         quizQuestions.forEach((q, qIdx) => {
@@ -831,9 +911,9 @@
             box.className = "inline-edit-box";
             box.innerHTML = `
                 <p><strong>س ${qIdx + 1}: ${q.q}</strong></p>
-                <p style="font-size:0.85rem; color:#666; margin:4px 0;">الإجابة الصحيحة المكتوبة بالشيت: <span style="color:green; font-weight:bold;">${q.correct}</span></p>
-                <label>تعديل اختيار الخادم: </label>
-                <select id="inline-select-${qIdx}" style="width:auto; padding:5px; margin:5px; font-size:0.9rem;">
+                <p style="font-size:0.85rem; color:#555; margin:5px 0;">الإجابة النموذجية المكتوبة بالشيت: <span style="color:green; font-weight:bold;">${q.correct}</span></p>
+                <label>تعديل اختيار الخادم الفعلي: </label>
+                <select id="inline-select-${qIdx}" style="width:auto; padding:6px; margin:5px; font-size:0.95rem;">
                     <option value="${q.opt1}" ${currentAnsText === q.opt1 ? 'selected' : ''}>أ) ${q.opt1}</option>
                     <option value="${q.opt2}" ${currentAnsText === q.opt2 ? 'selected' : ''}>ب) ${q.opt2}</option>
                     <option value="${q.opt3}" ${currentAnsText === q.opt3 ? 'selected' : ''}>ج) ${q.opt3}</option>
@@ -847,7 +927,7 @@
         let saveBtn = document.createElement("button");
         saveBtn.className = "btn btn-gold";
         saveBtn.style.marginTop = "15px";
-        saveBtn.textContent = "💾 حفظ التعديلات وإعادة الحساب فوراً";
+        saveBtn.textContent = "💾 حفظ التعديلات وإعادة الحساب والاعتماد";
         saveBtn.onclick = () => {
             quizQuestions.forEach((q, qIdx) => {
                 let sel = document.getElementById(`inline-select-${qIdx}`);
@@ -857,8 +937,8 @@
             let newScore = 0;
             quizQuestions.forEach((q, i) => {
                 let ansText = record.answers[i];
-                let cleanC = q.correct.replace(/\r?\n|\r/g, "").trim().toLowerCase();
-                if (ansText && ansText.replace(/\r?\n|\r/g, "").trim().toLowerCase() === cleanC) {
+                let cleanC = q.correct.trim().toLowerCase();
+                if (ansText && ansText.trim().toLowerCase() === cleanC) {
                     newScore++;
                 }
             });
@@ -867,7 +947,7 @@
             records[idx] = record;
             localStorage.setItem("church_quiz_data_store", JSON.stringify(records));
             
-            alert(`تم الحفظ بنجاح! الدرجة الجديدة: ${newScore} / 10`);
+            alert(`تم حفظ وتحديث السجل بنجاح! الدرجة الجديدة: ${newScore} / 10`);
             area.style.display = "none";
             renderAdminTable();
         };
@@ -885,7 +965,7 @@
 
     function editDegree(idx) {
         let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
-        let newScore = prompt(`تعديل درجة الخادم (${records[idx].name}) مباشرة:`, records[idx].score);
+        let newScore = prompt(`تعديل درجة الخادم الأرثوذكسي (${records[idx].name}) مباشرة:`, records[idx].score);
         if (newScore !== null && newScore.trim() !== "") {
             let parsed = parseInt(newScore);
             if(!isNaN(parsed)) {
@@ -900,7 +980,7 @@
         let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
         let targetName = records[idx].name;
 
-        if (confirm(`هل أنت متأكد من مسح إجابة الخادم (${targetName})؟\nسيؤدي هذا إلى السماح له بدخول الامتحان مرة أخرى كأنه لم يشترك!`)) {
+        if (confirm(`هل أنت متأكد من حذف سجل إجابة الخادم (${targetName})؟\nسيؤدي هذا إلى مسحه من الإكسيل والسماح له بالدخول مجدداً.`)) {
             records.splice(idx, 1);
             localStorage.setItem("church_quiz_data_store", JSON.stringify(records));
             
@@ -908,17 +988,17 @@
             let newBlockedList = blockedList.filter(name => name !== targetName);
             localStorage.setItem("blocked_servants_list", JSON.stringify(newBlockedList));
             
-            alert(`تم مسح إجابات الخادم ${targetName} بنجاح، ومتاح له الدخول الآن.`);
+            alert(`تم مسح السجل بنجاح، ومتاح للخادم الدخول الآن.`);
             renderAdminTable();
             renderUnblockInterface();
         }
     }
 
     function resetEntireSystem() {
-        if (confirm("⚠️ تحذير نهائي!\n\nهل أنت متأكد تماماً من تصفير قاعدة بيانات المسابقة بالكامل؟\nهذا الإجراء سيمسح جميع دراجات الخدام، ويفتح الحظر عن الجميع كأنها مسابقة جديدة تماماً ولم يدخلها أحد!")) {
+        if (confirm("⚠️ تحذير نهائي للمشرفين!\n\nهل أنت متأكد تماماً من تصفير قاعدة بيانات المسابقة بالكامل؟\nسيتم مسح كافة الدراجات نهائياً لبدء شهر جديد.")) {
             localStorage.setItem("church_quiz_data_store", JSON.stringify([]));
             localStorage.setItem("blocked_servants_list", JSON.stringify([]));
-            alert("✅ تم تصفير المسابقة بالكامل وبنجاح! يمكنك الآن بدء الأسبوع أو الشهر الجديد براحة.");
+            alert("✅ تم تصفير المسابقة بنجاح! جاهز لبدء الأصحاح الجديد.");
             renderAdminTable();
             renderUnblockInterface();
         }
@@ -926,18 +1006,18 @@
 
     function exportToExcel() {
         let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
-        if (records.length === 0) { alert("لا توجد نتائج لتصديرها!"); return; }
+        if (records.length === 0) { alert("لا توجد نتائج مسجلة لتصديرها لإكسيل!"); return; }
 
         let excelRows = records.map(r => ({
-            "اسم خادم اجتماع مدينة عامر": r.name,
-            "الدرجة من 10": r.score,
-            "تاريخ ووقت دخول الامتحان": r.date
+            "اسم خادم اجتماع أبي سيفين": r.name,
+            "الدرجة النهائية من 10": r.score,
+            "تاريخ ووقت الاشتراك بالامتحان": r.date
         }));
 
         let worksheet = XLSX.utils.json_to_sheet(excelRows);
         let workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "النتائج");
-        XLSX.writeFile(workbook, "نتائج_مسابقة_الكتاب_مقدس.xlsx");
+        XLSX.utils.book_append_sheet(workbook, worksheet, "نتائج الخدام");
+        XLSX.writeFile(workbook, "نتائج_مسابقة_دراسة_الكتاب_المقدس.xlsx");
     }
 
     window.onload = initApp;
