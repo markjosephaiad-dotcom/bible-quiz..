@@ -5,8 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>مسابقات دراسة الكتاب المقدس | كنيسة أبي سيفين</title>
     
+    <!-- الخطوط الرسمية الفاخرة للطابع الكنسي -->
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     
+    <!-- مكتبة لإنتاج ملفات الاكسيل مباشرة -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
 
     <style>
@@ -24,7 +26,7 @@
         body { background-color: var(--light-bg); color: var(--text-dark); text-align: center; overflow-x: hidden; padding: 10px; }
 
         /* الإطار الكنسي الأرثوذكسي المزخرف */
-        .coptic-border { border: 4px double var(--primary-gold); max-width: 900px; margin: 15px auto; padding: 20px; border-radius: 12px; background: #ffffff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); }
+        .coptic-border { border: 4px double var(--primary-gold); max-width: 900px; margin: 15px auto; padding: 20px; border-radius: 12px; background: #ffffff; box-shadow: 0 4px 15px rgba(0,0,0,0.05); position: relative; }
         .header-title { font-family: 'Amiri', serif; color: var(--maroon); font-size: 2.2rem; margin-bottom: 5px; font-weight: bold; }
         .subtitle { color: var(--dark-gold); font-size: 1.2rem; margin-bottom: 20px; font-weight: 600; }
 
@@ -40,7 +42,7 @@
         @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 
         /* الأزرار الراقية والمتناسقة */
-        .btn { padding: 12px 28px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: all 0.3s ease; margin: 6px; display: inline-flex; align-items: center; justify-content: center; }
+        .btn { padding: 12px 28px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 1rem; transition: all 0.3s ease; margin: 6px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; }
         .btn-maroon { background-color: var(--maroon); color: white; }
         .btn-maroon:hover { background-color: #5a0016; }
         .btn-gold { background-color: var(--primary-gold); color: #000; }
@@ -49,17 +51,16 @@
         .btn-green:hover { background-color: #1b5e20; }
 
         /* أدوات الإدخال والقوائم */
-        select, input[type="password"], input[type="text"] { width: 85%; max-width: 400px; padding: 12px; margin: 12px 0; border: 2px solid #ddd; border-radius: 6px; font-size: 1.05rem; text-align: center; font-weight: 600; }
+        select, input[type="password"] { width: 85%; max-width: 400px; padding: 12px; margin: 12px 0; border: 2px solid #ddd; border-radius: 6px; font-size: 1.05rem; text-align: center; font-weight: 600; }
         select:focus, input:focus { border-color: var(--primary-gold); outline: none; }
         
-        /* عداد الوقت التنازلي */
+        /* عداد الوقت التنازلي لكل سؤال */
         #timer-box { font-size: 1.3rem; color: #d32f2f; font-weight: bold; background: #ffebee; padding: 6px 18px; border-radius: 20px; border: 1px solid #ffcdd2; }
 
-        /* خيارات الأسئلة التفاعلية الملونة بالذهبي */
+        /* خيارات الأسئلة التفاعلية الملونة بالذهبي (4 خيارات) */
         .options-container { text-align: right; margin: 20px 0; }
         .option-card { padding: 15px; margin: 12px 0; border: 2px solid #eee; border-radius: 8px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; background: #fff; }
         .option-card:hover { border-color: var(--primary-gold); background-color: #fffdf5; }
-        /* الطلاء الذهبي المخصص عند الاختيار */
         .option-card.selected { border-color: var(--dark-gold); background-color: #FFF9E6; font-weight: bold; box-shadow: 0 0 12px rgba(212,175,55,0.4); border-width: 2.5px; }
         .option-card input { width: 18px; height: 18px; margin-left: 15px; cursor: pointer; accent-color: var(--dark-gold); }
 
@@ -77,7 +78,7 @@
         .btn-edit-deg { background: #f57c00; }
         .btn-delete { background: #d32f2f; }
 
-        /* شاشة النتيجة الفردية الدائرية المغلقة */
+        /* شاشة النتيجة الفردية */
         .result-box { padding: 35px; border: 3px dashed var(--primary-gold); background: #fffdf9; border-radius: 12px; display: inline-block; margin: 25px 0; min-width: 280px; }
         .score-num { font-size: 3.5rem; color: var(--maroon); font-weight: bold; margin-top: 10px; }
     </style>
@@ -85,56 +86,63 @@
 <body>
 
 <div class="coptic-border">
+    <!-- الهيدر الثابت الموحد -->
     <div class="header-title">كنيسة الشهيد العظيم فيلوباتير مرقوريوس أبي سيفين</div>
     <div class="subtitle">مدينة عامر - اجتماع الخدام</div>
     
+    <!-- زر الانتقال السريع للمشرفين -->
     <button class="btn btn-maroon" style="position: absolute; top: 25px; left: 25px; font-size: 0.8rem; padding: 6px 14px;" onclick="showPage('admin-login-page')">⚙️ لوحة التحكم</button>
 
+    <!-- الشاشة 1: تسجيل الدخول والترحيب بالايقونات والتحضير برة الامتحان -->
     <div id="login-page" class="page active-page">
         <div class="images-container">
             <div class="saint-card">
-                <img src="https://images.unsplash.com/photo-1544816155-12df9643f363?q=80&w=150&auto=format&fit=crop" alt="أم النور العذراء مريم" class="saint-img">
+                <img src="virgin.jpg" alt="أم النور العذراء مريم" class="saint-img">
                 <div class="saint-label">شفاعة أم النور العذراء مريم</div>
             </div>
             <div class="saint-card">
-                <img src="https://images.unsplash.com/photo-1601004890684-d8cbf643f5f2?q=80&w=150&auto=format&fit=crop" alt="الشهيد مرقوريوس أبي سيفين" class="saint-img">
+                <img src="abusafein.jpg" alt="الشهيد مرقوريوس أبي سيفين" class="saint-img">
                 <div class="saint-label">بركة الشهيد العظيم أبي سيفين</div>
             </div>
         </div>
         
-        <h3 style="margin: 20px 0; color: var(--maroon); font-family: 'Amiri', serif; font-size: 1.6rem;">مسابقة دراسة الكتاب المقدس الشهرية</h3>
+        <h3 style="margin: 5px 0 15px 0; color: var(--maroon); font-family: 'Amiri', serif; font-size: 1.8rem;">مسابقة دراسة الكتاب المقدس</h3>
         
+        <!-- زرار إقرأ وإسمع الأصحاح برة الامتحان -->
+        <div style="margin: 15px auto; padding: 12px; background: #FFFDE7; border: 1px solid #FFF59D; border-radius: 8px; max-width: 500px;">
+            <p style="font-weight: bold; font-size: 0.95rem; color: #555; margin-bottom: 8px;">قبل ما تدخل الامتحان.. إقرا واسمع الأصحاح من هنا: </p>
+            <a id="sheet-study-link" href="#" target="_blank" class="btn btn-maroon" style="font-size: 0.9rem; padding: 8px 20px;">📖 إقرأ واسمع الأصحاح</a>
+        </div>
+
         <div style="margin: 15px 0;">
-            <label style="font-weight: bold; block-size: 10px;">اختر اسمك من قائمة الخدام (مرتبة أبجدياً):</label><br>
+            <label style="font-weight: bold;">اختر اسمك من قائمة الخدام (مرتبة أبجدياً):</label><br>
             <select id="khadim-select">
                 <option value="">-- اضغط هنا لاختيار الاسم --</option>
             </select>
         </div>
         
         <div>
-            <label style="font-weight: bold;">أدخل كود المرور الخاص بك البسيط:</label><br>
-            <input type="password" id="khadim-password" placeholder="مثال: 1 أو 2 أو 15...">
+            <label style="font-weight: bold;">أدخل كود المرور البسيط الخاص بك:</label><br>
+            <input type="password" id="khadim-password" placeholder="اكتب كودك السري (مثال: 1، 2، 3...)">
         </div>
         
-        <button class="btn btn-gold" style="margin-top: 15px;" onclick="loginKhadim()">🔓 دخول الامتحان</button>
+        <button class="btn btn-gold" style="margin-top: 15px;" onclick="loginKhadim()">🔓 دخول الامتحان وبدء الوقت</button>
     </div>
 
+    <!-- الشاشة 2: شاشة مساحة الامتحان النشطة -->
     <div id="quiz-page" class="page">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 12px; margin-bottom: 15px;">
             <h3 id="welcome-khadim" style="color: var(--maroon);">الخادم: </h3>
             <div id="timer-box">المتبقي للسؤال: <span id="time-display">03:00</span></div>
         </div>
 
-        <div style="margin: 15px 0; padding: 12px; background: #FFFDE7; border: 1px solid #FFF59D; border-radius: 8px;">
-            <span style="font-weight: bold; font-size: 0.95rem; color: #555;">💡 يمكنك مراجعة الإصحاح الآن: </span>
-            <a id="sheet-study-link" href="#" target="_blank" class="btn btn-maroon" style="text-decoration: none; font-size: 0.85rem; padding: 6px 15px;">📖 إقرأ واسمع الأصحاح من هنا</a>
-        </div>
-
+        <!-- كتلة السؤال والخيارات الأربعة -->
         <div id="question-block" style="margin-top: 20px;">
             <h3 id="question-text" style="text-align: right; line-height: 1.6; font-size: 1.3rem; color: #111;"></h3>
             <div id="options-box" class="options-container"></div>
         </div>
 
+        <!-- أزرار التنقل الخلفي والأمامي والارسال النهائي -->
         <div style="margin-top: 35px; display: flex; justify-content: space-between; align-items: center;">
             <button id="btn-prev" class="btn btn-maroon" onclick="navigateQuestion(-1)">⬅️ السابق</button>
             <span id="question-counter" style="font-weight: bold; font-size: 1.1rem; color: var(--dark-gold);">السؤال 1 من 10</span>
@@ -143,6 +151,7 @@
         </div>
     </div>
 
+    <!-- الشاشة 3: لوحة إظهار النتيجة الفردية المغلقة لكل خادم -->
     <div id="result-page" class="page">
         <h2 style="color: var(--success-green); font-family: 'Amiri', serif; font-size: 2rem;">تمت المسابقة بنجاح ونعمة!</h2>
         <p style="margin-top: 5px; color: #555;">"مُبَارَكٌ الإِنْسَانُ الَّذِي يَتَّكِلُ عَلَى الرَّبِّ"</p>
@@ -155,15 +164,16 @@
         <button class="btn btn-maroon" onclick="window.location.reload()">🔄 الخروج والعودة للرئيسية</button>
     </div>
 
+    <!-- الشاشة 4: حماية الدخول لغرفة المشرفين -->
     <div id="admin-login-page" class="page">
         <h3 style="color: var(--maroon); margin-bottom: 10px;">دخول إدارة المسابقة 🔐</h3>
-        <p style="font-size: 0.9rem; color: #666; margin-bottom: 15px;">خاص بأباء الكنيسة وأمين الخدمة لرصد ومراجعة النتائج</p>
         <input type="password" id="admin-pass-field" placeholder="أدخل كلمة سر الإدارة">
         <br>
         <button class="btn btn-maroon" onclick="loginAdmin()">تسجيل الدخول</button>
         <button class="btn btn-gold" onclick="showPage('login-page')">إلغاء وعودة</button>
     </div>
 
+    <!-- الشاشة 5: لوحة تحكم غامقة بلون ماروني فاخر -->
     <div id="admin-dashboard-page" class="page admin-panel">
         <h2>غرفة تحكم المسابقات والنتائج والشهرية ⚙️</h2>
         
@@ -183,151 +193,134 @@
                     </tr>
                 </thead>
                 <tbody id="results-table-body">
-                    </tbody>
+                    <!-- النتائج تظهر هنا تلقائياً -->
+                </tbody>
             </table>
         </div>
     </div>
 
 </div>
 
+<!-- البنية البرمجية والذكاء الكامل للموقع -->
 <script>
-    // 1. لينكات جوجل شيت المباشرة التي قمت بتوفيرها (بصيغة القراءة الفورية)
+    // روابط جوجل شيت المباشرة المقروءة لعدم حدوث عطل 404
     const QUESTIONS_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQATB615cDv6gnBZdVqUNJV8f7WTaA4p8nLuiV8uBJfGKUz5fFBP5UT6-XQTRyTumgZIBv_h9Pt64mg/pub?output=csv";
     const ESSAH_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlHtC2XhIAwgkBPyOKvgS40OJ8JiYHt_019eGTHb9ltGaxc-oV6gT2QS924VOBSFZMv0N7d2OnzRBe/pub?output=csv";
     
-    const ADMIN_PASSWORD = "123"; // كلمة سر لوحة التحكم الافتراضية (يمكنك كتابة ما تشاء هنا)
+    const ADMIN_PASSWORD = "123"; // كلمة سر لوحة التحكم الافتراضية
 
-    // 2. مصفوفة الـ 70 خادم مع أكوادهم المتطابقة تماماً والمنظمة
-    const rawServants = [
-        { name: "إيريني سمير", code: "1" }, { name: "إيريني عاطف", code: "2" }, { name: "آمال سامي", code: "3" },
-        { name: "ثناء زكريا", code: "4" }, { name: "جاكلين سعيد", code: "5" }, { name: "جانيت ويصا", code: "6" },
-        { name: "جورج فايز", code: "7" }, { name: "جمال حنا", code: "8" }, { name: "جيرمين زاهر", code: "9" },
-        { name: "جيهان شحاتة", code: "10" }, { name: "جيهان ماهر", code: "11" }, { name: "رأفت خير", code: "12" },
-        { name: "رامز أمير", code: "13" }, { name: "رامي سعيد", code: "14" }, { name: "رمزي سعيد", code: "15" },
-        { name: "رؤوف خير", code: "16" }, { name: "سارة عماد", code: "17" }, { name: "ساندرا جورج", code: "18" },
-        { name: "سامية جريس", code: "19" }, { name: "سمر جاد الرب", code: "20" }, { name: "سماح حلمي", code: "21" },
-        { name: "سماح نعيم", code: "22" }, { name: "سمير زكي", code: "23" }, { name: "سناء سعيد", code: "24" },
-        { name: "شريف شهدي", code: "25" }, { name: "شكر الله نصر", code: "26" }, { name: "شيري شهدي", code: "27" },
-        { name: "صفاء سمير", code: "28" }, { name: "صفاء عادلي", code: "29" }, { name: "توني هاني", code: "30" },
-        { name: "عادل فرج", code: "31" }, { name: "عايدة معوض", code: "32" }, { name: "عايدة يعقوب", code: "33" },
-        { name: "عدلي رمزي", code: "34" }, { name: "عماد سمير", code: "35" }, { name: "فادي سليمان", code: "36" },
-        { name: "فادي كحيل", code: "37" }, { name: "فيوليت فوزي", border: "38", code: "38" }, { name: "كرم كريم", code: "39" },
-        { name: "كريستين نصر", code: "40" }, { name: "كريم شكر الله", code: "41" }, { name: "كيرلس أسامة", code: "42" },
-        { name: "كيرلس فادي", code: "43" }, { name: "كيرلس يوسف", code: "44" }, { name: "ليلى وهيب", code: "45" },
-        { name: "ماجدة نجيب", code: "46" }, { name: "ماركو مجدي", code: "47" }, { name: "ماري عادل", code: "48" },
-        { name: "ماري وجيه", code: "49" }, { name: "ماريان مجدي", code: "50" }, { name: "مارينا أشرف", code: "51" },
-        { name: "ماريانا إدوارد", code: "52" }, { name: "مريان عادل", code: "53" }, { name: "مريم عماد", code: "54" },
-        { name: "مريم مكرم", code: "55" }, { name: "منى ميشيل", code: "56" }, { name: "ميرفت يعقوب", code: "57" },
-        { name: "ميرنا عماد", code: "58" }, { name: "مينا أشرف", code: "59" }, { name: "مينا مجدي", code: "60" },
-        { name: "ناهد فاروق", code: "61" }, { name: "نرجس خير", code: "62" }, { name: "نرمين سليمان", code: "63" },
-        { name: "نعمة عبد السيد", code: "64" }, { name: "هيلانة جورج", code: "65" }, { name: "وائل ماهر", code: "66" },
-        { name: "وردة ماهر", code: "67" }, { name: "ياسر نبيه", code: "68" }, { name: "يوسف وليم", code: "69" },
-        { name: "يوستينا رأفت", code: "70" }
+    // الأسماء الـ 71 كاملة مصفوفة ومرتبة
+    let rawServants = [
+        "كيرلس يوسف", "نرجس خير", "جورج فايز", "ياسر نبيه", "رؤوف خير", "مريم عماد", "ميرنا عماد", 
+        "فادي سليمان", "مينا مجدي", "فيوليت فوزي", "سماح حلمي", "شيري شهدي", "سمير زكي", "مني ميشيل", 
+        "جانيت ويصا", "ماريان مجدي", "شكرالله nsr", "جيهان ماهر", "جمال حنا", "ناهد فاروق", "رمزي سعيد", 
+        "عايدة يعقوب", "نعمة عبد السيد", "كيرلس اسامة", "مارينا اشرف", "جاكلين سيعد", "سارة عماد", 
+        "ماريانا ادورد", "وردة ماهر", "كمال كريم", "كرستين نصر", "ماري عادل", "هيلانة جورج", "رزق كامل", 
+        "صفاء سمير", "صفاء عدلي", "سناء سعيد", "مريان عادل", "سمر جادالرب", "يوستينا رأفت", "مريم مكرم", 
+        "توني هاني", "نرمين سليمان", "ثناء زكريا", "امال سامي", "جريمين زاهر", "ايريني سمير", "كريم شكرالله", 
+        "ليلي وهبة", "عدلي رمزي", "ماجدة نجيب", "فادي كحيل", "شريف شهدي", "سماح نعيم", "عايدة معوض", 
+        "ميرفت يعقوب", "رامي سعيد", "ماري وجيه", "ايريني عاطيف", "ماركو مجدي", "كيرلس فادي", "مينا اشرف", 
+        "يوسف وليم", "سامية جريس", "رامز امير", "ساندرا جروج", "عماد سمير", "عادل فرج", "جيهان شحاتة", 
+        "وائل ماهر", "مارك جوزيف"
     ];
 
-    // متغيرات الحركة الداخلية للسيستم
-    let activeKhadimName = "";
     let quizQuestions = [];
     let currentQuestionIndex = 0;
-    let selectedAnswers = {}; // تخزين الإجابات المختارة للسؤال الحالي
+    let selectedAnswers = {}; 
     let questionTimer;
-    let secondsLeftForQuestion = 3 * 60; // 3 دقائق لكل سؤال حسب شروطك
+    let secondsLeftForQuestion = 3 * 60; 
+    let activeKhadimName = "";
 
-    // 3. تهيئة النظام فور التشغيل
     function initApp() {
-        // ترتيب الأسماء أبجدياً تلقائياً من أ إلى ي لحماية النظام
-        rawServants.sort((a, b) => a.name.localeCompare(b.name, "ar"));
+        // 1. ترتيب الأسماء أبجدياً تلقائياً
+        rawServants.sort((a, b) => a.localeCompare(b, "ar"));
         
+        // 2. توزيع الأكواد التسلسلية البسيطة من 1 إلى 71 بناء على الترتيب الأبجدي
         const selectEl = document.getElementById("khadim-select");
-        rawServants.forEach(servant => {
+        rawServants.forEach((name, index) => {
             let opt = document.createElement("option");
-            opt.value = servant.name;
-            opt.textContent = servant.name;
-            opt.setAttribute("data-pass", servant.code);
+            opt.value = name;
+            let codeNumber = index + 1;
+            opt.textContent = `${name} (كود: ${codeNumber})`;
+            opt.setAttribute("data-pass", codeNumber.toString());
             selectEl.appendChild(opt);
         });
 
-        // تشغيل البنية التحتية التخزينية المخصصة لشهر كامل
         if (!localStorage.getItem("church_quiz_data_store")) {
             localStorage.setItem("church_quiz_data_store", JSON.stringify([]));
         }
 
-        // جلب البيانات فورياً من ملفات جوجل شيت المرفقة
         fetchOnlineData();
     }
 
-    // سحب البيانات من السيرفر السحابي لجوجل
     async function fetchOnlineData() {
         try {
-            // أ) جلب الأسئلة
             const qResponse = await fetch(QUESTIONS_SHEET_URL);
             const qData = await qResponse.text();
             parseQuestions(qData);
 
-            // ب) جلب لينك الاستماع والقراءة للأصحاح وتعيينه للزر
             const eResponse = await fetch(ESSAH_SHEET_URL);
             const eData = await eResponse.text();
-            // نأخذ السطر الثاني أو الرابط المباشر من الشيت كهدف
-            const rows = eData.split("\n");
-            if(rows.length > 1) {
-                let linkCandidate = rows[1].split(",")[0].trim();
-                if(linkCandidate) document.getElementById("sheet-study-link").href = linkCandidate;
+            const lines = eData.split("\n");
+            if (lines.length > 0) {
+                let rawLink = lines[0].replace(/"/g, "").trim();
+                if (lines[1] && lines[1].includes("http")) {
+                    rawLink = lines[1].replace(/"/g, "").split(",")[0].trim();
+                }
+                document.getElementById("sheet-study-link").href = rawLink;
             }
         } catch (error) {
-            console.log("استخدام الأسئلة الاحتياطية المدمجة نظراً لعدم نشر الشيت كـ CSV علني بعد:", error);
+            console.log("تنبيه: تم تشغيل الأسئلة الاحتياطية بـ 4 خيارات:", error);
             loadBackupQuestions();
         }
     }
 
-    // تحويل شيت الـ CSV إلى أسئلة منظمة بنسبة خطأ معدومة
     function parseQuestions(csvText) {
         const lines = csvText.split("\n");
         let loadedQs = [];
-        // نتخطى السطر الأول لأنه يحتوي على العناوين
+        
         for(let i = 1; i < lines.length; i++) {
-            if(!lines[i]) continue;
-            let columns = lines[i].split(",");
-            if(columns.length >= 5) {
+            if(!lines[i].trim()) continue;
+            let columns = lines[i].split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
+            if(columns.length >= 6) {
                 loadedQs.push({
-                    q: columns[0].trim(),
-                    a: columns[1].trim(),
-                    b: columns[2].trim(),
-                    c: columns[3].trim(),
-                    correct: columns[4].trim().toLowerCase() // يجب أن يحتوي على a أو b أو c
+                    q: columns[0].replace(/"/g, "").trim(),
+                    opt1: columns[1].replace(/"/g, "").trim(),
+                    opt2: columns[2].replace(/"/g, "").trim(),
+                    opt3: columns[3].replace(/"/g, "").trim(),
+                    opt4: columns[4].replace(/"/g, "").trim(),
+                    correct: columns[5].replace(/"/g, "").trim().toLowerCase()
                 });
             }
         }
-        if(loadedQs.length >= 10) {
-            quizQuestions = loadedQs.slice(0, 10); // سحب أول 10 أسئلة بدقة
+        if(loadedQs.length > 0) {
+            quizQuestions = loadedQs.slice(0, 10);
         } else {
             loadBackupQuestions();
         }
     }
 
     function loadBackupQuestions() {
-        // أسئلة ذكية جاهزة للعمل الفوري في حالة وجود عطل مؤقت بإنترنت الخادم
         quizQuestions = [
-            { q: "ما هي أول معجزات السيد المسيح في إنجيل يوحنا؟", a: "شفاء المخلع", b: "تحويل الماء إلى خمر في عرس قانا الجليل", c: "إشباع الجموع", correct: "b" },
-            { q: "كم عدد أسفار العهد الجديد؟", a: "27 سفراً", b: "39 سفراً", c: "46 سفراً", correct: "a" },
-            { q: "من هو التلميذ الذي لم يشك في قيامة المسيح ولقب بالمحبوب؟", a: "توما", b: "بطرس", c: "يوحنا الرسول", correct: "c" },
-            { q: "من هو كاتب سفر أعمال الرسل؟", a: "لوقا البشير", b: "بولس الرسول", c: "مرقس الرسول", correct: "a" },
-            { q: "على أي جبل تجلى السيد المسيح أمام تلاميذه؟", a: "جبل سيناء", b: "جبل طابور", c: "جبل الزيتون", correct: "b" },
-            { q: "كم سنة قضاها الشعب في تيه برية سيناء؟", a: "40 سنة", b: "70 سنة", c: "12 سنة", correct: "a" },
-            { q: "ما هو الاسم الآخر لسمعان بطرس؟", a: "صفا", b: "برنابا", c: "ديوديموس", correct: "a" },
-            { q: "من هي أول امرأة آمنت في أوروبا على يد بولس الرسول؟", a: "بريسكلا", b: "ليديا بائعة الأرجوان", c: "دامرس", correct: "b" },
-            { q: "ما هو أصغر سفر في العهد القديم؟", a: "عوبديا", b: "حجي", c: "ملاخي", correct: "a" },
-            { q: "في أي مدينة وُلد السيد المسيح له المجد؟", a: "الناصرة", b: "أورشليم", c: "بيت لحم", correct: "c" }
+            { q: "ما هي أول معجزات السيد المسيح في إنجيل يوحنا؟", opt1: "شفاء المخلع", opt2: "إشباع الجموع", opt3: "تحويل الماء إلى خمر في عرس قانا", opt4: "إقامة لعازر", correct: "opt3" },
+            { q: "كم عدد أسفار العهد الجديد؟", opt1: "39 سفراً", opt2: "27 سفراً", opt3: "46 سفراً", opt4: "50 سفراً", correct: "opt2" },
+            { q: "من هو التلميذ الملقب بالمحبوب؟", opt1: "بطرس", opt2: "توما", opt3: "يعقوب", opt4: "يوحنا الرسول", correct: "opt4" },
+            { q: "من هو كاتب سفر أعمال الرسل؟", opt1: "لوقا البشير", opt2: "بولس الرسول", opt3: "مرقس الرسول", opt4: "متى البشير", correct: "opt1" },
+            { q: "على أي جبل تجلى السيد المسيح أمام تلاميذه؟", opt1: "جبل سيناء", opt2: "جبل طابور", opt3: "جبل الزيتون", opt4: "جبل حوريب", correct: "opt2" },
+            { q: "كم سنة قضاها الشعب في تيه برية سيناء؟", opt1: "12 سنة", opt2: "70 سنة", opt3: "40 سنة", opt4: "50 سنة", correct: "opt3" },
+            { q: "ما هو الاسم الآخر لسمعان بطرس؟", opt1: "برنابا", opt2: "صفا", opt3: "ديوديموس", opt4: "تيوفيلس", correct: "opt2" },
+            { q: "من هي أول امرأة آمنت في أوروبا على يد بولس الرسول؟", opt1: "بريسكلا", opt2: "دامرس", opt3: "ليديا بائعة الأرجوان", opt4: "طابيثا", correct: "opt3" },
+            { q: "ما هو أصغر سفر في العهد القديم？", opt1: "حجي", opt2: "عوبديا", opt3: "ملاخي", opt4: "عاموس", correct: "opt2" },
+            { q: "في أي مدينة وُلد السيد المسيح له المجد؟", opt1: "الناصرة", opt2: "بيت لحم", opt3: "أورشليم", opt4: "كفرناحوم", correct: "opt2" }
         ];
     }
 
-    // إدارة تحركات الشاشات الخمسة
     function showPage(pageId) {
         document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page'));
         document.getElementById(pageId).classList.add('active-page');
         if (pageId === 'admin-dashboard-page') renderAdminTable();
     }
 
-    // توثيق ودخول الخادم بأمان وتوليد البيانات
     function loginKhadim() {
         const selectEl = document.getElementById("khadim-select");
         const passwordInput = document.getElementById("khadim-password").value.trim();
@@ -344,11 +337,10 @@
             startQuestionTimer();
             displayQuestion();
         } else {
-            alert("كود المرور غير صحيح! تأكد من الكود المكتوب بجانب اسمك.");
+            alert("كود المرور غير صحيح! اكتب رقم الترتيب المكتوب بجانب اسمك.");
         }
     }
 
-    // عرض السؤال الحالي وتلوين الكارت ديناميكياً بالذهب الخالص فور الاختيار
     function displayQuestion() {
         if (quizQuestions.length === 0) return;
         const currentQ = quizQuestions[currentQuestionIndex];
@@ -359,26 +351,24 @@
         const optionsBox = document.getElementById("options-box");
         optionsBox.innerHTML = "";
 
-        // بناء بطاقات الخيارات الثلاثة وضبط التلوين الذهبي
-        ['a', 'b', 'c'].forEach(optKey => {
-            if (currentQ[optKey]) {
+        ['opt1', 'opt2', 'opt3', 'opt4'].forEach(optKey => {
+            if (currentQ[optKey] || currentQ[optKey] === "") {
                 const isSelected = selectedAnswers[currentQuestionIndex] === optKey;
                 const card = document.createElement("div");
                 card.className = `option-card ${isSelected ? 'selected' : ''}`;
                 card.onclick = () => {
                     selectedAnswers[currentQuestionIndex] = optKey;
-                    displayQuestion(); // إعادة التحديث ليتلون بالذهب فوراً
+                    displayQuestion();
                 };
                 
                 card.innerHTML = `
                     <input type="radio" name="coptic_opt" value="${optKey}" ${isSelected ? 'checked' : ''}>
-                    <label style="cursor:pointer; width:100%;">${currentQ[optKey]}</label>
+                    <label style="cursor:pointer; width:100%; font-weight:600;">${currentQ[optKey]}</label>
                 `;
                 optionsBox.appendChild(card);
             }
         });
 
-        // إخفاء وإظهار الأزرار تيسيراً للمبتدئين ولتفادي الخطأ البشري
         document.getElementById("btn-prev").style.visibility = currentQuestionIndex === 0 ? "hidden" : "visible";
         
         if (currentQuestionIndex === quizQuestions.length - 1) {
@@ -390,17 +380,15 @@
         }
     }
 
-    // الانتقال للأمام والخلف وتثبيت التايمر الخاص بكل سؤال (3 دقائق)
     function navigateQuestion(direction) {
         currentQuestionIndex += direction;
-        startQuestionTimer(); // تصفير وبدء 3 دقائق جديدة للسؤال الجديد
+        startQuestionTimer(); 
         displayQuestion();
     }
 
-    // إدارة وقت السؤال التنازلي بدقة متناهية وحماية الإجابات
     function startQuestionTimer() {
         clearInterval(questionTimer);
-        secondsLeftForQuestion = 3 * 60; // 3 دقائق لكل سؤال
+        secondsLeftForQuestion = 3 * 60; 
         
         questionTimer = setInterval(() => {
             let mins = Math.floor(secondsLeftForQuestion / 60);
@@ -409,7 +397,7 @@
             
             if (secondsLeftForQuestion <= 0) {
                 clearInterval(questionTimer);
-                alert("انتهت الـ 3 دقائق المخصصة لهذا السؤال! سيتم نقلك للسؤال التالي.");
+                alert("انتهى وقت السؤال الحالي! سيتم نقلك تلقائياً.");
                 if (currentQuestionIndex < quizQuestions.length - 1) {
                     navigateQuestion(1);
                 } else {
@@ -420,24 +408,25 @@
         }, 1000);
     }
 
-    // حساب النتيجة النهائية بدقة وعرضها للفرد نفسه فقط وحفظها فورياً
     function submitQuiz() {
         clearInterval(questionTimer);
         let finalScore = 0;
+        let khadimAnswersSave = {}; // حفظ اختياراته للرجوع لها عند التظلم
 
         quizQuestions.forEach((q, idx) => {
-            if (selectedAnswers[idx] && selectedAnswers[idx] === q.correct) {
+            khadimAnswersSave[idx] = selectedAnswers[idx] || "لم يحل";
+            if (selectedAnswers[idx] && (selectedAnswers[idx] === q.correct || q.correct.includes(selectedAnswers[idx]))) {
                 finalScore++;
             }
         });
 
         document.getElementById("final-score").textContent = `${finalScore} / ${quizQuestions.length}`;
         
-        // التسجيل بالذاكرة المحلية للمتصفح
         let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
         records.push({
             name: activeKhadimName,
             score: finalScore,
+            answers: khadimAnswersSave, // مضافة هنا لتعديلها لاحقاً
             date: new Date().toLocaleString("ar-EG")
         });
         localStorage.setItem("church_quiz_data_store", JSON.stringify(records));
@@ -445,7 +434,6 @@
         showPage("result-page");
     }
 
-    // إدارة الحماية للوحة التحكم المشرفين
     function loginAdmin() {
         const pass = document.getElementById("admin-pass-field").value;
         if (pass === ADMIN_PASSWORD) {
@@ -456,14 +444,13 @@
         }
     }
 
-    // رسم جدول النتائج في لوحة التحكم وتدشين الأزرار الثلاثة المطلوبة
     function renderAdminTable() {
         const tbody = document.getElementById("results-table-body");
         tbody.innerHTML = "";
         let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
 
         if(records.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">لا توجد نتائج مسجلة في الذاكرة للشهر الحالي حتى الآن.</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; padding:20px; color:#999;">لا توجد نتائج مسجلة حتى الآن.</td></tr>`;
             return;
         }
 
@@ -483,43 +470,81 @@
         });
     }
 
-    // وظائف الأزرار الثلاثة للوحة الإدارة:
+    // 🚀 ميزة الأدمن الحقيقية لتعديل الإجابات وإعادة الحساب الذكي تلقائياً
     function editAnswers(idx) {
-        alert("تعديل الإجابات: خيارات الخادم محفوظة ومفتوحة للمراجعة والتصحيح اليدوي بنجاح.");
+        let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
+        let record = records[idx];
+        
+        // لو الخادم امتحن على كود قديم ولم تسجل مصفوفة إجاباته لسه
+        if (!record.answers) {
+            record.answers = {0:"opt1", 1:"opt1", 2:"opt1", 3:"opt1", 4:"opt1", 5:"opt1", 6:"opt1", 7:"opt1", 8:"opt1", 9:"opt1"};
+        }
+
+        let qNumInput = prompt(`خيار التظلمات والتحكم لإجابات الخادم: (${record.name})\nاكتب رقم السؤال اللي عايز تعدل إجابته (من 1 إلى 10):`);
+        if (qNumInput === null || qNumInput.trim() === "") return;
+        
+        let qIdx = parseInt(qNumInput) - 1;
+        if (isNaN(qIdx) || qIdx < 0 || qIdx > 9) {
+            alert("رقم السؤال غير صحيح! اكتب رقم بين 1 و 10.");
+            return;
+        }
+
+        let currentAns = record.answers[qIdx] || "لم يحل";
+        let newAnsInput = prompt(`السؤال رقم ${qNumInput} حالياً إجابته هي: (${currentAns})\nاكتب الاختيار الجديد المظبوط للخادم من دول بالظبط (opt1 أو opt2 أو opt3 أو opt4):`);
+        
+        if (newAnsInput === null || newAnsInput.trim() === "") return;
+        newAnsInput = newAnsInput.trim().toLowerCase();
+
+        if (['opt1', 'opt2', 'opt3', 'opt4'].includes(newAnsInput)) {
+            // تحديث إجابة السؤال المختار
+            record.answers[qIdx] = newAnsInput;
+            
+            // إعادة حساب الدرجة أوتوماتيكياً بناء على الإجابات الجديدة والـ Correct اللي في الشيت
+            let systemCalculatedScore = 0;
+            quizQuestions.forEach((q, i) => {
+                let khadimAns = record.answers[i];
+                if (khadimAns && (khadimAns === q.correct || q.correct.includes(khadimAns))) {
+                    systemCalculatedScore++;
+                }
+            });
+
+            record.score = systemCalculatedScore; // تعيين الدرجة الجديدة تلقائياً
+            
+            // حفظ التغييرات في الذاكرة المحلية
+            localStorage.setItem("church_quiz_data_store", JSON.stringify(records));
+            alert(`تم تعديل إجابة السؤال ${qNumInput} وبناءً عليه تم تحديث نتيجته الكلية تلقائياً لتصبح: ${systemCalculatedScore} / 10`);
+            renderAdminTable();
+        } else {
+            alert("خطأ في كتابة الاختيار! لازم تكتب الرمز برمجياً زي كدة بالظبط: opt1 أو opt2 أو opt3 أو opt4");
+        }
     }
 
     function editDegree(idx) {
         let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
-        let currentScore = records[idx].score;
-        let newScore = prompt(`تعديل درجة الخادم الحالية (${records[idx].name}):`, currentScore);
-        
+        let newScore = prompt(`تعديل درجة الخادم الحالية المباشرة (${records[idx].name}):`, records[idx].score);
         if (newScore !== null && newScore.trim() !== "") {
             let parsed = parseInt(newScore);
             if(!isNaN(parsed)) {
                 records[idx].score = parsed;
                 localStorage.setItem("church_quiz_data_store", JSON.stringify(records));
                 renderAdminTable();
-            } else {
-                alert("من فضلك أدخل رقماً صحيحاً.");
             }
         }
     }
 
     function deleteRecord(idx) {
         let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
-        if (confirm(`هل أنت متأكد تماماً من حذف نتيجة الخادم (${records[idx].name}) نهائياً؟`)) {
+        if (confirm(`حذف نتيجة الخادم (${records[idx].name})؟`)) {
             records.splice(idx, 1);
             localStorage.setItem("church_quiz_data_store", JSON.stringify(records));
             renderAdminTable();
         }
     }
 
-    // 💾 تصدير النتايج أوتوماتيكياً لملف إكسيل ملون ومنظم بضغطة واحدة
     function exportToExcel() {
         let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
-        if (records.length === 0) { alert("لا توجد نتائج مسجلة لتصديرها حالياً!"); return; }
+        if (records.length === 0) { alert("لا توجد نتائج لتصديرها!"); return; }
 
-        // صياغة البيانات في مصفوفة إكسيل معنونة ومرتبة
         let excelRows = records.map(r => ({
             "اسم خادم اجتماع مدينة عامر": r.name,
             "الدرجة من 10": r.score,
@@ -528,13 +553,10 @@
 
         let worksheet = XLSX.utils.json_to_sheet(excelRows);
         let workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "النتائج المعتمدة للمسابقة");
-
-        // كتابة وتنزيل الملف فوراً
-        XLSX.writeFile(workbook, "نتائج_مسابقة_الكتاب_مقدس_اجتماع_الخدام.xlsx");
+        XLSX.utils.book_append_sheet(workbook, worksheet, "النتائج");
+        XLSX.writeFile(workbook, "نتائج_مسابقة_الكتاب_مقدس.xlsx");
     }
 
-    // تشغيل الكود بمجرد تحميل الصفحة بالكامل
     window.onload = initApp;
 </script>
 
