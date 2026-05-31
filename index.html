@@ -7,8 +7,6 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-    <!-- استدعاء مكتبة يوتيوب للتحكم في الصوت من الأزرار الخارجية -->
-    <script src="https://www.youtube.com/iframe_api"></script>
 
     <style>
         :root {
@@ -86,16 +84,8 @@
         .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.6); display: none; justify-content: center; align-items: center; z-index: 9999; padding: 20px; }
         .modal-content { background: var(--light-bg); border: 3px solid var(--primary-gold); border-radius: 12px; max-width: 750px; width: 100%; max-height: 90vh; overflow-y: auto; padding: 25px; text-align: right; box-shadow: 0 10px 25px rgba(0,0,0,0.3); }
         
-        .modal-body { font-family: 'Amiri', serif; font-size: 22px; line-height: 1.9; color: #1a1a1a; white-space: pre-wrap; text-align: justify; margin: 15px 0; padding: 20px; background: #fff; border-radius: 6px; border: 1px solid #e0e0e0; max-height: 45vh; overflow-y: auto; font-weight: 500; }
-        
-        /* لوحة التحكم بالصوت وشريط التقدم المطور */
-        .audio-control-zone { background: #F3E5AB; border: 2px solid var(--primary-gold); border-radius: 8px; padding: 15px; margin: 15px 0; text-align: center; }
-        .progress-container { display: flex; align-items: center; justify-content: center; gap: 10px; margin-top: 12px; direction: ltr; }
-        .progress-bar-slider { width: 70%; max-width: 400px; height: 8px; background: #ccc; border-radius: 4px; appearance: none; outline: none; cursor: pointer; accent-color: var(--maroon); transition: background 0.1s; }
-        .time-label { font-size: 0.9rem; font-weight: bold; color: var(--maroon); min-width: 45px; }
-
-        /* إخفاء الآيفريم الخاص بيوتيوب عشان يشتغل كأنه ريكورد صوتي فقط */
-        #yt-hidden-player { display: none; }
+        .modal-body { font-family: 'Amiri', serif; font-size: 20px; line-height: 1.9; color: #1a1a1a; white-space: pre-wrap; text-align: justify; margin: 15px 0; padding: 20px; background: #fff; border-radius: 6px; border: 1px solid #e0e0e0; max-height: 45vh; overflow-y: auto; font-weight: 500; }
+        .audio-player-container { background: #F3E5AB; border: 1px solid var(--primary-gold); border-radius: 8px; padding: 12px; margin: 15px 0; text-align: center; }
     </style>
 </head>
 <body>
@@ -106,7 +96,6 @@
     
     <button class="btn btn-maroon" style="position: absolute; top: 25px; left: 25px; font-size: 0.8rem; padding: 6px 14px;" onclick="showPage('admin-login-page')">⚙️ لوحة التحكم</button>
 
-    <!-- الشاشة 1: تسجيل الدخول واختيار الاسم -->
     <div id="login-page" class="page active-page">
         <div class="images-container">
             <div class="saint-card">
@@ -141,7 +130,6 @@
         <button class="btn btn-gold" style="margin-top: 15px;" onclick="loginKhadim()">🔓 دخول الامتحان وبدء الوقت</button>
     </div>
 
-    <!-- الشاشة 2: مساحة الامتحان النشطة -->
     <div id="quiz-page" class="page">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 12px; margin-bottom: 15px;">
             <h3 id="welcome-khadim" style="color: var(--maroon);">الخادم: </h3>
@@ -161,7 +149,6 @@
         </div>
     </div>
 
-    <!-- الشاشة 3: لوحة إظهار النتيجة ومراجعتها -->
     <div id="result-page" class="page">
         <h2 style="color: var(--success-green); font-family: 'Amiri', serif; font-size: 2rem;">تمت المسابقة بنجاح ونعمة!</h2>
         <p style="margin-top: 5px; color: #555;">"مُبَارَكٌ الإِنْسَانُ الَّذِي يَتَّكِلُ عَلَى الرَّبِّ"</p>
@@ -181,7 +168,6 @@
         </div>
     </div>
 
-    <!-- الشاشة 4: حماية الدخول لغرفة المشرفين -->
     <div id="admin-login-page" class="page">
         <h3 style="color: var(--maroon); margin-bottom: 10px;">دخول إدارة المسابقة 🔐</h3>
         <input type="password" id="admin-pass-field" placeholder="أدخل كلمة سر الإدارة">
@@ -190,7 +176,6 @@
         <button class="btn btn-gold" onclick="showPage('login-page')">إلغاء وعودة</button>
     </div>
 
-    <!-- الشاشة 5: لوحة التحكم الإدارية -->
     <div id="admin-dashboard-page" class="page admin-panel">
         <h2>غرفة تحكم المسابقات والنتائج والشهرية ⚙️</h2>
         
@@ -219,29 +204,14 @@
 
 </div>
 
-<!-- صندوق منبثق لعرض نص الأصحاح + أزرار التحكم وشريط التقدم المطور -->
 <div id="essah-modal" class="modal-overlay" onclick="closeEssahModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
         <h3 style="color: var(--maroon); font-family: 'Amiri', serif; border-bottom: 2px solid var(--primary-gold); padding-bottom: 10px; font-size: 1.8rem;">📖 نص الأصحاح المُراد دراسته</h3>
         
-        <!-- لوحة التحكم بالصوت -->
-        <div id="audio-zone" class="audio-control-zone" style="display: none;">
-            <div style="margin-bottom: 10px;">
-                <button class="btn btn-green" onclick="playAudio()" style="padding: 10px 20px;">اسمع الاصحاح وانت بتـقرأ ◀️</button>
-                <button class="btn btn-gold" onclick="pauseAudio()" style="padding: 10px 20px;">إيقاف مؤقت ⏸️</button>
-                <button class="btn btn-maroon" onclick="closeEssahModal()" style="padding: 10px 20px;">انهاء و الرجوع للدخول للاسئلة ❌</button>
-            </div>
-            
-            <!-- شريط تقدم الصوت تفاعلي وسهل التقديم والتأخير -->
-            <div class="progress-container">
-                <span id="vid-current-time" class="time-label">00:00</span>
-                <input type="range" id="vid-progress-slider" class="progress-bar-slider" min="0" max="100" value="0" oninput="seekAudio(this.value)">
-                <span id="vid-total-time" class="time-label">00:00</span>
-            </div>
+        <div id="audio-zone" class="audio-player-container" style="display: none;">
+            <p style="font-weight: bold; margin-bottom: 8px; color: var(--maroon); font-size: 0.95rem;">🔊 استمع إلى قراءة الأصحاح بصوت مسموع:</p>
+            <audio id="essah-audio-player" controls style="width: 100%; max-width: 500px; margin: 0 auto; display: block;"></audio>
         </div>
-
-        <!-- عنصر يوتيوب المخفي المشغل للصوت -->
-        <div id="yt-hidden-player"></div>
 
         <div id="essah-text-container" class="modal-body">جاري تحميل نص الأصحاح الفعلي من شيت جوجل الحالي...</div>
         
@@ -274,16 +244,13 @@
     let quizQuestions = [];
     let currentQuestionIndex = 0;
     let selectedAnswers = {}; 
-    let questionTimer = null;
+    let questionTimer;
     let secondsLeftForQuestion = 3 * 60; 
     let activeKhadimName = "";
     let lastSavedKhadimRecord = null;
     
     let loadedEssahText = "جاري جلب بيانات الأصحاح الجديدة للآن...";
-    let ytVideoId = "";
-    let ytPlayer = null;
-    let progressUpdateTimer = null;
-    let isPlayerReady = false;
+    let loadedAudioUrl = "";
 
     function initApp() {
         rawServants.sort((a, b) => a.localeCompare(b, "ar"));
@@ -305,12 +272,19 @@
         fetchOnlineData();
     }
 
-    function extractYoutubeId(url) {
+    // فلتر ذكي لتجهيز ومعالجة الروابط لتعمل فوراً كبث صوتي مباشر
+    function formatAudioLink(url) {
         if (!url) return "";
         url = url.trim();
-        let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        let match = url.match(regExp);
-        return (match && match[2].length === 11) ? match[2] : "";
+        
+        // لو الرابط من جوجل درايف، نقوم بتحويله أوتوماتيكياً لرابط تشغيل مباشر
+        if (url.includes("drive.google.com")) {
+            let match = url.match(/\/d\/([^\/]+)/);
+            if (match && match[1]) {
+                return `https://docs.google.com/uc?export=download&id=${match[1]}`;
+            }
+        }
+        return url;
     }
 
     async function fetchOnlineData() {
@@ -329,19 +303,19 @@
                     let parts = eData.split(/,(?=(?:(?:[^"]*"){2})*[^"]*$)/);
                     if(parts.length >= 2) {
                         let textPart = parts[0].trim();
-                        let mediaPart = parts[1].trim();
+                        let audioPart = parts[1].trim();
 
                         if (textPart.startsWith('"') && textPart.endsWith('"')) textPart = textPart.substring(1, textPart.length - 1);
-                        if (mediaPart.startsWith('"') && mediaPart.endsWith('"')) mediaPart = mediaPart.substring(1, mediaPart.length - 1);
+                        if (audioPart.startsWith('"') && audioPart.endsWith('"')) audioPart = audioPart.substring(1, audioPart.length - 1);
 
                         loadedEssahText = textPart.replace(/""/g, '"').trim();
-                        ytVideoId = extractYoutubeId(mediaPart.replace(/\r?\n|\r/g, ""));
+                        loadedAudioUrl = formatAudioLink(audioPart.replace(/\r?\n|\r/g, ""));
                     }
                 } else {
                     let cleaned = eData.trim();
                     if (cleaned.startsWith('"') && cleaned.endsWith('"')) cleaned = cleaned.substring(1, cleaned.length - 1);
                     loadedEssahText = cleaned.replace(/""/g, '"').trim();
-                    ytVideoId = "";
+                    loadedAudioUrl = "";
                 }
             }
         } catch (error) {
@@ -350,107 +324,26 @@
         }
     }
 
-    // تُستدعى تلقائياً عند تحميل مكتبة يوتيوب
-    window.onYouTubeIframeAPIReady = function() {
-        buildYoutubePlayer();
-    }
-
-    function buildYoutubePlayer() {
-        if (ytVideoId && !ytPlayer && typeof YT !== 'undefined' && YT.Player) {
-            ytPlayer = new YT.Player('yt-hidden-player', {
-                height: '0',
-                width: '0',
-                videoId: ytVideoId,
-                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1 },
-                events: {
-                    'onReady': () => { isPlayerReady = true; },
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        }
-    }
-
     function openEssahModal() {
         document.getElementById("essah-text-container").textContent = loadedEssahText;
-        const audioZone = document.getElementById("audio-zone");
         
-        if (ytVideoId) {
+        const audioZone = document.getElementById("audio-zone");
+        const player = document.getElementById("essah-audio-player");
+        
+        if (loadedAudioUrl && loadedAudioUrl.length > 3) {
+            player.src = loadedAudioUrl;
             audioZone.style.display = "block";
-            document.getElementById("vid-current-time").textContent = "00:00";
-            document.getElementById("vid-total-time").textContent = "00:00";
-            document.getElementById("vid-progress-slider").value = 0;
-
-            if (!ytPlayer) {
-                buildYoutubePlayer();
-            } else if (isPlayerReady && typeof ytPlayer.cueVideoById === 'function') {
-                ytPlayer.cueVideoById(ytVideoId);
-            }
         } else {
+            player.src = "";
             audioZone.style.display = "none";
         }
         
         document.getElementById("essah-modal").style.display = "flex";
     }
-
-    function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING) {
-            startProgressLoop();
-        } else {
-            clearInterval(progressUpdateTimer);
-        }
-    }
-
-    function startProgressLoop() {
-        clearInterval(progressUpdateTimer);
-        progressUpdateTimer = setInterval(() => {
-            if (ytPlayer && isPlayerReady && typeof ytPlayer.getCurrentTime === 'function') {
-                let current = ytPlayer.getCurrentTime();
-                let total = ytPlayer.getDuration();
-                
-                if (total > 0) {
-                    let pct = (current / total) * 100;
-                    document.getElementById("vid-progress-slider").value = pct;
-                    document.getElementById("vid-current-time").textContent = formatTimeStr(current);
-                    document.getElementById("vid-total-time").textContent = formatTimeStr(total);
-                }
-            }
-        }, 1000);
-    }
-
-    function formatTimeStr(timeInSeconds) {
-        let m = Math.floor(timeInSeconds / 60);
-        let s = Math.floor(timeInSeconds % 60);
-        return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-    }
-
-    function seekAudio(value) {
-        if (ytPlayer && isPlayerReady && typeof ytPlayer.getDuration === 'function') {
-            let total = ytPlayer.getDuration();
-            if (total > 0) {
-                let newTime = (value / 100) * total;
-                ytPlayer.seekTo(newTime, true);
-                document.getElementById("vid-current-time").textContent = formatTimeStr(newTime);
-            }
-        }
-    }
-
-    function playAudio() {
-        if (ytPlayer && isPlayerReady && typeof ytPlayer.playVideo === 'function') {
-            ytPlayer.playVideo();
-        }
-    }
-
-    function pauseAudio() {
-        if (ytPlayer && isPlayerReady && typeof ytPlayer.pauseVideo === 'function') {
-            ytPlayer.pauseVideo();
-        }
-    }
     
     function closeEssahModal() {
-        clearInterval(progressUpdateTimer);
-        if (ytPlayer && isPlayerReady && typeof ytPlayer.stopVideo === 'function') {
-            ytPlayer.stopVideo();
-        }
+        const player = document.getElementById("essah-audio-player");
+        player.pause();
         document.getElementById("essah-modal").style.display = "none";
     }
 
@@ -583,11 +476,7 @@
         clearInterval(questionTimer);
         secondsLeftForQuestion = 3 * 60; 
         
-        // تعيين النص البدئي فوراً لتجنب التأخير البصري ثانية واحدة
-        document.getElementById("time-display").textContent = "03:00";
-
         questionTimer = setInterval(() => {
-            secondsLeftForQuestion--;
             let mins = Math.floor(secondsLeftForQuestion / 60);
             let secs = secondsLeftForQuestion % 60;
             document.getElementById("time-display").textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
@@ -600,6 +489,7 @@
                     submitQuiz();
                 }
             }
+            secondsLeftForQuestion--;
         }, 1000);
     }
 
