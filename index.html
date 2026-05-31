@@ -90,7 +90,6 @@
     
     <button class="btn btn-maroon" style="position: absolute; top: 25px; left: 25px; font-size: 0.8rem; padding: 6px 14px;" onclick="showPage('admin-login-page')">⚙️ لوحة التحكم</button>
 
-    <!-- الشاشة 1: تسجيل الدخول -->
     <div id="login-page" class="page active-page">
         <div class="images-container">
             <div class="saint-card">
@@ -125,7 +124,6 @@
         <button class="btn btn-gold" style="margin-top: 15px;" onclick="loginKhadim()">🔓 دخول الامتحان وبدء الوقت</button>
     </div>
 
-    <!-- الشاشة 2: مساحة الامتحان النشطة -->
     <div id="quiz-page" class="page">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 12px; margin-bottom: 15px;">
             <h3 id="welcome-khadim" style="color: var(--maroon);">الخادم: </h3>
@@ -145,7 +143,6 @@
         </div>
     </div>
 
-    <!-- الشاشة 3: لوحة إظهار النتيجة الفردية وزرار "اعرف نتيجتك" -->
     <div id="result-page" class="page">
         <h2 style="color: var(--success-green); font-family: 'Amiri', serif; font-size: 2rem;">تمت المسابقة بنجاح ونعمة!</h2>
         <p style="margin-top: 5px; color: #555;">"مُبَارَكٌ الإِنْسَانُ الَّذِي يَتَّكِلُ عَلَى الرَّبِّ"</p>
@@ -165,7 +162,6 @@
         </div>
     </div>
 
-    <!-- الشاشة 4: حماية الدخول لغرفة المشرفين -->
     <div id="admin-login-page" class="page">
         <h3 style="color: var(--maroon); margin-bottom: 10px;">دخول إدارة المسابقة 🔐</h3>
         <input type="password" id="admin-pass-field" placeholder="أدخل كلمة سر الإدارة">
@@ -174,7 +170,6 @@
         <button class="btn btn-gold" onclick="showPage('login-page')">إلغاء وعودة</button>
     </div>
 
-    <!-- الشاشة 5: لوحة تحكم غامقة بلون ماروني فاخر -->
     <div id="admin-dashboard-page" class="page admin-panel">
         <h2>غرفة تحكم المسابقات والنتائج والشهرية ⚙️</h2>
         
@@ -295,36 +290,34 @@
                     opt2: columns[2].replace(/"/g, "").trim(),
                     opt3: columns[3].replace(/"/g, "").trim(),
                     opt4: columns[4].replace(/"/g, "").trim(),
-                    correct: columns[5].replace(/"/g, "").trim() // الإجابة النصية المكتوبة في خانة الـ answer بالملي
+                    // 🔥 تعديل جوهري: إزالة رموز النزول لسطر جديد \r وكل الفراغات تماماً لحل مشكلة الـ 0 من 10
+                    correct: columns[5].replace(/"/g, "").replace(/\r?\n|\r/g, "").trim()
                 });
             }
         }
         if(loadedQs.length > 0) {
             quizQuestions = loadedQs.slice(0, 10);
-            checkAndResetIfQuestionsChanged(); // فحص ذكي: لو غيرت الشيت يصفر المحاولات فوراً ويفتح للناس!
+            checkAndResetIfQuestionsChanged(); 
         } else {
             loadBackupQuestions();
         }
     }
 
-    // خاصية التصفير التلقائي الفوري بمجرد تعديل الشيت
     function checkAndResetIfQuestionsChanged() {
         if(quizQuestions.length === 0) return;
         let currentFirstQuestion = quizQuestions[0].q;
         let savedFirstQuestion = localStorage.getItem("last_saved_first_question");
 
         if(savedFirstQuestion && savedFirstQuestion !== currentFirstQuestion) {
-            // الأسئلة اتغيرت! صفر مصفوفة المحاولات الممنوعة فوراً
             localStorage.setItem("blocked_servants_list", JSON.stringify([]));
-            console.log("تم اكتشاف أسئلة جديدة في الشيت! تم فتح الدخول لجميع الخدام تلقائياً.");
+            console.log("تم اكتشاف أسئلة جديدة! فتح الدخول تلقائياً.");
         }
         localStorage.setItem("last_saved_first_question", currentFirstQuestion);
     }
 
     function loadBackupQuestions() {
         quizQuestions = [
-            { q: "ما هي أول معجزات السيد المسيح في إنجيل يوحنا؟", opt1: "شفاء المخلع", opt2: "إشباع الجموع", opt3: "تحويل الماء إلى خمر في عرس قانا", opt4: "إقامة لعازر", correct: "تحويل الماء إلى خمر في عرس قانا" },
-            { q: "كم عدد أسفار العهد الجديد؟", opt1: "39 سفراً", opt2: "27 سفراً", opt3: "46 سفراً", opt4: "50 سفراً", correct: "27 سفراً" }
+            { q: "ما هي أول معجزات السيد المسيح في إنجيل يوحنا؟", opt1: "شفاء المخلع", opt2: "إشباع الجموع", opt3: "تحويل الماء إلى خمر في عرس قانا", opt4: "إقامة لعازر", correct: "تحويل الماء إلى خمر في عرس قانا" }
         ];
     }
 
@@ -346,10 +339,9 @@
         
         let targetName = selectedOption.value;
 
-        // الحماية رقم 1: فحص هل الخادم ده امتحن قبل كده في المسابقة الحالية؟
         let blockedList = JSON.parse(localStorage.getItem("blocked_servants_list") || "[]");
         if(blockedList.includes(targetName)) {
-            alert(`عفواً يا خادم، لقد قمت باجتياز هذا الامتحان بالفعل! لا يسمح بالدخول أكثر من مرة إلا عند تحديث الأسئلة.`);
+            alert(`عفواً يا خادم، لقد قمت باجتياز هذا الامتحان بالفعل! لا يسمح بالدخول أكثر من مرة.`);
             return;
         }
 
@@ -362,7 +354,7 @@
             startQuestionTimer();
             displayQuestion();
         } else {
-            alert("كود المرور السري غير صحيح! تأكد من رقم ترتيبك الأبجدي السري.");
+            alert("كود المرور السري غير صحيح!");
         }
     }
 
@@ -422,7 +414,6 @@
             
             if (secondsLeftForQuestion <= 0) {
                 clearInterval(questionTimer);
-                alert("انتهى وقت السؤال الحالي! سيتم نقلك تلقائياً.");
                 if (currentQuestionIndex < quizQuestions.length - 1) {
                     navigateQuestion(1);
                 } else {
@@ -438,18 +429,17 @@
         let finalScore = 0;
         let khadimAnswersSave = {}; 
 
-        // إصلاح فوري وحقيقي لطريقة حساب النتيجة طبقاً للنص المكتوب في خانة الـ answer
         quizQuestions.forEach((q, idx) => {
-            let pickedOptKey = selectedAnswers[idx]; // 'opt1', 'opt2'.. إلخ
+            let pickedOptKey = selectedAnswers[idx]; 
             let pickedText = pickedOptKey ? q[pickedOptKey] : "لم يحل";
             
-            khadimAnswersSave[idx] = pickedText; // حفظ الكلمة النصية الصريحة
+            khadimAnswersSave[idx] = pickedText; 
 
-            let cleanCorrect = q.correct.trim().toLowerCase();
-            let cleanPicked = pickedText.trim().toLowerCase();
+            // 🔥 التنظيف الصارم للنصوص لمنع تداخل أي رموز خفية (\r) نهائياً أثناء التصحيح
+            let cleanCorrect = q.correct.replace(/\r?\n|\r/g, "").trim().toLowerCase();
+            let cleanPicked = pickedText.replace(/\r?\n|\r/g, "").trim().toLowerCase();
 
-            // مطابقة ذكية: لو الكلمتين متطابقتين بالكامل أو النص يحتوي عليها
-            if (cleanPicked !== "لم يحل" && (cleanPicked === cleanCorrect || cleanCorrect.includes(cleanPicked) || cleanPicked.includes(cleanCorrect))) {
+            if (cleanPicked !== "لم يحل" && cleanPicked === cleanCorrect) {
                 finalScore++;
             }
         });
@@ -463,12 +453,10 @@
             date: new Date().toLocaleString("ar-EG")
         };
 
-        // حفظ النتيجة في لوحة التحكم
         let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
         records.push(lastSavedKhadimRecord);
         localStorage.setItem("church_quiz_data_store", JSON.stringify(records));
 
-        // البند 1: إضافة اسم الخادم لقائمة الحظر لمنعه من الدخول مرة أخرى على نفس الأسئلة
         let blockedList = JSON.parse(localStorage.getItem("blocked_servants_list") || "[]");
         if(!blockedList.includes(activeKhadimName)) {
             blockedList.push(activeKhadimName);
@@ -494,17 +482,19 @@
         quizQuestions.forEach((q, idx) => {
             let userAnsText = lastSavedKhadimRecord.answers[idx];
             
-            let isOpt1Correct = q.opt1.trim().toLowerCase() === q.correct.trim().toLowerCase();
-            let isOpt2Correct = q.opt2.trim().toLowerCase() === q.correct.trim().toLowerCase();
-            let isOpt3Correct = q.opt3.trim().toLowerCase() === q.correct.trim().toLowerCase();
-            let isOpt4Correct = q.opt4.trim().toLowerCase() === q.correct.trim().toLowerCase();
+            let cleanC = q.correct.replace(/\r?\n|\r/g, "").trim().toLowerCase();
+            
+            let isOpt1Correct = q.opt1.replace(/\r?\n|\r/g, "").trim().toLowerCase() === cleanC;
+            let isOpt2Correct = q.opt2.replace(/\r?\n|\r/g, "").trim().toLowerCase() === cleanC;
+            let isOpt3Correct = q.opt3.replace(/\r?\n|\r/g, "").trim().toLowerCase() === cleanC;
+            let isOpt4Correct = q.opt4.replace(/\r?\n|\r/g, "").trim().toLowerCase() === cleanC;
 
             let isUserOpt1 = userAnsText === q.opt1;
             let isUserOpt2 = userAnsText === q.opt2;
             let isUserOpt3 = userAnsText === q.opt3;
             let isUserOpt4 = userAnsText === q.opt4;
 
-            let isCorrect = userAnsText.trim().toLowerCase() === q.correct.trim().toLowerCase();
+            let isCorrect = userAnsText.replace(/\r?\n|\r/g, "").trim().toLowerCase() === cleanC;
             
             let card = document.createElement("div");
             card.className = "review-card";
@@ -613,7 +603,8 @@
             let newScore = 0;
             quizQuestions.forEach((q, i) => {
                 let ansText = record.answers[i];
-                if (ansText && ansText.trim().toLowerCase() === q.correct.trim().toLowerCase()) {
+                let cleanC = q.correct.replace(/\r?\n|\r/g, "").trim().toLowerCase();
+                if (ansText && ansText.replace(/\r?\n|\r/g, "").trim().toLowerCase() === cleanC) {
                     newScore++;
                 }
             });
