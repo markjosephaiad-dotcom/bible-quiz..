@@ -7,6 +7,7 @@
     
     <link href="https://fonts.googleapis.com/css2?family=Amiri:wght@400;700&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
+    <!-- استدعاء مكتبة يوتيوب للتحكم في الصوت من الأزرار الخارجية -->
     <script src="https://www.youtube.com/iframe_api"></script>
 
     <style>
@@ -105,6 +106,7 @@
     
     <button class="btn btn-maroon" style="position: absolute; top: 25px; left: 25px; font-size: 0.8rem; padding: 6px 14px;" onclick="showPage('admin-login-page')">⚙️ لوحة التحكم</button>
 
+    <!-- الشاشة 1: تسجيل الدخول واختيار الاسم -->
     <div id="login-page" class="page active-page">
         <div class="images-container">
             <div class="saint-card">
@@ -139,6 +141,7 @@
         <button class="btn btn-gold" style="margin-top: 15px;" onclick="loginKhadim()">🔓 دخول الامتحان وبدء الوقت</button>
     </div>
 
+    <!-- الشاشة 2: مساحة الامتحان النشطة -->
     <div id="quiz-page" class="page">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #eee; padding-bottom: 12px; margin-bottom: 15px;">
             <h3 id="welcome-khadim" style="color: var(--maroon);">الخادم: </h3>
@@ -158,6 +161,7 @@
         </div>
     </div>
 
+    <!-- الشاشة 3: لوحة إظهار النتيجة ومراجعتها -->
     <div id="result-page" class="page">
         <h2 style="color: var(--success-green); font-family: 'Amiri', serif; font-size: 2rem;">تمت المسابقة بنجاح ونعمة!</h2>
         <p style="margin-top: 5px; color: #555;">"مُبَارَكٌ الإِنْسَانُ الَّذِي يَتَّكِلُ عَلَى الرَّبِّ"</p>
@@ -177,6 +181,7 @@
         </div>
     </div>
 
+    <!-- الشاشة 4: حماية الدخول لغرفة المشرفين -->
     <div id="admin-login-page" class="page">
         <h3 style="color: var(--maroon); margin-bottom: 10px;">دخول إدارة المسابقة 🔐</h3>
         <input type="password" id="admin-pass-field" placeholder="أدخل كلمة سر الإدارة">
@@ -185,6 +190,7 @@
         <button class="btn btn-gold" onclick="showPage('login-page')">إلغاء وعودة</button>
     </div>
 
+    <!-- الشاشة 5: لوحة التحكم الإدارية -->
     <div id="admin-dashboard-page" class="page admin-panel">
         <h2>غرفة تحكم المسابقات والنتائج والشهرية ⚙️</h2>
         
@@ -213,10 +219,12 @@
 
 </div>
 
+<!-- صندوق منبثق لعرض نص الأصحاح + أزرار التحكم وشريط التقدم المطور -->
 <div id="essah-modal" class="modal-overlay" onclick="closeEssahModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
         <h3 style="color: var(--maroon); font-family: 'Amiri', serif; border-bottom: 2px solid var(--primary-gold); padding-bottom: 10px; font-size: 1.8rem;">📖 نص الأصحاح المُراد دراسته</h3>
         
+        <!-- لوحة التحكم بالصوت -->
         <div id="audio-zone" class="audio-control-zone" style="display: none;">
             <div style="margin-bottom: 10px;">
                 <button class="btn btn-green" onclick="playAudio()" style="padding: 10px 20px;">اسمع الاصحاح وانت بتـقرأ ◀️</button>
@@ -224,6 +232,7 @@
                 <button class="btn btn-maroon" onclick="closeEssahModal()" style="padding: 10px 20px;">انهاء و الرجوع للدخول للاسئلة ❌</button>
             </div>
             
+            <!-- شريط تقدم الصوت تفاعلي وسهل التقديم والتأخير -->
             <div class="progress-container">
                 <span id="vid-current-time" class="time-label">00:00</span>
                 <input type="range" id="vid-progress-slider" class="progress-bar-slider" min="0" max="100" value="0" oninput="seekAudio(this.value)">
@@ -231,6 +240,7 @@
             </div>
         </div>
 
+        <!-- عنصر يوتيوب المخفي المشغل للصوت -->
         <div id="yt-hidden-player"></div>
 
         <div id="essah-text-container" class="modal-body">جاري تحميل نص الأصحاح الفعلي من شيت جوجل الحالي...</div>
@@ -264,7 +274,7 @@
     let quizQuestions = [];
     let currentQuestionIndex = 0;
     let selectedAnswers = {}; 
-    let questionTimer;
+    let questionTimer = null;
     let secondsLeftForQuestion = 3 * 60; 
     let activeKhadimName = "";
     let lastSavedKhadimRecord = null;
@@ -273,6 +283,7 @@
     let ytVideoId = "";
     let ytPlayer = null;
     let progressUpdateTimer = null;
+    let isPlayerReady = false;
 
     function initApp() {
         rawServants.sort((a, b) => a.localeCompare(b, "ar"));
@@ -294,7 +305,6 @@
         fetchOnlineData();
     }
 
-    // استخراج الكود التعريفي (ID) لأي رابط يوتيوب يتم إدخاله بالشيت
     function extractYoutubeId(url) {
         if (!url) return "";
         url = url.trim();
@@ -340,29 +350,39 @@
         }
     }
 
-    // إنشاء مشغل يوتيوب مخفي للتحكم بالصوت برمجياً
+    // تُستدعى تلقائياً عند تحميل مكتبة يوتيوب
+    window.onYouTubeIframeAPIReady = function() {
+        buildYoutubePlayer();
+    }
+
+    function buildYoutubePlayer() {
+        if (ytVideoId && !ytPlayer && typeof YT !== 'undefined' && YT.Player) {
+            ytPlayer = new YT.Player('yt-hidden-player', {
+                height: '0',
+                width: '0',
+                videoId: ytVideoId,
+                playerVars: { 'autoplay': 0, 'controls': 0, 'disablekb': 1 },
+                events: {
+                    'onReady': () => { isPlayerReady = true; },
+                    'onStateChange': onPlayerStateChange
+                }
+            });
+        }
+    }
+
     function openEssahModal() {
         document.getElementById("essah-text-container").textContent = loadedEssahText;
         const audioZone = document.getElementById("audio-zone");
         
         if (ytVideoId) {
             audioZone.style.display = "block";
-            // إعادة تصفير قيم التايمر والشريط مؤقتاً
             document.getElementById("vid-current-time").textContent = "00:00";
             document.getElementById("vid-total-time").textContent = "00:00";
             document.getElementById("vid-progress-slider").value = 0;
 
-            if (!ytPlayer && typeof YT !== 'undefined' && YT.Player) {
-                ytPlayer = new YT.Player('yt-hidden-player', {
-                    height: '0',
-                    width: '0',
-                    videoId: ytVideoId,
-                    playerVars: { 'autoplay': 0, 'controls': 0 },
-                    events: {
-                        'onStateChange': onPlayerStateChange
-                    }
-                });
-            } else if (ytPlayer && typeof ytPlayer.loadVideoById === 'function') {
+            if (!ytPlayer) {
+                buildYoutubePlayer();
+            } else if (isPlayerReady && typeof ytPlayer.cueVideoById === 'function') {
                 ytPlayer.cueVideoById(ytVideoId);
             }
         } else {
@@ -372,7 +392,6 @@
         document.getElementById("essah-modal").style.display = "flex";
     }
 
-    // متابعة وتحديث شريط التقدم بانتظام أثناء التشغيل
     function onPlayerStateChange(event) {
         if (event.data == YT.PlayerState.PLAYING) {
             startProgressLoop();
@@ -384,16 +403,13 @@
     function startProgressLoop() {
         clearInterval(progressUpdateTimer);
         progressUpdateTimer = setInterval(() => {
-            if (ytPlayer && typeof ytPlayer.getCurrentTime === 'function') {
+            if (ytPlayer && isPlayerReady && typeof ytPlayer.getCurrentTime === 'function') {
                 let current = ytPlayer.getCurrentTime();
                 let total = ytPlayer.getDuration();
                 
                 if (total > 0) {
-                    // تحديث قيمة السلايدر
                     let pct = (current / total) * 100;
                     document.getElementById("vid-progress-slider").value = pct;
-                    
-                    // كتابة الوقت بصيغة مألوفة (دقائق:ثواني)
                     document.getElementById("vid-current-time").textContent = formatTimeStr(current);
                     document.getElementById("vid-total-time").textContent = formatTimeStr(total);
                 }
@@ -407,9 +423,8 @@
         return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     }
 
-    // دالة لتغيير مكان الصوت فوراً عند سحب شريط التقدم
     function seekAudio(value) {
-        if (ytPlayer && typeof ytPlayer.getDuration === 'function') {
+        if (ytPlayer && isPlayerReady && typeof ytPlayer.getDuration === 'function') {
             let total = ytPlayer.getDuration();
             if (total > 0) {
                 let newTime = (value / 100) * total;
@@ -419,22 +434,21 @@
         }
     }
 
-    // دوال الأزرار للتحكم في صوت اليوتيوب
     function playAudio() {
-        if (ytPlayer && typeof ytPlayer.playVideo === 'function') {
+        if (ytPlayer && isPlayerReady && typeof ytPlayer.playVideo === 'function') {
             ytPlayer.playVideo();
         }
     }
 
     function pauseAudio() {
-        if (ytPlayer && typeof ytPlayer.pauseVideo === 'function') {
+        if (ytPlayer && isPlayerReady && typeof ytPlayer.pauseVideo === 'function') {
             ytPlayer.pauseVideo();
         }
     }
     
     function closeEssahModal() {
         clearInterval(progressUpdateTimer);
-        if (ytPlayer && typeof ytPlayer.stopVideo === 'function') {
+        if (ytPlayer && isPlayerReady && typeof ytPlayer.stopVideo === 'function') {
             ytPlayer.stopVideo();
         }
         document.getElementById("essah-modal").style.display = "none";
@@ -569,7 +583,11 @@
         clearInterval(questionTimer);
         secondsLeftForQuestion = 3 * 60; 
         
+        // تعيين النص البدئي فوراً لتجنب التأخير البصري ثانية واحدة
+        document.getElementById("time-display").textContent = "03:00";
+
         questionTimer = setInterval(() => {
+            secondsLeftForQuestion--;
             let mins = Math.floor(secondsLeftForQuestion / 60);
             let secs = secondsLeftForQuestion % 60;
             document.getElementById("time-display").textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
@@ -582,7 +600,6 @@
                     submitQuiz();
                 }
             }
-            secondsLeftForQuestion--;
         }, 1000);
     }
 
