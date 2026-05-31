@@ -3,11 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✝️ مسابقة دراسة الكتاب المقدس الأرثوذكسية</title>
+    <title>✝️ مسابقة دراسة الكتاب المقدس </title>
     
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-    <!-- مكتبة التشفير العالمية لتأمين باسورد الإدارة الكنسية -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
     <script src="https://www.youtube.com/iframe_api"></script>
 
@@ -35,7 +34,7 @@
             padding: 15px; 
         }
 
-        /* الإطار القبطي الذهبي المزدوج */
+        /* الإطار القبطي الذهبي المزدوج الماروني */
         .coptic-border { 
             border: 4px double var(--coptic-gold); 
             outline: 2px solid var(--coptic-maroon);
@@ -49,19 +48,20 @@
             position: relative; 
         }
 
-        /* أيقونة الصليب القبطي العلوي */
+        /* الصليب القبطي الأرثوذكسي المذهب الماروني */
         .coptic-cross-header {
-            font-size: 2.8rem;
+            font-size: 3.2rem;
             color: var(--coptic-maroon);
             text-shadow: 2px 2px 0px var(--coptic-gold);
-            margin-bottom: 10px;
+            margin-bottom: 5px;
             line-height: 1;
+            display: inline-block;
         }
 
         .header-title { font-family: 'Amiri', serif; color: var(--coptic-maroon); font-size: 2.4rem; margin-bottom: 5px; font-weight: bold; }
         .subtitle { color: var(--dark-gold); font-size: 1.25rem; margin-bottom: 25px; font-weight: 600; letter-spacing: 0.5px; }
 
-        /* فاصل كنسي مزخرف بالصلبان */
+        /* فاصل كنسي مزخرف بالصلبان المارونية والذهبية */
         .church-separator {
             display: flex;
             align-items: center;
@@ -76,15 +76,16 @@
         }
         .church-separator span {
             padding: 0 15px;
-            color: var(--coptic-gold);
-            font-size: 1.2rem;
+            color: var(--coptic-maroon);
+            text-shadow: 1px 1px 0px var(--coptic-gold);
+            font-size: 1.4rem;
         }
 
         .images-container { display: flex; justify-content: center; gap: 30px; margin: 20px 0; flex-wrap: wrap; }
         .saint-card { display: flex; flex-direction: column; align-items: center; }
         .saint-img { width: 145px; height: 185px; object-fit: cover; border-radius: 8px; border: 3px solid var(--coptic-gold); box-shadow: 0 8px 16px rgba(0,0,0,0.2); background-color: #eee; transition: transform 0.3s; }
         .saint-img:hover { transform: scale(1.03); }
-        .saint-label { margin-top: 10px; font-weight: bold; color: var(--coptic-maroon); font-size: 0.95rem; font-family: 'Amiri', serif; font-size: 1.1rem; }
+        .saint-label { margin-top: 10px; font-weight: bold; color: var(--coptic-maroon); font-family: 'Amiri', serif; font-size: 1.1rem; }
 
         .page { display: none; margin-top: 20px; padding: 10px; }
         .active-page { display: block; animation: copticFadeIn 0.5s ease-in-out; }
@@ -101,7 +102,7 @@
         .btn-red { background-color: var(--error-red); color: white; }
         .btn-red:hover { background-color: #801010; }
 
-        select, input[type="password"] { width: 90%; max-width: 420px; padding: 14px; margin: 12px 0; border: 2px solid #E0D7C6; border-radius: 8px; font-size: 1.1rem; text-align: center; font-weight: 600; background-color: var(--pure-white); color: var(--text-dark); box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); }
+        select, input[type="password"], input[type="number"] { width: 90%; max-width: 420px; padding: 14px; margin: 12px 0; border: 2px solid #E0D7C6; border-radius: 8px; font-size: 1.1rem; text-align: center; font-weight: 600; background-color: var(--pure-white); color: var(--text-dark); box-shadow: inset 0 2px 4px rgba(0,0,0,0.03); }
         select:focus, input:focus { border-color: var(--coptic-gold); outline: none; box-shadow: 0 0 8px rgba(212,175,55,0.3); }
         
         #timer-box { font-size: 1.25rem; color: var(--error-red); font-weight: bold; background: #FDEAEA; padding: 8px 20px; border-radius: 25px; border: 1px solid #F9D2D2; box-shadow: 0 2px 5px rgba(0,0,0,0.05); }
@@ -158,21 +159,52 @@
         .time-label { font-size: 0.95rem; font-weight: bold; color: var(--coptic-maroon); min-width: 50px; font-family: 'Cairo', sans-serif; }
 
         #yt-hidden-player { display: none; }
+
+        /* نظام التنبيهات المدمج والاحترافي الجديد البديل للـ alert المزعج */
+        #church-alert-banner {
+            position: fixed;
+            top: -100px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 500px;
+            background: var(--church-cream);
+            border: 3px solid var(--coptic-gold);
+            outline: 1px solid var(--coptic-maroon);
+            outline-offset: -5px;
+            border-radius: 12px;
+            padding: 16px 20px;
+            box-shadow: 0 8px 25px rgba(112,0,26,0.25);
+            z-index: 100000;
+            transition: top 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+        #church-alert-banner.alert-show { top: 25px; }
+        #church-alert-text { font-weight: bold; font-size: 1.05rem; color: var(--coptic-maroon); }
+        #church-alert-cross { color: var(--coptic-gold); font-size: 1.3rem; }
     </style>
 </head>
 <body>
 
-<div class="coptic-border">
-    <!-- الصليب القبطي المذهب في مقدمة الموقع -->
-    <div class="coptic-cross-header">✝️</div>
-    <div class="header-title">كنيسة الشهيد العظيم فيلوباتير مرقوريوس أبي سيفين</div>
-    <div class="subtitle">مدينة عامر - اجتماع الخدام </div>
+<!-- بنر التنبيهات الاحترافي المدمج في النطاق -->
+<div id="church-alert-banner">
+    <span id="church-alert-cross">✝️</span>
+    <span id="church-alert-text">رسالة تنبيهية كنسية</span>
+</div>
 
-    <div class="church-separator"><span>✝️ ✝️ ✝️</span></div>
+<div class="coptic-border">
+    <!-- صليب قبطي أرثوذكسي مذهب وماروني متناسق -->
+    <div class="coptic-cross-header">✝️</div>
+    <div class="header-title">كنيسة الشهيد العظيم فيلوباتير مرقوريوس أبي سيفين - بمدينة عامر</div>
+    <div class="subtitle"> اجتماع الخدام </div>
+
+    <div class="church-separator"><span>✝️ 🎚️ ✝️</span></div>
 
     <!-- الشاشة 1: تسجيل الدخول والمحتوى الدراسي المتفق عليه -->
     <div id="login-page" class="page active-page">
-        <!-- نقل زر الإدارة بالترس ليكون داخل الشاشة الرئيسية الأولى حصرياً ويختفي بعدها تماماً -->
         <button id="admin-entrance-btn" class="btn btn-maroon" style="position: absolute; top: 25px; left: 25px; font-size: 0.8rem; padding: 6px 14px; border: 1px solid var(--coptic-gold);" onclick="showPage('admin-login-page')">⚙️ الإدارة</button>
 
         <div class="images-container">
@@ -186,9 +218,8 @@
             </div>
         </div>
         
-        <h3 style="margin: 10px 0 15px 0; color: var(--coptic-maroon); font-family: 'Amiri', serif; font-size: 1.9rem; font-weight: bold;">مسابقة دراسة الكتاب المقدس </h3>
+        <h3 style="margin: 10px 0 15px 0; color: var(--coptic-maroon); font-family: 'Amiri', serif; font-size: 1.9rem; font-weight: bold;">مسابقة دراسة الكتاب المقدس الشهرية</h3>
         
-        <!-- المحتوى الدراسي الثابت بنظام الأزرار المتفق عليه -->
         <div style="margin: 20px auto; padding: 16px; background: #FFFFEF; border: 1px solid var(--coptic-gold); border-radius: 10px; max-width: 550px; box-shadow: 0 4px 10px rgba(0,0,0,0.03);">
             <p style="font-weight: bold; font-size: 1rem; color: #554E45; margin-bottom: 10px;">قبل البدء في الإجابة.. فضلاً قم بقراءة وسماع نص الأصحاح الحالي: </p>
             <button class="btn btn-maroon" style="font-size: 1.1rem; padding: 12px 30px; border-bottom: 3px solid var(--dark-maroon);" onclick="openEssahModal()">اقراء الاصحاح من هنا</button>
@@ -202,18 +233,18 @@
         </div>
         
         <div>
-            <label style="font-weight: bold; color: var(--coptic-maroon); font-size: 1.05rem;">أدخل كود المرور الخاص بك (الباسورد):</label><br>
+            <label style="font-weight: bold; color: var(--coptic-maroon); font-size: 1.05rem;">أدخل كود المرور الخاص بك (الباسورد السري):</label><br>
             <input type="password" id="khadim-password" placeholder="اكتب كودك السري الشخصي">
         </div>
         
-        <button class="btn btn-gold" style="margin-top: 20px; font-size: 1.1rem;" onclick="loginKhadim()">🔓 دخول الامتحان وبدء الوقت التنازلي</button>
+        <button class="btn btn-gold" style="margin-top: 20px; font-size: 1.1rem;" onclick="loginKhadim()"> دخول الامتحان وبدء الوقت التنازلي 🔓</button>
     </div>
 
     <!-- الشاشة 2: مساحة الامتحان والأسئلة العشرة -->
     <div id="quiz-page" class="page">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #EAE4D7; padding-bottom: 15px; margin-bottom: 20px;">
             <h3 id="welcome-khadim" style="color: var(--coptic-maroon); font-family: 'Amiri', serif; font-size: 1.4rem;">الخادم: </h3>
-            <div id="timer-box">⏳ المتبقي للسؤال: <span id="time-display">03:00</span></div>
+            <div id="timer-box"> المتبقي للسؤال⏳: <span id="time-display">03:00</span></div>
         </div>
 
         <div id="question-block" style="margin-top: 25px;">
@@ -238,7 +269,7 @@
         <p style="margin-top: 5px; color: var(--dark-gold); font-family: 'Amiri', serif; font-size: 1.3rem; font-style: italic;">"مُبَارَكٌ الإِنْسَانُ الَّذِي يَتَّكِلُ عَلَى الرَّبِّ" (إرميا 17 : 7)</p>
         
         <div class="result-box">
-            <p style="font-size: 1.3rem; font-weight: bold; color: var(--text-dark);">نتيجتك الفردية الحالية:</p>
+            <p style="font-size: 1.3rem; font-weight: bold; color: var(--text-dark);">نتيجتك الحالية:</p>
             <div class="score-num" id="final-score">0 / 10</div>
         </div>
         <br>
@@ -247,7 +278,7 @@
         <button class="btn btn-maroon" onclick="window.location.reload()">🔄 الخروج والعودة للصفحة الرئيسية</button>
         
         <div id="khadim-review-zone" style="display: none; margin-top: 30px; border-top: 2px dashed #D5CDBF; padding-top: 25px;">
-            <h3 style="color: var(--coptic-maroon); margin-bottom: 20px; font-family: 'Amiri', serif; font-size: 1.6rem;">تقرير مراجعة الإجابات والآيات:</h3>
+            <h3 style="color: var(--coptic-maroon); margin-bottom: 20px; font-family: 'Amiri', serif; font-size: 1.6rem;"> مراجعة الإجابات :</h3>
             <div id="khadim-review-list"></div>
         </div>
     </div>
@@ -264,7 +295,7 @@
 
     <!-- الشاشة 5: لوحة التحكم الإدارية الاحترافية الشاملة -->
     <div id="admin-dashboard-page" class="page admin-panel">
-        <h2>غرفة تحكم دراسة الكتاب المقدس والنتائج ⚙️</h2>
+        <h2>⚙️ غرفة تحكم دراسة الكتاب المقدس والنتائج </h2>
         
         <div style="display: flex; justify-content: space-between; flex-wrap: wrap; margin-bottom: 25px; gap: 12px;">
             <button class="btn btn-gold" onclick="exportToExcel()">📥 تحميل تقرير إكسيل فوري (Excel)</button>
@@ -273,16 +304,17 @@
         </div>
 
         <div class="unblock-zone">
-            <h3 style="color: var(--coptic-gold); font-size: 1.15rem; border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; font-family: 'Amiri', serif; font-size: 1.3rem;">🔓 إدارة فك حظر الخدام (السماح بإعادة المحاولة يدوياً)</h3>
+            <h3 style="color: var(--coptic-gold); border-bottom: 1px solid rgba(255,255,255,0.2); padding-bottom: 8px; font-family: 'Amiri', serif; font-size: 1.3rem;">🔓 إدارة فك حظر الخدام (السماح بإعادة المحاولة يدوياً)</h3>
             <p style="font-size: 0.9rem; color: #EAE0D0; margin-top: 6px;">الخدام المسجلين هنا هم اللي أتموا الامتحان حالياً، حدد الأسماء المراد فك حظرها لتسجيل جديد:</p>
             
             <div id="unblock-names-container" class="unblock-grid"></div>
             
             <div style="text-align: left; margin-top: 12px;">
-                <button class="btn btn-gold" style="font-size: 0.9rem; padding: 8px 20px;" onclick="executeSelectedUnblock()">🔓 فك حظر الأسماء المحددة الآن</button>
+                <button class="btn btn-gold" style="font-size: 0.9rem; padding: 8px 20px warm;" onclick="executeSelectedUnblock()">🔓 فك حظر الأسماء المحددة الآن</button>
             </div>
         </div>
 
+        <!-- مساحة التعديل والتحكم المنسدلة للأسئلة أو الدرجات يدوياً -->
         <div id="admin-inline-edit-area" style="display: none; margin-bottom: 25px;"></div>
 
         <div style="overflow-x: auto;">
@@ -335,7 +367,6 @@
     const QUESTIONS_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQATB615cDv6gnBZdVqUNJV8f7WTaA4p8nLuiV8uBJfGKUz5fFBP5UT6-XQTRyTumgZIBv_h9Pt64mg/pub?output=csv";
     const ESSAH_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlHtC2XhIAwgkBPyOKvgS40OJ8JiYHt_019eGTHb9ltGaxc-oV6gT2QS924VOBSFZMv0N7d2OnzRBe/pub?output=csv";
     
-    // 🔐 التعديل الأمني الصارم: تم تشفير الباسورد "123" تماماً بنظام SHA-256 لمنع استخراجه من الكود نهائياً
     const ADMIN_HASHED_LOCK = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"; 
     let adminFailedAttempts = 0;
 
@@ -343,12 +374,12 @@
         "كيرلس يوسف", "نرجس خير", "جورج فايز", "ياسر نبيه", "رؤوف خير", "مريم عماد", "ميرنا عماد", 
         "فادي سليمان", "مينا مجدي", "فيوليت فوزي", "سماح حلمي", "شيري شهدي", "سمير زكي", "مني ميشيل", 
         "جانيت ويصا", "ماريان مجدي", "شكرالله نصر", "جيهان ماهر", "جمال حنا", "ناهد فاروق", "رمزي سعيد", 
-        "عايدة يعقوب", "نعمة عبدالسيد", "كيرلس اسامة", "مارينا اشرف", "جاكلين سيعد", "سارة عماد", 
+        "عايدة يعقوب", "نعمة عبد السيد", "كيرلس اسامة", "مارينا اشرف", "جاكلين سيعد", "سارة عماد", 
         "ماريانا ادورد", "وردة ماهر", "كمال كريم", "كرستين نصر", "ماري عادل", "هيلانة جورج", "رزق كامل", 
         "صفاء سمير", "صفاء عدلي", "سناء سعيد", "مريان عادل", "سمر جادالرب", "يوستينا رأفت", "مريم مكرم", 
-        "توني هاني", "نرمين سليمان", "ثناء زكريا", "امال سامي", "جيرمين زاهر", "ايريني سمير", "كريم شكرالله", 
+        "توني هاني", "نرمين سليمان", "ثناء زكريا", "امال سامي", "جريمين زاهر", "ايريني سمير", "كريم شكرالله", 
         "ليلي وهبة", "عدلي رمزي", "ماجدة نجيب", "فادي كحيل", "شريف شهدي", "سماح نعيم", "عايدة معوض", 
-        "ميرفت يعقوب", "رامي سعيد", "ماري وجيه", "ايريني عاطف", "ماركو مجدي", "كيرلس فادي", "مينا اشرف", 
+        "ميرفت يعقوب", "رامي سعيد", "ماري وجيه", "ايريني عاطيف", "ماركو مجدي", "كيرلس فادي", "مينا اشرف", 
         "يوسف وليم", "سامية جريس", "رامز امير", "ساندرا جروج", "عماد سمير", "عادل فرج", "جيهان شحاتة", 
         "وائل ماهر", "مارك جوزيف"
     ];
@@ -367,6 +398,16 @@
     let ytPlayer = null;
     let progressUpdateTimer = null;
     let isPlayerReady = false;
+
+    // دالة الإشعارات الاحترافية المدمجة في نفس النطاق والألوان بديلة الـ alert
+    function showChurchNotification(text) {
+        const banner = document.getElementById("church-alert-banner");
+        document.getElementById("church-alert-text").textContent = text;
+        banner.classList.add("alert-show");
+        setTimeout(() => {
+            banner.classList.remove("alert-show");
+        }, 4000);
+    }
 
     function initApp() {
         rawServants.sort((a, b) => a.localeCompare(b, "ar"));
@@ -402,39 +443,19 @@
     }
 
     function parseCSVCells(text) {
-        let lines = [];
-        let row = [];
-        let inQuotes = false;
-        let currentCell = '';
-
+        let lines = []; let row = []; let inQuotes = false; let currentCell = '';
         for (let i = 0; i < text.length; i++) {
-            let char = text[i];
-            let nextChar = text[i+1];
-
+            let char = text[i]; let nextChar = text[i+1];
             if (char === '"') {
-                if (inQuotes && nextChar === '"') {
-                    currentCell += '"';
-                    i++; 
-                } else {
-                    inQuotes = !inQuotes;
-                }
+                if (inQuotes && nextChar === '"') { currentCell += '"'; i++; } else { inQuotes = !inQuotes; }
             } else if (char === ',' && !inQuotes) {
-                row.push(currentCell);
-                currentCell = '';
+                row.push(currentCell); currentCell = '';
             } else if ((char === '\r' || char === '\n') && !inQuotes) {
                 if (char === '\r' && nextChar === '\n') { i++; }
-                row.push(currentCell);
-                lines.push(row);
-                row = [];
-                currentCell = '';
-            } else {
-                currentCell += char;
-            }
+                row.push(currentCell); lines.push(row); row = []; currentCell = '';
+            } else { currentCell += char; }
         }
-        if (currentCell || row.length > 0) {
-            row.push(currentCell);
-            lines.push(row);
-        }
+        if (currentCell || row.length > 0) { row.push(currentCell); lines.push(row); }
         return lines;
     }
 
@@ -453,25 +474,13 @@
                     dynamicEssahTitle = parsedRows[0][0].trim();
                     document.getElementById("essah-modal-dynamic-title").textContent = dynamicEssahTitle;
                 }
-                if (parsedRows[1] && parsedRows[1][1]) {
-                    loadedEssahText = parsedRows[1][1].trim();
-                } else {
-                    loadedEssahText = "لم يتم كتابة نص الأصحاح الكنسي في الخلية B2 بالشيت الحالي حتى الآن.";
-                }
-                if (parsedRows[1] && parsedRows[1][2]) {
-                    ytVideoId = extractYoutubeId(parsedRows[1][2]);
-                } else {
-                    ytVideoId = "";
-                }
+                if (parsedRows[1] && parsedRows[1][1]) { loadedEssahText = parsedRows[1][1].trim(); }
+                if (parsedRows[1] && parsedRows[1][2]) { ytVideoId = extractYoutubeId(parsedRows[1][2]); }
             }
-        } catch (error) {
-            loadBackupQuestions();
-        }
+        } catch (error) { loadBackupQuestions(); }
     }
 
-    window.onYouTubeIframeAPIReady = function() {
-        buildYoutubePlayer();
-    }
+    window.onYouTubeIframeAPIReady = function() { buildYoutubePlayer(); }
 
     function buildYoutubePlayer() {
         if (ytVideoId && !ytPlayer && typeof YT !== 'undefined' && YT.Player) {
@@ -489,21 +498,11 @@
     function openEssahModal() {
         document.getElementById("essah-text-container").textContent = loadedEssahText;
         const audioZone = document.getElementById("audio-zone");
-        
         if (ytVideoId) {
             audioZone.style.display = "block";
-            document.getElementById("vid-current-time").textContent = "00:00";
-            document.getElementById("vid-total-time").textContent = "00:00";
-            document.getElementById("vid-progress-slider").value = 0;
-
-            if (!ytPlayer) {
-                buildYoutubePlayer();
-            } else if (isPlayerReady && typeof ytPlayer.cueVideoById === 'function') {
-                ytPlayer.cueVideoById(ytVideoId);
-            }
-        } else {
-            audioZone.style.display = "none";
-        }
+            if (!ytPlayer) { buildYoutubePlayer(); } 
+            else if (isPlayerReady && typeof ytPlayer.cueVideoById === 'function') { ytPlayer.cueVideoById(ytVideoId); }
+        } else { audioZone.style.display = "none"; }
         document.getElementById("essah-modal").style.display = "flex";
     }
 
@@ -515,11 +514,9 @@
         clearInterval(progressUpdateTimer);
         progressUpdateTimer = setInterval(() => {
             if (ytPlayer && isPlayerReady && typeof ytPlayer.getCurrentTime === 'function') {
-                let current = ytPlayer.getCurrentTime();
-                let total = ytPlayer.getDuration();
+                let current = ytPlayer.getCurrentTime(); let total = ytPlayer.getDuration();
                 if (total > 0) {
-                    let pct = (current / total) * 100;
-                    document.getElementById("vid-progress-slider").value = pct;
+                    document.getElementById("vid-progress-slider").value = (current / total) * 100;
                     document.getElementById("vid-current-time").textContent = formatTimeStr(current);
                     document.getElementById("vid-total-time").textContent = formatTimeStr(total);
                 }
@@ -528,19 +525,14 @@
     }
 
     function formatTimeStr(timeInSeconds) {
-        let m = Math.floor(timeInSeconds / 60);
-        let s = Math.floor(timeInSeconds % 60);
+        let m = Math.floor(timeInSeconds / 60); let s = Math.floor(timeInSeconds % 60);
         return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
     }
 
     function seekAudio(value) {
         if (ytPlayer && isPlayerReady && typeof ytPlayer.getDuration === 'function') {
             let total = ytPlayer.getDuration();
-            if (total > 0) {
-                let newTime = (value / 100) * total;
-                ytPlayer.seekTo(newTime, true);
-                document.getElementById("vid-current-time").textContent = formatTimeStr(newTime);
-            }
+            if (total > 0) { ytPlayer.seekTo((value / 100) * total, true); }
         }
     }
 
@@ -554,8 +546,7 @@
     }
 
     function parseQuestions(csvText) {
-        let lines = parseCSVCells(csvText);
-        let loadedQs = [];
+        let lines = parseCSVCells(csvText); let loadedQs = [];
         for(let i = 1; i < lines.length; i++) {
             let columns = lines[i];
             if(!columns || columns.length < 6 || !columns[0].trim()) continue;
@@ -567,9 +558,7 @@
         if(loadedQs.length > 0) {
             quizQuestions = loadedQs.slice(0, 10);
             checkAndResetIfQuestionsChanged(); 
-        } else {
-            loadBackupQuestions();
-        }
+        } else { loadBackupQuestions(); }
     }
 
     function checkAndResetIfQuestionsChanged() {
@@ -616,12 +605,12 @@
 
     function executeSelectedUnblock() {
         const checkboxes = document.querySelectorAll(".unblock-checkbox:checked");
-        if(checkboxes.length === 0) { alert("من فضلك علم على اسم خادم واحد على الأقل لفك حظره!"); return; }
+        if(checkboxes.length === 0) { showChurchNotification("⚠️ من فضلك علم على اسم خادم واحد على الأقل لفك حظره!"); return; }
         let blockedList = JSON.parse(localStorage.getItem("blocked_servants_list") || "[]");
         let namesToUnblock = Array.from(checkboxes).map(cb => cb.value);
         let updatedBlockedList = blockedList.filter(name => !namesToUnblock.includes(name));
         localStorage.setItem("blocked_servants_list", JSON.stringify(updatedBlockedList));
-        alert(`✅ تم فك الحظر بنجاح.`);
+        showChurchNotification("✅ تم فك الحظر والسماح بدخول جديد بنجاح.");
         renderUnblockInterface();
     }
 
@@ -630,12 +619,13 @@
         const passwordInput = document.getElementById("khadim-password").value.trim();
         const selectedOption = selectEl.options[selectEl.selectedIndex];
 
-        if (!selectedOption.value) { alert("من فضلك اختر اسمك أولاً من قائمة الخدام الكنسية"); return; }
+        if (!selectedOption.value) { showChurchNotification("⚠️ من فضلك اختر اسمك أولاً من قائمة الخدام الكنسية"); return; }
         let targetName = selectedOption.value;
 
+        // قفل أمني مركزي: الحظر يعتمد على "الاسم والكود" لمنع الدخول من أي متصفح أو جهاز آخر نهائياً بمجرد إتمام الامتحان
         let blockedList = JSON.parse(localStorage.getItem("blocked_servants_list") || "[]");
         if(blockedList.includes(targetName)) {
-            alert(`تنبيه كنسي: عفواً يا خادم، لقد قمت باجتياز مسابقة الأصحاح الحالي بالفعل!`);
+            showChurchNotification("🛑 عفواً ، لقد قمت باجتياز مسابقة هذا الأصحاح بالفعل (مسموح بالدخول مرة واحدة فقط)!");
             return;
         }
 
@@ -643,7 +633,7 @@
             activeKhadimName = targetName;
             document.getElementById("welcome-khadim").textContent = `الخادم المشترك: ${activeKhadimName}`;
             
-            // تأكيد الاختفاء التام لزر الترس بمجرد بدء الدخول، لمنع النقر الخاطئ نهائياً
+            // إخفاء فوري وتام لزر الترس لمنع نقره بالخطأ نهائياً
             const entranceBtn = document.getElementById("admin-entrance-btn");
             if(entranceBtn) entranceBtn.style.display = "none";
 
@@ -653,7 +643,7 @@
             startQuestionTimer();
             displayQuestion();
         } else {
-            alert("كود المرور السري الشخصي غير صحيح!");
+            showChurchNotification("❌ كود المرور السري الشخصي الذي أدخلته غير صحيح!");
         }
     }
 
@@ -699,8 +689,7 @@
         document.getElementById("time-display").textContent = "03:00";
         questionTimer = setInterval(() => {
             secondsLeftForQuestion--;
-            let mins = Math.floor(secondsLeftForQuestion / 60);
-            let secs = secondsLeftForQuestion % 60;
+            let mins = Math.floor(secondsLeftForQuestion / 60); let secs = secondsLeftForQuestion % 60;
             document.getElementById("time-display").textContent = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
             if (secondsLeftForQuestion <= 0) {
                 clearInterval(questionTimer);
@@ -711,8 +700,7 @@
 
     function submitQuiz() {
         clearInterval(questionTimer);
-        let finalScore = 0;
-        let khadimAnswersSave = {}; 
+        let finalScore = 0; let khadimAnswersSave = {}; 
 
         quizQuestions.forEach((q, idx) => {
             let pickedOptKey = selectedAnswers[idx]; 
@@ -748,8 +736,7 @@
         container.innerHTML = "";
 
         quizQuestions.forEach((q, idx) => {
-            let userAnsText = lastSavedKhadimRecord.answers[idx];
-            let cleanC = q.correct.trim().toLowerCase();
+            let userAnsText = lastSavedKhadimRecord.answers[idx]; let cleanC = q.correct.trim().toLowerCase();
             let isCorrect = userAnsText.trim().toLowerCase() === cleanC;
             let card = document.createElement("div");
             card.className = "review-card";
@@ -767,12 +754,9 @@
         zone.scrollIntoView({ behavior: 'smooth' });
     }
 
-    // 🔒 نظام التشفير ومكافحة تخمين الاختراق (Brute-Force Attack Protection)
     function loginAdmin() {
         if (localStorage.getItem("admin_system_device_locked") === "true") { return; }
-
         const enteredPass = document.getElementById("admin-pass-field").value;
-        // تشفير المدخلات فوراً لمقارنتها بالبصمة المؤمنة المشفرة
         const hashedInput = CryptoJS.SHA256(enteredPass).toString();
 
         if (hashedInput === ADMIN_HASHED_LOCK) {
@@ -781,9 +765,8 @@
             document.getElementById("admin-pass-field").value = "";
         } else {
             adminFailedAttempts++;
-            alert(`خطأ! كلمة سر الإدارة غير صحيحة. المحاولات الخاطئة: ${adminFailedAttempts}/3`);
+            showChurchNotification(`❌ خطأ! كلمة سر الإدارة غير صحيحة (${adminFailedAttempts}/3)`);
             document.getElementById("admin-pass-field").value = "";
-            
             if (adminFailedAttempts >= 3) {
                 localStorage.setItem("admin_system_device_locked", "true");
                 lockAdminInterfacePermanently();
@@ -796,7 +779,7 @@
         document.getElementById("admin-pass-field").disabled = true;
         document.getElementById("admin-login-submit-btn").disabled = true;
         document.getElementById("admin-login-submit-btn").style.background = "#555";
-        alert("🛑 الأمن الكنسي الحامي: تم رصد محاولات اختراق عشوائية متكررة. تم حظر الدخول للإدارة من هذا الجهاز تماماً!");
+        showChurchNotification("🛑 تم حظر الدخول للوحة الإدارة من هذا الجهاز لرصد محاولات تخمين عشوائية!");
     }
 
     function renderAdminTable() {
@@ -815,7 +798,7 @@
                 <td>${rec.date}</td>
                 <td>
                     <button class="action-btn btn-edit-ans" onclick="inlineEditAnswers(${idx})">📝 تعديل الإجابات</button>
-                    <button class="action-btn btn-edit-deg" onclick="editDegree(${idx})">⭐ الدرجة يدوياً</button>
+                    <button class="action-btn btn-edit-deg" onclick="inlineEditDegree(${idx})">⭐ الدرجة يدوياً</button>
                     <button class="action-btn btn-delete" onclick="deleteRecord(${idx})">❌ حذف السجل</button>
                 </td>`;
             tbody.appendChild(tr);
@@ -830,7 +813,7 @@
 
         let title = document.createElement("h3");
         title.style.color = "var(--coptic-gold)"; title.style.marginBottom = "15px";
-        title.textContent = `تحديث ومراجعة اختيارات الخادم: ${record.name}`;
+        title.textContent = `📝 تحديث ومراجعة اختيارات الخادم: ${record.name}`;
         area.appendChild(title);
 
         quizQuestions.forEach((q, qIdx) => {
@@ -858,7 +841,7 @@
             quizQuestions.forEach((q, i) => { if (record.answers[i] && record.answers[i].trim().toLowerCase() === q.correct.trim().toLowerCase()) newScore++; });
             record.score = newScore; records[idx] = record;
             localStorage.setItem("church_quiz_data_store", JSON.stringify(records));
-            alert(`تم التحديث! الدرجة: ${newScore} / 10`);
+            showChurchNotification(`✅ تم التحديث! الدرجة الجديدة تلقائياً: ${newScore} / 10`);
             area.style.display = "none"; renderAdminTable();
         };
 
@@ -868,45 +851,96 @@
         area.scrollIntoView({ behavior: 'smooth' });
     }
 
-    function editDegree(idx) {
+    // 🌟 التحديث الفاخر: تعديل الدرجة يدوياً ينسدل داخل نفس النطاق والموقع بدون pop-up خارجي
+    function inlineEditDegree(idx) {
         let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
-        let newScore = prompt(`تعديل درجة الخادم (${records[idx].name}) مباشرة:`, records[idx].score);
-        if (newScore !== null && newScore.trim() !== "") {
-            let parsed = parseInt(newScore);
-            if(!isNaN(parsed)) { records[idx].score = parsed; localStorage.setItem("church_quiz_data_store", JSON.stringify(records)); renderAdminTable(); }
-        }
+        let record = records[idx];
+        const area = document.getElementById("admin-inline-edit-area");
+        area.innerHTML = ""; area.style.display = "block";
+
+        let title = document.createElement("h3");
+        title.style.color = "var(--coptic-gold)"; title.style.marginBottom = "15px";
+        title.textContent = `⭐ تعديل درجة الخادم يدوياً: ${record.name}`;
+        area.appendChild(title);
+
+        let box = document.createElement("div");
+        box.className = "inline-edit-box";
+        box.style.textAlign = "center";
+        box.innerHTML = `
+            <p style="margin-bottom:10px;">الدرجة الحالية المسجلة بالسيستم هي: <strong>${record.score} من 10</strong></p>
+            <label style="font-weight:bold;">اكتب الدرجة الجديدة مباشرة: </label>
+            <input type="number" id="inline-degree-input" min="0" max="10" value="${record.score}" style="width:120px; padding:8px; font-size:1.1rem;">
+        `;
+        area.appendChild(box);
+
+        let saveBtn = document.createElement("button");
+        saveBtn.className = "btn btn-gold"; saveBtn.textContent = "💾 اعتماد الدرجة الجديدة";
+        saveBtn.onclick = () => {
+            let val = parseInt(document.getElementById("inline-degree-input").value);
+            if(isNaN(val) || val < 0) { showChurchNotification("⚠️ من فضلك أدخل درجة رقمية صحيحة!"); return; }
+            records[idx].score = val;
+            localStorage.setItem("church_quiz_data_store", JSON.stringify(records));
+            showChurchNotification(`✅ تم تعديل درجة الخادم (${record.name}) إلى ${val} بنجاح.`);
+            area.style.display = "none"; renderAdminTable();
+        };
+
+        let cancelBtn = document.createElement("button");
+        cancelBtn.className = "btn btn-maroon"; cancelBtn.textContent = "إلغاء"; cancelBtn.onclick = () => { area.style.display = "none"; };
+        area.appendChild(saveBtn); area.appendChild(cancelBtn);
+        area.scrollIntoView({ behavior: 'smooth' });
     }
 
     function deleteRecord(idx) {
         let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
         let targetName = records[idx].name;
-        if (confirm(`هل أنت متأكد من حذف سجل إجابة الخادم (${targetName})؟`)) {
+        
+        // تحويل الحذف لـ inline مع تأكيد مدمج لحماية النظام
+        const area = document.getElementById("admin-inline-edit-area");
+        area.innerHTML = ""; area.style.display = "block";
+        area.innerHTML = `
+            <h3 style="color:var(--error-red); margin-bottom:15px;">⚠️ تأكيد حذف سجل الخادم</h3>
+            <p style="color:white; margin-bottom:15px;">هل أنت متأكد تماماً من مسح درجة الخادم (${targetName}) وإتاحة دخوله مجدداً؟</p>
+            <button class="btn btn-red" id="confirm-del-btn">نعم، مسح كلي</button>
+            <button class="btn btn-gold" onclick="document.getElementById('admin-inline-edit-area').style.display='none'">إلغاء وتراجع</button>
+        `;
+        document.getElementById("confirm-del-btn").onclick = () => {
             records.splice(idx, 1);
             localStorage.setItem("church_quiz_data_store", JSON.stringify(records));
             let blockedList = JSON.parse(localStorage.getItem("blocked_servants_list") || "[]");
             localStorage.setItem("blocked_servants_list", JSON.stringify(blockedList.filter(name => name !== targetName)));
-            alert(`تم مسح السجل.`);
-            renderAdminTable(); renderUnblockInterface();
-        }
+            showChurchNotification("✅ تم مسح السجل وفك الحظر بنجاح.");
+            area.style.display = "none"; renderAdminTable(); renderUnblockInterface();
+        };
+        area.scrollIntoView({ behavior: 'smooth' });
     }
 
     function resetEntireSystem() {
-        if (confirm("⚠️ تصفير قاعدة بيانات المسابقة بالكامل؟")) {
+        const area = document.getElementById("admin-inline-edit-area");
+        area.innerHTML = ""; area.style.display = "block";
+        area.innerHTML = `
+            <h3 style="color:var(--error-red); margin-bottom:15px;">⚠️ تحذير: مسح وتصفير قاعدة البيانات</h3>
+            <p style="color:white; margin-bottom:15px;">هذا الإجراء سيقوم بحذف جميع درجات هذا الشهر وفك حظر كافة الخدام لبدء مسابقة جديدة. هل تود الاستمرار؟</p>
+            <button class="btn btn-red" id="confirm-reset-btn">نعم، تصفير شامل</button>
+            <button class="btn btn-gold" onclick="document.getElementById('admin-inline-edit-area').style.display='none'">إلغاء</button>
+        `;
+        document.getElementById("confirm-reset-btn").onclick = () => {
             localStorage.setItem("church_quiz_data_store", JSON.stringify([]));
             localStorage.setItem("blocked_servants_list", JSON.stringify([]));
-            alert("✅ تم التصفير.");
-            renderAdminTable(); renderUnblockInterface();
-        }
+            showChurchNotification("✅ تم تصفير المسابقة مسح كلي وبدء شهر جديد.");
+            area.style.display = "none"; renderAdminTable(); renderUnblockInterface();
+        };
+        area.scrollIntoView({ behavior: 'smooth' });
     }
 
     function exportToExcel() {
         let records = JSON.parse(localStorage.getItem("church_quiz_data_store"));
-        if (records.length === 0) { alert("لا توجد نتائج لتصديرها!"); return; }
+        if (records.length === 0) { showChurchNotification("⚠️ لا توجد نتائج لتصديرها حالياً!"); return; }
         let excelRows = records.map(r => ({ "اسم الخادم": r.name, "الدرجة": r.score, "التاريخ": r.date }));
         let worksheet = XLSX.utils.json_to_sheet(excelRows);
         let workbook = XLSX.utils.book_new();
         XLSX.utils.book_append_sheet(workbook, worksheet, "نتائج الخدام");
         XLSX.writeFile(workbook, "نتائج_مسابقة_الكتاب_المقدس.xlsx");
+        showChurchNotification("📥 جاري تحميل ملف الإكسيل الآن...");
     }
 
     window.onload = initApp;
