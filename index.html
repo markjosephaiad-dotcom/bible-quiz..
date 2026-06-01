@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700&family=Rehan&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-    <script src="https://www.youtube.com/iframe_api"></script>
 
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Coptic&display=swap');
@@ -56,7 +55,6 @@
             position: relative; 
         }
 
-        /* ⛪ هيكل الهيدر المتجاوب بالتنسيق الكنسي الفاخر */
         .header-main-layout { 
             display: flex; 
             flex-direction: row; 
@@ -66,59 +64,19 @@
             margin-bottom: 20px; 
         }
         
-        .header-center-text {
-            flex: 1;
-            text-align: center;
-        }
-
-        .saint-card-wrapper {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 5px;
-            flex-shrink: 0;
-        }
-
-        .saint-box-side {
-            width: 125px; 
-            height: 165px; 
-            border: 3px solid var(--coptic-gold);
-            outline: 1px solid var(--coptic-maroon); 
-            outline-offset: -4px;
-            border-radius: 10px; 
-            overflow: hidden; 
-            box-shadow: 0 6px 12px rgba(0,0,0,0.15); 
-            background: #fff;
-        }
+        .header-center-text { flex: 1; text-align: center; }
+        .saint-card-wrapper { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
+        .saint-box-side { width: 125px; height: 165px; border: 3px solid var(--coptic-gold); outline: 1px solid var(--coptic-maroon); outline-offset: -4px; border-radius: 10px; overflow: hidden; box-shadow: 0 6px 12px rgba(0,0,0,0.15); background: #fff; }
         .saint-box-side img { width: 100%; height: 100%; object-fit: cover; }
 
-        /* نصوص وأسماء قبطية تحت الأيقونات */
-        .coptic-name-tag {
-            font-family: 'Noto Sans Coptic', 'Amiri', serif;
-            font-size: 0.95rem;
-            font-weight: bold;
-            color: var(--coptic-maroon);
-            background: var(--light-gold);
-            padding: 2px 8px;
-            border-radius: 5px;
-            border: 1px solid var(--coptic-gold);
-            text-shadow: 0.5px 0.5px 0px #fff;
-        }
-
+        .coptic-name-tag { font-family: 'Noto Sans NKo', 'Noto Sans Coptic', 'Amiri', serif; font-size: 0.95rem; font-weight: bold; color: var(--coptic-maroon); background: var(--light-gold); padding: 2px 8px; border-radius: 5px; border: 1px solid var(--coptic-gold); text-shadow: 0.5px 0.5px 0px #fff; }
         .coptic-cross-center { font-size: 2.5rem; color: var(--coptic-maroon); text-shadow: 1px 1px 0px var(--coptic-gold); line-height: 1; margin-bottom: 8px; }
         
-        /* خطوط كنسية ملكية للعناوين */
         .header-title { font-family: 'Rehan', 'Amiri', sans-serif; color: var(--coptic-maroon); font-size: 2.2rem; margin-bottom: 5px; font-weight: bold; line-height: 1.2; text-shadow: 1px 1px 1px rgba(0,0,0,0.1); }
         .subtitle { font-family: 'Amiri', serif; color: var(--dark-gold); font-size: 1.3rem; margin-bottom: 8px; font-weight: bold; line-height: 1.4; }
         .meeting-title { font-family: 'Cairo', sans-serif; color: var(--text-dark); font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; letter-spacing: 0.5px; }
 
-        .bible-verse-container {
-            margin: 15px auto; padding: 12px 20px; font-size: 1.35rem; font-family: 'Amiri', serif; font-weight: bold;
-            color: var(--coptic-gold); text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); background-color: var(--dark-maroon);
-            border: 2px solid var(--coptic-gold); border-radius: 8px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.15); max-width: 95%;
-            line-height: 1.6;
-        }
-
+        .bible-verse-container { margin: 15px auto; padding: 12px 20px; font-size: 1.35rem; font-family: 'Amiri', serif; font-weight: bold; color: var(--coptic-gold); text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); background-color: var(--dark-maroon); border: 2px solid var(--coptic-gold); border-radius: 8px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.15); max-width: 95%; line-height: 1.6; }
         .church-separator { display: flex; align-items: center; justify-content: center; margin: 20px 0; }
         .church-separator::before, .church-separator::after { content: ""; flex: 1; height: 1px; background: linear-gradient(to left, transparent, var(--coptic-gold), transparent); }
         .church-separator span { padding: 0 15px; color: var(--coptic-maroon); text-shadow: 1px 1px 0px var(--coptic-gold); font-size: 1.5rem; }
@@ -137,8 +95,7 @@
         .btn-blue { background-color: var(--info-blue); color: white; border-bottom: 3px solid #11364F; }
         .btn-blue:hover { background-color: #11364F; }
 
-        select, input[type="password"], input[type="text"] { width: 100%; max-width: 420px; padding: 12px; margin: 10px 0; border: 2px solid #E0D7C6; border-radius: 8px; font-size: 1.05rem; text-align: center; font-weight: 600; background-color: var(--pure-white); color: var(--text-dark); outline: none; }
-        
+        select, input[type="password"], input[type="text"], input[type="number"] { width: 100%; max-width: 420px; padding: 12px; margin: 10px 0; border: 2px solid #E0D7C6; border-radius: 8px; font-size: 1.05rem; text-align: center; font-weight: 600; background-color: var(--pure-white); color: var(--text-dark); outline: none; }
         #timer-box { font-size: 1.1rem; color: var(--error-red); font-weight: bold; background: #FDEAEA; padding: 6px 15px; border-radius: 25px; border: 1px solid #F9D2D2; white-space: nowrap; }
 
         .options-container { text-align: right; margin: 20px 0; }
@@ -159,9 +116,6 @@
 
         .audio-player-wrapper { background: #F4EFE6; padding: 12px; border-radius: 10px; border: 1px solid var(--coptic-gold); text-align: center; margin-top: 10px; }
         .audio-controls-top { display: flex; justify-content: center; gap: 10px; margin-bottom: 10px; }
-        .progress-timeline-container { display: flex; align-items: center; gap: 8px; width: 98%; margin: 5px auto; direction: ltr; }
-        .time-label { font-size: 0.8rem; font-weight: bold; color: var(--text-dark); min-width: 40px; }
-        .music-seeker { flex: 1; height: 6px; border-radius: 3px; outline: none; accent-color: var(--coptic-maroon); cursor: pointer; }
         
         .review-card { background: var(--pure-white); border: 1px solid #EAE4D7; border-radius: 8px; padding: 12px; margin-bottom: 12px; text-align: right; }
         .review-q-text { font-weight: bold; color: var(--coptic-maroon); margin-bottom: 8px; font-size: 1.05rem; }
@@ -170,23 +124,11 @@
         .review-wrong-match { background-color: var(--light-red); border: 1px solid var(--error-red); color: var(--error-red); }
         .review-highlight-truth { border: 2px dashed var(--success-green); background-color: var(--light-green); }
 
-        /* 📱 شاشات الموبايل (Media Queries الجوهرية لمنع التداخل) */
         @media (max-width: 767px) {
-            .header-main-layout {
-                flex-direction: column;
-                gap: 12px;
-            }
-            .saint-card-wrapper {
-                display: inline-flex;
-                margin: 0 5px;
-            }
-            .saint-box-side {
-                width: 105px;
-                height: 140px;
-            }
-            .coptic-name-tag {
-                font-size: 0.8rem;
-            }
+            .header-main-layout { flex-direction: column; gap: 12px; }
+            .saint-card-wrapper { display: inline-flex; margin: 0 5px; }
+            .saint-box-side { width: 105px; height: 140px; }
+            .coptic-name-tag { font-size: 0.8rem; }
             .header-title { font-size: 1.8rem; }
             .subtitle { font-size: 1.1rem; }
             .bible-verse-container { font-size: 1.15rem; padding: 10px; }
@@ -201,12 +143,13 @@
     <span id="church-alert-text">تنبيه الخدمة</span>
 </div>
 
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+<!-- مشغل الصوت الخفي لليوتيوب لضمان خروج الصوت مباشرة -->
+<div style="position: absolute; top: -9999px; left: -9999px;">
+    <div id="yt-audio-container"></div>
+</div>
 
 <div class="coptic-border">
-    <!-- الهيدر المطور بالكامل باللغة القبطية والتصميم الملكي الهوية -->
     <div class="header-main-layout">
-        <!-- أيقونة الشهيد أبي سيفين مع اسمه بالقبطية -->
         <div class="saint-card-wrapper">
             <div class="saint-box-side"><img src="abusafein.jpg" alt="أبي سيفين"></div>
             <div class="coptic-name-tag">Ⲫⲓⲗⲟⲡⲁⲏⲣ Ⲙⲉⲣⲣⲟⲩⲩⲣⲓⲟⲥ</div>
@@ -219,7 +162,6 @@
             <div class="meeting-title">اجتماع الخدام والخادمات</div>
         </div>
         
-        <!-- أيقونة العذراء مريم مع اسمها بالقبطية -->
         <div class="saint-card-wrapper">
             <div class="saint-box-side"><img src="virgin.jpg" alt="العذراء مريم"></div>
             <div class="coptic-name-tag">Ϯθεοτοκος Μαρια</div>
@@ -258,7 +200,6 @@
         <button class="btn btn-gold" style="margin-top: 15px; font-size: 1.05rem; width:90%; max-width:420px;" onclick="loginKhadim()">🔓 ابدأ المسابقة</button>
     </div>
 
-    <!-- بقية شاشات وأكواد تطبيق المسابقة كاملة بنفس البنية البرمجية المستقرة... -->
     <!-- الشاشة 2: الأسئلة -->
     <div id="quiz-page" class="page">
         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #EAE4D7; padding-bottom: 12px; gap:10px;">
@@ -294,18 +235,18 @@
     <div id="admin-login-page" class="page">
         <div style="max-width: 450px; margin: 20px auto; padding: 20px; background: #fff; border: 2px solid var(--coptic-gold); border-radius: 12px; box-shadow: var(--soft-shadow);">
             <div style="font-size: 2.2rem; margin-bottom: 5px;">🔐</div>
-            <h3 style="color: var(--coptic-maroon); margin-bottom: 15px;">غرفة تحكم الآباء الكهنة والأمناء</h3>
+            <h3 style="color: var(--coptic-maroon); margin-bottom: 15px;">لوحة تحكم الإدارة</h3>
             <input type="password" id="admin-pass-field" placeholder="أدخل كلمة المرور السرية للإدارة..." style="width: 100%;">
             <br><br>
-            <button class="btn btn-maroon" style="width: 100%; padding: 12px;" onclick="loginAdmin()">🔑 دخول لوحة التحكم الملكية</button>
+            <button class="btn btn-maroon" style="width: 100%; padding: 12px;" onclick="loginAdmin()">🔑 دخول لوحة التحكم</button>
             <button class="btn btn-gold" style="width: 100%; padding: 10px; margin-top: 10px;" onclick="showPage('login-page')">إلغاء والعودة</button>
         </div>
     </div>
 
-    <!-- الشاشة 5: لوحة المتابعة الكنسية -->
+    <!-- الشاشة 5: لوحة المتابعة الكنسية بعد التحديث الإداري الممتاز -->
     <div id="admin-dashboard-page" class="page" style="background-color: var(--church-cream); border: 3px solid var(--coptic-gold); border-radius: 14px; padding: 15px; text-align: right;">
         <div style="background: var(--royal-gradient); color: #fff; padding: 12px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
-            <h2>⛪ لوحة المتابعة الرقمية الفخمة لأمناء الخدمة</h2>
+            <h2>⛪ لوحة المتابعة الإدارية الشاملة للخدمة</h2>
         </div>
         <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px;">
             <div style="background: #fff; border-right: 4px solid var(--coptic-maroon); padding: 10px; text-align: center; border-radius: 6px;">
@@ -321,16 +262,21 @@
                 <p style="font-size:0.8rem; color:#666;">📈 متوسط الدرجات</p><h3 id="stat-avg-score" style="color: var(--info-blue);">0%</h3>
             </div>
         </div>
-        <div style="margin-bottom: 15px; text-align: center;">
+
+        <!-- أزرار الإدارة الجديدة والحاسمة المطلوبة -->
+        <div style="background: #F4EFE6; padding: 15px; border-radius: 10px; border: 1px solid var(--coptic-gold); margin-bottom: 15px; text-align: center; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
+            <button class="btn btn-maroon" onclick="openEditAnswersModal()">✏️ تعديل الإجابة</button>
+            <button class="btn btn-gold" onclick="openEditScoreOnlyModal()">🔢 تعديل الدرجة</button>
             <button class="btn btn-green" onclick="fetchOnlineAnswersData()">🔄 مزامنة لايف</button>
             <button class="btn btn-blue" onclick="exportToExcel()">📥 تحميل Excel</button>
-            <button class="btn btn-maroon" onclick="showPage('login-page')">🚪 خروج</button>
+            <button class="btn btn-maroon" style="background:#555;" onclick="showPage('login-page')">🚪 خروج</button>
         </div>
+
         <div style="overflow-x: auto; background: #fff; border-radius: 8px; border: 1px solid #EAE4D7;">
             <table style="width: 100%; border-collapse: collapse; min-width: 600px; text-align: center;">
                 <thead>
                     <tr style="background: var(--coptic-maroon); color: var(--coptic-gold);">
-                        <th style="padding: 10px;">الترتيب</th><th style="padding: 10px; text-align: right;">الاسم</th><th style="padding: 10px;">الكود</th><th style="padding: 10px;">الحالة</th><th style="padding: 10px;">التوقيت</th><th style="padding: 10px;">إعادة</th>
+                        <th style="padding: 10px;">الترتيب</th><th style="padding: 10px; text-align: right;">الاسم</th><th style="padding: 10px;">الكود</th><th style="padding: 10px;">الحالة</th><th style="padding: 10px;">التوقيت</th><th style="padding: 10px;">إعادة ضبط</th>
                     </tr>
                 </thead>
                 <tbody id="results-table-body"></tbody>
@@ -339,20 +285,15 @@
     </div>
 </div>
 
-<!-- نافذة الأصحاح والمشغل الصوتي مدمج -->
+<!-- نافذة الأصحاح والمشغل الصوتي المطور للعمل تلقائياً -->
 <div id="essah-modal" class="modal-overlay">
     <div class="modal-content" onclick="event.stopPropagation()">
         <h3 id="essah-modal-dynamic-title" style="color: var(--coptic-maroon); font-family: 'Amiri', serif; text-align: center; margin-bottom: 12px;">جاري تحميل العنوان...</h3>
         <div id="audio-player-zone" class="audio-player-wrapper">
             <div class="audio-controls-top">
-                <button class="btn btn-gold" style="padding: 4px 12px; font-size:0.85rem;" onclick="pauseYT()">⏸️ إيقاف</button>
-                <button class="btn btn-green" style="padding: 4px 12px; font-size:0.85rem;" onclick="playYT()">▶️ تشغيل الاستماع</button>
+                <button class="btn btn-green" style="padding: 8px 20px; font-size:1rem;" id="btn-play-chapter-audio" onclick="toggleAudioNative()">اسمع الاستماع للاصحاح 🔊</button>
             </div>
-            <div class="progress-timeline-container">
-                <span id="current-time-label" class="time-label">00:00</span>
-                <input type="range" id="audio-seeker" class="music-seeker" min="0" max="100" value="0" oninput="onSeekerChange(this.value)">
-                <span id="total-time-label" class="time-label">00:00</span>
-            </div>
+            <div style="color:var(--coptic-maroon); font-size:0.85rem; font-weight:bold;" id="audio-status-text">جاهز للتشغيل</div>
         </div>
         <div id="essah-text-container" class="modal-body" style="text-align: justify; font-size: 22px;">جاري تحميل نص الأصحاح...</div>
         <div style="text-align: center; margin-top: 15px;">
@@ -362,7 +303,40 @@
     </div>
 </div>
 
-<!-- نافذة المراجعة -->
+<!-- نافذة تعديل الإجابات التفصيلية (جديد) -->
+<div id="edit-answers-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 700px;">
+        <h3 style="color: var(--coptic-maroon); text-align: center; margin-bottom: 10px;">✏️ لوحة تعديل إجابات الخدام</h3>
+        <label style="font-weight:bold;">اختر الخادم المراد تعديل إجابته:</label>
+        <select id="admin-edit-servant-select" onchange="loadServantAnswersToEdit()"></select>
+        <div id="admin-answers-edit-area" class="modal-body" style="max-height: 40.5vh; margin-top:10px;">
+            <p style="text-align:center; color:#888;">اختر اسماً لعرض وتعديل إجاباته...</p>
+        </div>
+        <div style="text-align: center; margin-top: 15px;">
+            <button class="btn btn-green" onclick="saveEditedAnswersAction()">💾 حفظ التعديلات وحساب الدرجة</button>
+            <button class="btn btn-maroon" onclick="closeEditAnswersModal()">إلغاء ❌</button>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة تعديل الدرجة المنفصلة (جديد) -->
+<div id="edit-score-modal" class="modal-overlay">
+    <div class="modal-content" style="max-width: 500px;">
+        <h3 style="color: var(--coptic-maroon); text-align: center; margin-bottom: 15px;">🔢 لوحة تعديل الدرجة المباشرة</h3>
+        <label style="font-weight:bold;">اختر الخادم:</label>
+        <select id="admin-score-servant-select" onchange="loadServantScoreToEdit()"></select>
+        <div style="margin-top: 15px;">
+            <label style="font-weight:bold;">الدرجة الحالية والجديدة للحل:</label><br>
+            <input type="number" id="admin-direct-score-num" min="0" max="100" placeholder="أدخل الدرجة الجديدة هنا...">
+        </div>
+        <div style="text-align: center; margin-top: 20px;">
+            <button class="btn btn-green" onclick="saveDirectScoreAction()">💾 حفظ الدرجة الجديدة</button>
+            <button class="btn btn-maroon" onclick="closeEditScoreOnlyModal()">إلغاء ❌</button>
+        </div>
+    </div>
+</div>
+
+<!-- نافذة المراجعة للخدام -->
 <div id="review-modal" class="modal-overlay" onclick="closeReviewModal()">
     <div class="modal-content" onclick="event.stopPropagation()">
         <h3 style="color: var(--coptic-maroon); text-align: center; margin-bottom: 12px;">📊 تقرير مراجعة إجاباتك بالتفصيل</h3>
@@ -373,12 +347,15 @@
     </div>
 </div>
 
-<!-- نموذج الإرسال الخلفي لجوجل فورم -->
 <form id="hidden_google_form" target="hidden_iframe" action="https://docs.google.com/forms/d/e/1FAIpQLSdXKHT_YC6-JzfgeyAlwwk7ChwZ6TCmgppgMyTNaJbH4A-Gnw/formResponse" method="POST" style="display:none;">
     <input type="hidden" name="entry.1011855427" id="form_field_name">
     <input type="hidden" name="entry.1352726057" id="form_field_code">
     <input type="hidden" name="entry.2120015509" id="form_field_score">
 </form>
+<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
+
+<!-- استدعاء مشغل يوتيوب الرسمي بأمان واحترافية عالية لضمان العمل التلقائي للصوت -->
+<script src="https://www.youtube.com/iframe_api"></script>
 
 <script>
     const ESSAH_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlHtC2XhIAwgkBPyOKvgS40OJ8JiYHt_019eGTHb9ltGaxc-oV6gT2QS924VOBSFZMv0N7d2OnzRBe/pub?output=csv";
@@ -415,8 +392,8 @@
     let quizQuestions = []; let currentQuestionIndex = 0; let selectedAnswers = {}; 
     let questionTimer = null; let secondsLeftForQuestion = 3 * 60; 
     let activeKhadimName = ""; let activeKhadimCode = "";
-    let ytPlayer = null; let trackingInterval = null; let isUserSeeking = false; 
-    let cloudFetchedRecords = {}; let localForcedOverrides = {}; let localResetExclusions = {}; 
+    let ytPlayer = null; let cloudFetchedRecords = {}; let localForcedOverrides = {}; let localResetExclusions = {}; 
+    let audioVideoIdGlobal = ""; let isAudioPlayingNow = false;
 
     function showChurchNotification(text) {
         const banner = document.getElementById("church-alert-banner");
@@ -432,48 +409,41 @@
         let match = url.match(regExp); return (match && match[2].length === 11) ? match[2] : "";
     }
 
-    function initYoutubePlayer(videoId) {
-        if (!videoId) return;
-        if (ytPlayer) { ytPlayer.cueVideoById({videoId: videoId}); return; }
-        ytPlayer = new YT.Player('hidden_iframe', {
-            height: '1px', width: '1px', videoId: videoId,
-            playerVars: { 'playsinline': 1, 'controls': 0, 'disablekb': 1 },
-            events: {
-                'onReady': () => { startTrackingTimeline(); },
-                'onStateChange': (event) => { if (event.data == YT.PlayerState.PLAYING) { startTrackingTimeline(); } }
-            }
-        });
-    }
+    // تهيئة مشغل يوتيوب فور استدعاء مكتبة يوتيوب الرسمية
+    window.onYouTubeIframeAPIReady = function() {
+        if (audioVideoIdGlobal) { createPlayerInstance(audioVideoIdGlobal); }
+    };
 
-    function playYT() { if(ytPlayer && ytPlayer.playVideo) ytPlayer.playVideo(); }
-    function pauseYT() { if(ytPlayer && ytPlayer.pauseVideo) ytPlayer.pauseVideo(); }
-    
-    function onSeekerChange(value) {
-        if (ytPlayer && ytPlayer.getDuration) {
-            isUserSeeking = true; let duration = ytPlayer.getDuration() || 0;
-            let newTime = (value / 100) * duration; ytPlayer.seekTo(newTime, true);
-            document.getElementById("current-time-label").textContent = formatTime(newTime);
-            setTimeout(() => { isUserSeeking = false; }, 400);
-        }
-    }
-
-    function startTrackingTimeline() {
-        if(trackingInterval) clearInterval(trackingInterval);
-        trackingInterval = setInterval(() => {
-            if (ytPlayer && ytPlayer.getCurrentTime && !isUserSeeking) {
-                let current = ytPlayer.getCurrentTime() || 0; let duration = ytPlayer.getDuration() || 0;
-                document.getElementById("current-time-label").textContent = formatTime(current);
-                if (duration > 0) {
-                    document.getElementById("total-time-label").textContent = formatTime(duration);
-                    document.getElementById("audio-seeker").value = (current / duration) * 100;
+    function createPlayerInstance(videoId) {
+        try {
+            ytPlayer = new YT.Player('yt-audio-container', {
+                height: '1', width: '1', videoId: videoId,
+                playerVars: { 'autoplay': 0, 'controls': 0, 'playsinline': 1 },
+                events: {
+                    'onReady': () => { document.getElementById("audio-status-text").textContent = "الصوت جاهز الآن للإستماع 🎧"; },
+                    'onError': () => { console.log("خطأ بمشغل الصوت"); }
                 }
-            }
-        }, 500);
+            });
+        } catch(e) { console.error(e); }
     }
 
-    function formatTime(seconds) {
-        let mins = Math.floor(seconds / 60); let secs = Math.floor(seconds % 60);
-        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    function toggleAudioNative() {
+        const btn = document.getElementById("btn-play-chapter-audio");
+        const statusText = document.getElementById("audio-status-text");
+        if (!ytPlayer || !ytPlayer.playVideo) {
+            statusText.textContent = "جاري تحضير الخادم الصوتي، اضغط مجدداً...";
+            if (audioVideoIdGlobal) createPlayerInstance(audioVideoIdGlobal);
+            return;
+        }
+        if (!isAudioPlayingNow) {
+            ytPlayer.playVideo(); isAudioPlayingNow = true;
+            btn.textContent = "⏸️ إيقاف مؤقت للصوت"; btn.style.background = "var(--error-red)";
+            statusText.textContent = "جاري تشغيل الأصحاح بصوت مريح... 🔊";
+        } else {
+            ytPlayer.pauseVideo(); isAudioPlayingNow = false;
+            btn.textContent = "اسمع الاستماع للاصحاح 🔊"; btn.style.background = "var(--success-green)";
+            statusText.textContent = "تم إيقاف الاستماع مؤقتاً";
+        }
     }
 
     function parseCsvAdvanced(text) {
@@ -525,7 +495,10 @@
         if(lines.length >= 1) {
             document.getElementById("essah-modal-dynamic-title").textContent = (lines[0] && lines[0][0]) ? lines[0][0].trim() : "مسابقة دراسة الكتاب المقدس";
             if(lines[1] && lines[1][1]) document.getElementById("essah-text-container").textContent = lines[1][1].trim();
-            if(lines[1] && lines[1][2]) { let vidId = extractYoutubeId(lines[1][2].trim()); if(vidId) initYoutubePlayer(vidId); }
+            if(lines[1] && lines[1][2]) { 
+                audioVideoIdGlobal = extractYoutubeId(lines[1][2].trim()); 
+                if(audioVideoIdGlobal && typeof YT !== 'undefined' && YT.Player) { createPlayerInstance(audioVideoIdGlobal); }
+            }
         }
     }
 
@@ -549,7 +522,10 @@
     }
 
     function openEssahModal() { document.getElementById("essah-modal").style.display = "flex"; }
-    function closeEssahModal() { document.getElementById("essah-modal").style.display = "none"; pauseYT(); }
+    function closeEssahModal() { 
+        document.getElementById("essah-modal").style.display = "none"; 
+        if(ytPlayer && ytPlayer.pauseVideo && isAudioPlayingNow) { toggleAudioNative(); }
+    }
     function closeEssahAndGoToQuiz() { closeEssahModal(); }
 
     function loginKhadim() {
@@ -649,6 +625,138 @@
         else { showChurchNotification("كود المرور خاطئ!"); }
     }
 
+    // ==================== وظائف الإدارة المتقدمة المضافة حديثاً ====================
+    
+    // فتح نافذة تعديل الإجابات التفصيلية لبناء الـ 2 زرار المطلوبين
+    function openEditAnswersModal() {
+        const select = document.getElementById("admin-edit-servant-select");
+        select.innerHTML = `<option value="">-- اختر اسم خادم لتعديل إجاباته --</option>`;
+        rawServants.forEach(name => {
+            let opt = document.createElement("option"); opt.value = name; opt.textContent = name;
+            select.appendChild(opt);
+        });
+        document.getElementById("admin-answers-edit-area").innerHTML = `<p style="text-align:center; color:#888;">اختر اسماً لعرض وتعديل إجاباته...</p>`;
+        document.getElementById("edit-answers-modal").style.display = "flex";
+    }
+
+    function closeEditAnswersModal() { document.getElementById("edit-answers-modal").style.display = "none"; }
+
+    // تحميل وعرض الإجابات الكاملة للخادم المختار لإمكانية التعديل بحرية كاملة للمسؤول
+    function loadServantAnswersToEdit() {
+        const name = document.getElementById("admin-edit-servant-select").value;
+        const area = document.getElementById("admin-answers-edit-area");
+        if(!name) { area.innerHTML = ""; return; }
+        
+        let answersMap = {};
+        if (localForcedOverrides[name] && localForcedOverrides[name].savedAnswers) {
+            answersMap = localForcedOverrides[name].savedAnswers;
+        }
+        
+        area.innerHTML = "";
+        quizQuestions.forEach((q, idx) => {
+            let qDiv = document.createElement("div");
+            qDiv.style = "margin-bottom:15px; background:#fff; padding:10px; border-radius:8px; border:1px solid #ddd; text-align:right;";
+            qDiv.innerHTML = `<p style="font-weight:bold; color:var(--coptic-maroon); margin-bottom:5px;">س ${idx+1}: ${q.q}</p>`;
+            
+            let selHtml = `<select id="admin-edit-q-sel-${idx}" style="max-width:100%; padding:6px; margin:0;">`;
+            selHtml += `<option value="" ${!answersMap[idx]?'selected':''}>لم يحل</option>`;
+            ['opt1', 'opt2', 'opt3', 'opt4'].forEach(k => {
+                if(q[k]) {
+                    let isSel = answersMap[idx] === k;
+                    selHtml += `<option value="${k}" ${isSel?'selected':''}>${q[k]}</option>`;
+                }
+            });
+            selHtml += `</select>`;
+            qDiv.innerHTML += selHtml;
+            area.appendChild(qDiv);
+        });
+    }
+
+    // حفظ التعديلات وحساب الدرجة بالزيادة أو النقصان تلقائياً
+    function saveEditedAnswersAction() {
+        const name = document.getElementById("admin-edit-servant-select").value;
+        if(!name) { alert("من فضلك اختر اسم الخادم أولاً!"); return; }
+        
+        let newSavedAnswers = {};
+        let score = 0;
+        quizQuestions.forEach((q, idx) => {
+            let val = document.getElementById(`admin-edit-q-sel-${idx}`).value;
+            if(val) {
+                newSavedAnswers[idx] = val;
+                if(q[val] && q[val].trim() === q.correct.trim()) score++;
+            }
+        });
+        
+        let finalScoreString = `${score} من ${quizQuestions.length}`;
+        if(localResetExclusions[name]) delete localResetExclusions[name];
+        
+        localForcedOverrides[name] = {
+            score: finalScoreString,
+            date: new Date().toLocaleString("ar-EG") + " (تعديل الإدارة)",
+            savedAnswers: newSavedAnswers
+        };
+        localStorage.setItem("church_forced_overrides", JSON.stringify(localForcedOverrides));
+        localStorage.setItem("church_reset_exclusions", JSON.stringify(localResetExclusions));
+        
+        calculateAndRenderStats(); renderAdminTable(); closeEditAnswersModal();
+        showChurchNotification(`تم تعديل إجابات وحساب درجة ${name} بنجاح!`);
+    }
+
+    // فتح نافذة تعديل الدرجة المنفصلة مباشرة (الزرار الثاني)
+    function openEditScoreOnlyModal() {
+        const select = document.getElementById("admin-score-servant-select");
+        select.innerHTML = `<option value="">-- اختر خادم لتعديل درجته --</option>`;
+        rawServants.forEach(name => {
+            let opt = document.createElement("option"); opt.value = name; opt.textContent = name;
+            select.appendChild(opt);
+        });
+        document.getElementById("admin-direct-score-num").value = "";
+        document.getElementById("edit-score-modal").style.display = "flex";
+    }
+
+    function closeEditScoreOnlyModal() { document.getElementById("edit-score-modal").style.display = "none"; }
+
+    function loadServantScoreToEdit() {
+        const name = document.getElementById("admin-score-servant-select").value;
+        const input = document.getElementById("admin-direct-score-num");
+        if(!name) { input.value = ""; return; }
+        
+        let currentScore = 0;
+        let scoreStr = "";
+        if (cloudFetchedRecords[name]) scoreStr = cloudFetchedRecords[name].score;
+        if (localForcedOverrides[name]) scoreStr = localForcedOverrides[name].score;
+        
+        if(scoreStr && scoreStr.includes("من")) {
+            currentScore = parseInt(scoreStr.split("من")[0]);
+        }
+        input.value = currentScore;
+    }
+
+    // حفظ الدرجة الفردية المعدلة مباشرة
+    function saveDirectScoreAction() {
+        const name = document.getElementById("admin-score-servant-select").value;
+        const newScoreVal = document.getElementById("admin-direct-score-num").value.trim();
+        if(!name || newScoreVal === "") { alert("برجاء إدخال البيانات كاملة!"); return; }
+        
+        let finalScoreString = `${newScoreVal} من ${quizQuestions.length}`;
+        if(localResetExclusions[name]) delete localResetExclusions[name];
+        
+        let existingAnswers = (localForcedOverrides[name] && localForcedOverrides[name].savedAnswers) ? localForcedOverrides[name].savedAnswers : {};
+        
+        localForcedOverrides[name] = {
+            score: finalScoreString,
+            date: new Date().toLocaleString("ar-EG") + " (تعديل يدوي للدرجة)",
+            savedAnswers: existingAnswers
+        };
+        localStorage.setItem("church_forced_overrides", JSON.stringify(localForcedOverrides));
+        localStorage.setItem("church_reset_exclusions", JSON.stringify(localResetExclusions));
+        
+        calculateAndRenderStats(); renderAdminTable(); closeEditScoreOnlyModal();
+        showChurchNotification(`تم تحديث درجة ${name} مباشرة إلى ${newScoreVal}!`);
+    }
+
+    // ==============================================================================
+
     function calculateAndRenderStats() {
         let totalCount = rawServants.length; let solvedCount = 0; let totalPercentSum = 0;
         rawServants.forEach(name => {
@@ -673,9 +781,9 @@
             let tr = document.createElement("tr"); let title = getKhadimTitle(name); let accessCode = (index + 1).toString();
             let scoreShow = `<span class="badge-unsolved">⏳ لم يحل بعد</span>`; let dateShow = "--";
             if (cloudFetchedRecords[name]) { scoreShow = `<span class="badge-score">${cloudFetchedRecords[name].score}</span>`; dateShow = cloudFetchedRecords[name].date; }
-            if (localForcedOverrides[name]) { scoreShow = `<span class="badge-score" style="background-color: var(--success-green); border-color:#fff;">${localForcedOverrides[name].score}</span>`; dateShow = localForcedOverrides[name].date; }
+            if (localForcedOverrides[name]) { scoreShow = `<span class="badge-score" style="background-color: var(--success-green); padding:3px 7px; color:#fff; border-radius:4px; font-weight:bold;">${localForcedOverrides[name].score}</span>`; dateShow = localForcedOverrides[name].date; }
             if (localResetExclusions[name]) { scoreShow = "<span style='color:orange; font-weight:bold;'>🔄 تصفير</span>"; dateShow = "--"; }
-            tr.innerHTML = `<td>${index + 1}</td><td style="color:var(--coptic-maroon); text-align:right; font-weight:bold; padding-right:15px;">${title}: ${name}</td><td style="font-weight:bold; color:var(--info-blue); font-family: monospace;">${accessCode}</td><td>${scoreShow}</td><td style="font-size:0.85rem; color:#555;">${dateShow}</td><td><button class="btn-action-premium btn-reset-premium" style="background:#E74C3C; color:#fff; padding:3px 8px; border:none; border-radius:4px; cursor:pointer;" onclick="resetSingleKhadimCloudUI('${name}')">🔄 تصفير</button></td>`;
+            tr.innerHTML = `<td>${index + 1}</td><td style="color:var(--coptic-maroon); text-align:right; font-weight:bold; padding-right:15px;">${title}: ${name}</td><td style="font-weight:bold; color:var(--info-blue); font-family: monospace;">${accessCode}</td><td>${scoreShow}</td><td style="font-size:0.85rem; color:#555;">${dateShow}</td><td><button style="background:#E74C3C; color:#fff; padding:3px 8px; border:none; border-radius:4px; cursor:pointer;" onclick="resetSingleKhadimCloudUI('${name}')">🔄 تصفير</button></td>`;
             tbody.appendChild(tr);
         });
     }
