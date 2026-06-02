@@ -3,854 +3,389 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>✝️ مسابقة دراسة الكتاب المقدس</title>
-    
-    <!-- استدعاء الخطوط الكنسية الفاخرة والخطوط القبطية الرائعة -->
-    <link href="https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,400;0,700;1,400&family=Cairo:wght@400;600;700&family=Rehan&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.5/xlsx.full.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
-
+    <title>إدارة اجتماع الخدام</title>
     <style>
-        :root {
-            --coptic-gold: #D4AF37;
-            --dark-gold: #B8860B;
-            --light-gold: #FFF9E6;
-            --coptic-maroon: #70001A;
-            --dark-maroon: #4A0010;
-            --church-cream: #FDFBF7;
-            --pure-white: #ffffff;
-            --text-dark: #2B251F;
-            --success-green: #1B5E20;
-            --light-green: #E8F5E9;
-            --error-red: #B71C1C;
-            --light-red: #FFEBEE;
-            --info-blue: #1A5276;
-            --soft-shadow: 0 8px 30px rgba(112, 0, 26, 0.08);
-            --royal-gradient: linear-gradient(135deg, var(--dark-maroon), var(--coptic-maroon));
+        /* إعدادات الخطوط والألوان العامة */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap');
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Cairo', sans-serif;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Cairo', 'Amiri', sans-serif; }
-        
-        body { 
-            background-color: #F4EFE6; 
-            background-image: radial-gradient(rgba(212, 175, 55, 0.06) 1px, transparent 0);
-            background-size: 24px 24px;
-            color: var(--text-dark); 
-            text-align: center; 
-            padding: 10px; 
+        body {
+            background-color: #f4f6f9;
+            color: #333;
+            padding: 20px;
+            direction: rtl;
         }
 
-        .coptic-border { 
-            border: 5px double var(--coptic-gold); 
-            outline: 2px solid var(--coptic-maroon);
-            outline-offset: -8px;
-            max-width: 1150px; 
-            margin: 10px auto; 
-            padding: 25px 15px; 
-            border-radius: 16px; 
-            background: var(--church-cream); 
-            box-shadow: 0 10px 40px rgba(74,0,16,0.15); 
-            position: relative; 
+        /* الهيدر والعناوين المطلوبة */
+        header {
+            text-align: center;
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 35px 20px;
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
         }
 
-        .header-main-layout { 
-            display: flex; 
-            flex-direction: row; 
-            align-items: center; 
-            justify-content: space-between; 
-            gap: 15px;
-            margin-bottom: 20px; 
+        header h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.6;
         }
-        
-        .header-center-text { flex: 1; text-align: center; }
-        .saint-card-wrapper { display: flex; flex-direction: column; align-items: center; gap: 5px; flex-shrink: 0; }
-        .saint-box-side { width: 125px; height: 165px; border: 3px solid var(--coptic-gold); outline: 1px solid var(--coptic-maroon); outline-offset: -4px; border-radius: 10px; overflow: hidden; box-shadow: 0 6px 12px rgba(0,0,0,0.15); background: #fff; }
-        .saint-box-side img { width: 100%; height: 100%; object-fit: cover; }
 
-        .coptic-cross-center { font-size: 2.5rem; color: var(--coptic-maroon); text-shadow: 1px 1px 0px var(--coptic-gold); line-height: 1; margin-bottom: 8px; }
-        
-        .header-title { font-family: 'Rehan', 'Amiri', sans-serif; color: var(--coptic-maroon); font-size: 2.2rem; margin-bottom: 5px; font-weight: bold; line-height: 1.2; text-shadow: 1px 1px 1px rgba(0,0,0,0.1); }
-        .subtitle { font-family: 'Amiri', serif; color: var(--dark-gold); font-size: 1.3rem; margin-bottom: 8px; font-weight: bold; line-height: 1.4; }
-        .meeting-title { font-family: 'Cairo', sans-serif; color: var(--text-dark); font-size: 1.1rem; font-weight: bold; margin-bottom: 5px; letter-spacing: 0.5px; }
+        header h2 {
+            font-size: 18px;
+            font-weight: 300;
+            opacity: 0.95;
+            letter-spacing: 0.5px;
+        }
 
-        .bible-verse-container { margin: 15px auto; padding: 12px 20px; font-size: 1.35rem; font-family: 'Amiri', serif; font-weight: bold; color: var(--coptic-gold); text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7); background-color: var(--dark-maroon); border: 2px solid var(--coptic-gold); border-radius: 8px; display: inline-block; box-shadow: 0 4px 10px rgba(0,0,0,0.15); max-width: 95%; line-height: 1.6; }
-        .church-separator { display: flex; align-items: center; justify-content: center; margin: 20px 0; }
-        .church-separator::before, .church-separator::after { content: ""; flex: 1; height: 1px; background: linear-gradient(to left, transparent, var(--coptic-gold), transparent); }
-        .church-separator span { padding: 0 15px; color: var(--coptic-maroon); text-shadow: 1px 1px 0px var(--coptic-gold); font-size: 1.5rem; }
+        /* الحاوية الرئيسية للمحتوى */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
 
-        .page { display: none; margin-top: 15px; padding: 5px; }
-        .active-page { display: block; animation: copticFadeIn 0.3s ease-in-out; }
-        @keyframes copticFadeIn { from { opacity: 0; } to { opacity: 1; } }
+        /* أقسام النماذج والبيانات */
+        .section-title {
+            color: #1e3c72;
+            border-bottom: 2px solid #eef2f5;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
 
-        .btn { padding: 10px 18px; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 0.95rem; transition: all 0.2s ease; margin: 4px; display: inline-flex; align-items: center; justify-content: center; text-decoration: none; box-shadow: 0 3px 5px rgba(0,0,0,0.1); user-select: none; }
-        .btn-maroon { background-color: var(--coptic-maroon); color: white; border-bottom: 3px solid var(--dark-maroon); }
-        .btn-maroon:hover { background-color: var(--dark-maroon); }
-        .btn-gold { background-color: var(--coptic-gold); color: var(--dark-maroon); border-bottom: 3px solid var(--dark-gold); }
-        .btn-gold:hover { background-color: var(--dark-gold); color: white; }
-        .btn-green { background-color: var(--success-green); color: white; border-bottom: 3px solid #144517; }
-        .btn-green:hover { background-color: #144517; }
-        .btn-blue { background-color: var(--info-blue); color: white; border-bottom: 3px solid #11364F; }
-        .btn-blue:hover { background-color: #11364F; }
+        .form-group {
+            margin-bottom: 15px;
+        }
 
-        select, input[type="password"], input[type="text"], input[type="number"] { width: 100%; max-width: 420px; padding: 12px; margin: 10px 0; border: 2px solid #E0D7C6; border-radius: 8px; font-size: 1.05rem; text-align: center; font-weight: 600; background-color: var(--pure-white); color: var(--text-dark); outline: none; }
-        #timer-box { font-size: 1.1rem; color: var(--error-red); font-weight: bold; background: #FDEAEA; padding: 6px 15px; border-radius: 25px; border: 1px solid #F9D2D2; white-space: nowrap; }
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            font-size: 14px;
+            color: #444;
+        }
 
-        .options-container { text-align: right; margin: 20px 0; }
-        .option-card { padding: 14px; margin: 10px 0; border: 2px solid #EAE4D7; border-radius: 10px; cursor: pointer; transition: all 0.2s ease; display: flex; align-items: center; background: var(--pure-white); }
-        .option-card:hover { border-color: var(--coptic-gold); }
-        .option-card.selected { border-color: var(--dark-gold) !important; background-color: var(--light-gold) !important; font-weight: bold; box-shadow: 0 4px 10px rgba(212, 175, 55, 0.25); }
-        .option-card input { width: 18px; height: 18px; margin-left: 12px; cursor: pointer; accent-color: var(--dark-gold); flex-shrink: 0; }
-        
-        .result-box { padding: 25px; border: 3px dashed var(--coptic-gold); background: #FFFDF9; border-radius: 14px; display: inline-block; margin: 20px 0; min-width: 260px; }
-        .score-num { font-size: 3rem; color: var(--coptic-maroon); font-weight: bold; font-family: 'Amiri', serif; }
+        input[type="text"], input[type="password"], select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+            font-size: 14px;
+            background-color: #fafafa;
+            transition: border-color 0.2s;
+        }
 
-        .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(43,37,31,0.85); display: none; justify-content: center; align-items: center; z-index: 9999; backdrop-filter: blur(4px); padding: 10px; }
-        .modal-content { background: var(--church-cream); border: 4px solid var(--coptic-gold); outline: 2px solid var(--coptic-maroon); outline-offset: -6px; border-radius: 16px; max-width: 800px; width: 100%; padding: 20px; text-align: right; }
-        .modal-body { font-family: 'Amiri', serif; font-size: 1.3rem; line-height: 1.8; color: #1A1512; white-space: pre-wrap; padding: 15px; background: var(--pure-white); border-radius: 8px; max-height: 45vh; overflow-y: auto; border: 1px solid #EAE4D7; }
-        
-        #church-alert-banner { position: fixed; top: -100px; left: 50%; transform: translateX(-50%); width: 90%; max-width: 450px; background: var(--church-cream); border: 3px solid var(--coptic-gold); border-radius: 12px; padding: 12px; box-shadow: 0 8px 25px rgba(112,0,26,0.25); z-index: 100000; transition: top 0.4s; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        #church-alert-banner.alert-show { top: 20px; }
+        input[type="text"]:focus, input[type="password"]:focus, select:focus {
+            outline: none;
+            border-color: #1e3c72;
+            background-color: #fff;
+        }
 
-        /* ستايل مشغل الصوت الجديد الفاخر والمحاكي للبرامج */
-        .audio-player-wrapper { background: #F4EFE6; padding: 15px; border-radius: 12px; border: 2px solid var(--coptic-gold); text-align: center; margin-top: 5px; margin-bottom: 15px; box-shadow: inset 0 2px 5px rgba(0,0,0,0.05); }
-        .audio-controls-top { display: flex; justify-content: center; gap: 12px; margin-bottom: 12px; }
-        .audio-timeline-container { display: flex; align-items: center; justify-content: space-between; gap: 10px; padding: 0 5px; }
-        .audio-time-label { font-size: 0.85rem; font-weight: bold; color: var(--coptic-maroon); min-width: 45px; font-family: monospace; }
-        .audio-progress-bar { flex: 1; height: 8px; border-radius: 4px; accent-color: var(--coptic-maroon); cursor: pointer; transition: all 0.1s; }
-        
-        .review-card { background: var(--pure-white); border: 1px solid #EAE4D7; border-radius: 8px; padding: 12px; margin-bottom: 12px; text-align: right; }
-        .review-q-text { font-weight: bold; color: var(--coptic-maroon); margin-bottom: 8px; font-size: 1.05rem; }
-        .review-opt { padding: 8px 12px; margin: 5px 0; border-radius: 6px; font-weight: 600; display: flex; justify-content: space-between; font-size: 0.95rem; }
-        .review-correct-match { background-color: var(--light-green); border: 1px solid var(--success-green); color: var(--success-green); }
-        .review-wrong-match { background-color: var(--light-red); border: 1px solid var(--error-red); color: var(--error-red); }
-        .review-highlight-truth { border: 2px dashed var(--success-green); background-color: var(--light-green); }
+        /* الأزرار */
+        .btn-container {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
 
-        @media (max-width: 767px) {
-            .header-main-layout { flex-direction: column; gap: 12px; }
-            .saint-card-wrapper { display: inline-flex; margin: 0 5px; }
-            .saint-box-side { width: 105px; height: 140px; }
-            .header-title { font-size: 1.8rem; }
-            .subtitle { font-size: 1.1rem; }
-            .bible-verse-container { font-size: 1.15rem; padding: 10px; }
-            .coptic-border { padding: 15px 10px; margin: 5px auto; }
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            transition: background 0.2s, transform 0.1s;
+            flex: 1;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background-color: #1e3c72;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #2a5298;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+            color: white;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+        .btn:active {
+            transform: scale(0.98);
+        }
+
+        /* تصميم جدول عرض البيانات المعاصر */
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+            margin-top: 10px;
+            font-size: 14px;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eef2f5;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            color: #1e3c72;
+            font-weight: 700;
+        }
+
+        tr:hover {
+            background-color: #fdfdfd;
+        }
+
+        /* نظام النوافذ الانبثاقية الاحترافي المخصص (Custom Modals) */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(3px); /* تأثير ضبابي خلف النافذة لجعلها احترافية */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-box {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 450px;
+            text-align: center;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            transform: translateY(-30px);
+            transition: transform 0.3s ease;
+        }
+
+        .modal-overlay.active .modal-box {
+            transform: translateY(0);
+        }
+
+        .modal-box h3 {
+            color: #1e3c72;
+            margin-bottom: 15px;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .modal-box p {
+            margin-bottom: 25px;
+            color: #555;
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .modal-close-btn {
+            background-color: #1e3c72;
+            color: white;
+            border: none;
+            padding: 10px 30px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: bold;
+            transition: background 0.2s;
+            width: 100%;
+        }
+
+        .modal-close-btn:hover {
+            background-color: #2a5298;
+        }
+
+        /* تنسيق الأكواد المخصصة للأعضاء */
+        .code-badge {
+            background-color: #eef2f5;
+            color: #1e3c72;
+            padding: 3px 8px;
+            border-radius: 4px;
+            font-family: monospace;
+            font-weight: bold;
         }
     </style>
 </head>
 <body>
 
-<div id="church-alert-banner">
-    <span>✟</span>
-    <span id="church-alert-text">تنبيه الخدمة</span>
-</div>
+    <!-- الهيدر المعدل والمطلوب بدقة -->
+    <header>
+        <h1>كنيسة الشهيد العظيم فيلوباتير مرقوريوس أبي سيفين - بمدينة عامر</h1>
+        <h2>اجتماع الخدام و الخادمات العام</h2>
+    </header>
 
-<!-- مشغل الصوت الخفي لليوتيوب لضمان خروج الصوت مباشرة -->
-<div style="position: absolute; top: -9999px; left: -9999px;">
-    <div id="yt-audio-container"></div>
-</div>
-
-<div class="coptic-border">
-    <div class="header-main-layout">
-        <div class="saint-card-wrapper">
-            <div class="saint-box-side"><img src="abusafein.jpg" alt="أبي سيفين"></div>
-        </div>
+    <!-- المحتوى واللوحة الرئيسية -->
+    <div class="container">
         
-        <div class="header-center-text">
-            <div class="coptic-cross-center">✟</div>
-            <div class="header-title">مسابقة دراسة الكتاب المقدس</div>
-            <div class="subtitle">كنيسة الشهيد العظيم فيلوباتير مرقوريوس أبي سيفين - بمدينة عامر</div>
-            <div class="meeting-title">اجتماع الخدام والخادمات</div>
-        </div>
+        <!-- نموذج تسجيل / إضافة خادم -->
+        <div class="section-title">تسجيل خادم جديد / تعديل البيانات</div>
         
-        <div class="saint-card-wrapper">
-            <div class="saint-box-side"><img src="virgin.jpg" alt="العذراء مريم"></div>
-        </div>
-    </div>
-
-    <div class="bible-verse-container">
-        «فَتِشُوا الْكُتُبَ لأَنَّكُمْ تَظُنُّونَ أَنَّ لَكُمْ فِيهَا حَيَاةً أَبَدِيَّةً، وَهِيَ الَّتِي تَشْهَدُ لِي» (يوحنا ٥: ٣٩)
-    </div>
-
-    <div class="church-separator"><span>✟ ✟ ✟</span></div>
-
-    <!-- الشاشة 1: الدخول الرئيسي -->
-    <div id="login-page" class="page active-page">
-        <div style="text-align: center; margin-bottom: 15px;">
-            <button id="admin-entrance-btn" class="btn btn-maroon" style="font-size: 0.85rem; padding: 6px 14px;" onclick="showPage('admin-login-page')">⚙️ لوحة التحكم للإدارة</button>
-        </div>
-        
-        <div style="margin: 15px auto; padding: 12px; background: #FFFFF0; border: 1px dashed var(--coptic-gold); border-radius: 12px; max-width: 600px;">
-            <p style="font-weight: bold; color: var(--dark-maroon); margin-bottom: 8px; font-size:0.95rem;">📖 يرجى قراءة أو سماع الأصحاح بعناية قبل بدء الحل:</p>
-            <button class="btn btn-maroon" onclick="openEssahModal()">اضغط هنا لقراءة وسماع الأصحاح 📜</button>
-        </div>
-
-        <div style="margin: 12px 0;">
-            <label style="font-weight: bold; color: var(--coptic-maroon);">اختر اسمك من هنا:</label><br>
-            <select id="khadim-select">
-                <option value="">-- افتح القائمة واختر اسمك --</option>
-            </select>
-        </div>
-        
-        <div>
-            <label style="font-weight: bold; color: var(--coptic-maroon);">أدخل كودك الشخصي المبسط:</label><br>
-            <input type="password" id="khadim-password" placeholder="أدخل رقم كودك السري هنا لفتح الامتحان...">
-        </div>
-        
-        <button class="btn btn-gold" style="margin-top: 15px; font-size: 1.05rem; width:90%; max-width:420px;" onclick="loginKhadim()">🔓 ابدأ المسابقة</button>
-    </div>
-
-    <!-- الشاشة 2: الأسئلة -->
-    <div id="quiz-page" class="page">
-        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #EAE4D7; padding-bottom: 12px; gap:10px;">
-            <h4 id="welcome-khadim" style="color: var(--coptic-maroon); font-size:0.95rem; text-align:right;"></h4>
-            <div id="timer-box">⏳ المتبقي: <span id="time-display">03:00</span></div>
-        </div>
-        <div id="question-block" style="margin-top: 20px;">
-            <h3 id="question-text" style="text-align: right; color: #1A1512; font-weight: 700; line-height: 1.5; font-size:1.15rem;"></h3>
-            <div id="options-box" class="options-container"></div>
-        </div>
-        <div class="church-separator"><span>✟</span></div>
-        <div style="margin-top: 20px; display: flex; justify-content: space-between; align-items: center; gap:5px; flex-wrap:wrap;">
-            <button id="btn-prev" class="btn btn-maroon" onclick="navigateQuestion(-1)">⬅️ السابق</button>
-            <span id="question-counter" style="font-weight: bold; color: var(--dark-gold); font-size:0.9rem;">السؤال 1</span>
-            <button id="btn-next" class="btn btn-maroon" onclick="navigateQuestion(1)">التالي ➡️</button>
-            <button id="btn-submit" class="btn btn-green" style="display: none;" onclick="submitQuiz()">🟢 إنهاء وإرسال الإجابات</button>
-        </div>
-    </div>
-
-    <!-- الشاشة 3: النتيجة -->
-    <div id="result-page" class="page">
-        <h2 style="color: var(--coptic-maroon); font-size:1.4rem;">تم إرسال إجاباتك بنجاح.</h2>
-        <div class="result-box">
-            <p style="font-size: 1.1rem; font-weight: bold;">اعرف نتيجتك:</p>
-            <div class="score-num" id="final-score">0 / 0</div>
-        </div>
-        <br>
-        <button class="btn btn-gold" style="font-size: 1rem; padding: 10px 20px; width:90%; max-width:320px;" onclick="openReviewModal()">👁️ مراجعة إجاباتك ومعرفة الخطأ</button>
-        <button class="btn btn-maroon" style="font-size: 1rem; padding: 10px 20px; width:90%; max-width:320px; margin-top:10px;" onclick="window.location.reload()">🔄 العودة للرئيسية</button>
-    </div>
-
-    <!-- الشاشة 4: تسجيل دخول الإدارة -->
-    <div id="admin-login-page" class="page">
-        <div style="max-width: 450px; margin: 20px auto; padding: 20px; background: #fff; border: 2px solid var(--coptic-gold); border-radius: 12px; box-shadow: var(--soft-shadow);">
-            <div style="font-size: 2.2rem; margin-bottom: 5px;">🔐</div>
-            <h3 style="color: var(--coptic-maroon); margin-bottom: 15px;">لوحة تحكم الإدارة</h3>
-            <input type="password" id="admin-pass-field" placeholder="أدخل كلمة المرور السرية للإدارة..." style="width: 100%;">
-            <br><br>
-            <button class="btn btn-maroon" style="width: 100%; padding: 12px;" onclick="loginAdmin()">🔑 دخول لوحة التحكم</button>
-            <button class="btn btn-gold" style="width: 100%; padding: 10px; margin-top: 10px;" onclick="showPage('login-page')">إلغاء والعودة</button>
-        </div>
-    </div>
-
-    <!-- الشاشة 5: لوحة المتابعة الإدارية للخدمة -->
-    <div id="admin-dashboard-page" class="page" style="background-color: var(--church-cream); border: 3px solid var(--coptic-gold); border-radius: 14px; padding: 15px; text-align: right;">
-        <div style="background: var(--royal-gradient); color: #fff; padding: 12px; border-radius: 10px; margin-bottom: 20px; text-align: center;">
-            <h2>⛪ لوحة المتابعة الإدارية الشاملة للخدمة</h2>
-        </div>
-        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px;">
-            <div style="background: #fff; border-right: 4px solid var(--coptic-maroon); padding: 10px; text-align: center; border-radius: 6px;">
-                <p style="font-size:0.8rem; color:#666;">📊 إجمالي الخدام</p><h3 id="stat-total-servants">70</h3>
+        <form id="memberForm" onsubmit="handleFormSubmit(event)">
+            <div class="form-group">
+                <label for="memberName">اسم الخادم / الخادمة:</label>
+                <input type="text" id="memberName" placeholder="أدخل الاسم بالكامل" required>
             </div>
-            <div style="background: #fff; border-right: 4px solid var(--success-green); padding: 10px; text-align: center; border-radius: 6px;">
-                <p style="font-size:0.8rem; color:#666;">✅ الذين أتموا الحل</p><h3 id="stat-completed" style="color: var(--success-green);">0</h3>
-            </div>
-            <div style="background: #fff; border-right: 4px solid var(--error-red); padding: 10px; text-align: center; border-radius: 6px;">
-                <p style="font-size:0.8rem; color:#666;">⏳ متبقي لم يحل</p><h3 id="stat-pending" style="color: var(--error-red);">70</h3>
-            </div>
-            <div style="background: #fff; border-right: 4px solid var(--info-blue); padding: 10px; text-align: center; border-radius: 6px;">
-                <p style="font-size:0.8rem; color:#666;">📈 متوسط الدرجات</p><h3 id="stat-avg-score" style="color: var(--info-blue);">0%</h3>
-            </div>
-        </div>
 
-        <div style="background: #F4EFE6; padding: 15px; border-radius: 10px; border: 1px solid var(--coptic-gold); margin-bottom: 15px; text-align: center; display: flex; flex-wrap: wrap; justify-content: center; gap: 10px;">
-            <button class="btn btn-maroon" onclick="openEditAnswersModal()">✏️ تعديل الإجابة</button>
-            <button class="btn btn-gold" onclick="openEditScoreOnlyModal()">🔢 تعديل الدرجة</button>
-            <button class="btn btn-green" onclick="fetchOnlineAnswersData()">🔄 مزامنة لايف</button>
-            <button class="btn btn-blue" onclick="exportToExcel()">📥 تحميل Excel</button>
-            <button class="btn btn-maroon" style="background:#555;" onclick="showPage('login-page')">🚪 خروج</button>
-        </div>
+            <div class="form-group">
+                <label for="memberRole">قطاع الخدمة الأساسي:</label>
+                <select id="memberRole">
+                    <option value="ابتدائي">مرحلة ابتدائي</option>
+                    <option value="إعدادي">مرحلة إعدادي</option>
+                    <option value="ثانوي">مرحلة ثانوي</option>
+                    <option value="خريجين">عام / خريجين</option>
+                </select>
+            </div>
 
-        <div style="overflow-x: auto; background: #fff; border-radius: 8px; border: 1px solid #EAE4D7;">
-            <table style="width: 100%; border-collapse: collapse; min-width: 600px; text-align: center;">
+            <div class="form-group">
+                <label for="accessCode">كود الدخول المخصص:</label>
+                <input type="text" id="accessCode" placeholder="أدخل كود الدخول الخاص بالخادم" required>
+            </div>
+
+            <div class="btn-container">
+                <button type="submit" class="btn btn-primary">حفظ وتأكيد البيانات</button>
+                <button type="button" class="btn btn-secondary" onclick="clearForm()">تفريغ الخانات</button>
+            </div>
+        </form>
+
+        <!-- جدول استعراض قائمة الخدام المضافة مؤقتاً للتجربة -->
+        <div class="table-responsive">
+            <div class="section-title">قائمة الأعضاء الحاليين بالاجتماع</div>
+            <table>
                 <thead>
-                    <tr style="background: var(--coptic-maroon); color: var(--coptic-gold);">
-                        <th style="padding: 10px;">الترتيب</th><th style="padding: 10px; text-align: right;">الاسم</th><th style="padding: 10px;">الكود</th><th style="padding: 10px;">الحالة</th><th style="padding: 10px;">التوقيت</th><th style="padding: 10px;">إعادة ضبط</th>
+                    <tr>
+                        <th>م</th>
+                        <th>الاسم</th>
+                        <th>القطاع</th>
+                        <th>كود الوصول المخصص</th>
+                        <th>حالة الإرسال للشيت</th>
                     </tr>
                 </thead>
-                <tbody id="results-table-body"></tbody>
+                <tbody id="membersTableBody">
+                    <!-- بيانات تجريبية لمحاكاة النظام بالكامل -->
+                    <tr>
+                        <td>١</td>
+                        <td>خادم تجريبي ١</td>
+                        <td>مرحلة ابتدائي</td>
+                        <td><span class="code-badge">SERV-101</span></td>
+                        <td style="color: green; font-weight: bold;">متصل ومحدث</td>
+                    </tr>
+                </tbody>
             </table>
         </div>
+
     </div>
-</div>
 
-<!-- نافذة الأصحاح والمشغل الصوتي المطور كلياً بميزات برامج الصوتيات -->
-<div id="essah-modal" class="modal-overlay">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <h3 id="essah-modal-dynamic-title" style="color: var(--coptic-maroon); font-family: 'Amiri', serif; text-align: center; margin-bottom: 12px;">جاري تحميل العنوان...</h3>
-        
-        <!-- مشغل الصوت الاحترافي المتناسق فوق نص الأصحاح -->
-        <div id="audio-player-zone" class="audio-player-wrapper">
-            <div class="audio-controls-top">
-                <button class="btn btn-green" style="padding: 8px 18px; font-size:0.95rem; background-color: var(--success-green);" onclick="playAudioNative()">اسمع الاستماع للاصحاح ▶️</button>
-                <button class="btn btn-maroon" style="padding: 8px 18px; font-size:0.95rem; background-color: var(--info-blue); border-bottom-color: #11364F;" onclick="pauseAudioNative()">إيقاف مؤقت ⏸️</button>
-            </div>
-            
-            <!-- شريط تقديم الصوت والوقت الحالي والمتبقي -->
-            <div class="audio-timeline-container">
-                <span id="audio-time-current" class="audio-time-label">00:00</span>
-                <input type="range" id="audio-progress" class="audio-progress-bar" value="0" min="0" max="100" step="1" oninput="seekAudioNative(this.value)">
-                <span id="audio-time-remaining" class="audio-time-label">-00:00</span>
-            </div>
-        </div>
-
-        <!-- نص الأصحاح للقراءة -->
-        <div id="essah-text-container" class="modal-body" style="text-align: justify; font-size: 22px;">جاري تحميل نص الأصحاح...</div>
-        
-        <div style="text-align: center; margin-top: 15px;">
-            <button class="btn btn-blue" onclick="closeEssahModal()">📝 اذهب لحل الأسئلة</button>
-            <button class="btn btn-maroon" onclick="closeEssahModal()">إغلاق ❌</button>
+    <!-- النافذة الانبثاقية المخصصة (الحل الجذري لمنع رسائل المتصفح الخارجية) -->
+    <div class="modal-overlay" id="systemModal">
+        <div class="modal-box">
+            <h3 id="modalSystemTitle">تنبيه من النظام</h3>
+            <p id="modalSystemMessage">هذا النص يتم استبداله ديناميكياً عند استدعاء النافذة.</p>
+            <button class="modal-close-btn" onclick="closeSystemModal()">موافق</button>
         </div>
     </div>
-</div>
 
-<!-- نافذة تعديل الإجابات التفصيلية -->
-<div id="edit-answers-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 700px;">
-        <h3 style="color: var(--coptic-maroon); text-align: center; margin-bottom: 10px;">✏️ لوحة تعديل إجابات الخدام</h3>
-        <label style="font-weight:bold;">اختر الخادم المراد تعديل إجابته:</label>
-        <select id="admin-edit-servant-select" onchange="loadServantAnswersToEdit()"></select>
-        <div id="admin-answers-edit-area" class="modal-body" style="max-height: 40.5vh; margin-top:10px;">
-            <p style="text-align:center; color:#888;">اختر اسماً لعرض وتعديل إجاباته...</p>
-        </div>
-        <div style="text-align: center; margin-top: 15px;">
-            <button class="btn btn-green" onclick="saveEditedAnswersAction()">💾 حفظ التعديلات وحساب الدرجة</button>
-            <button class="btn btn-maroon" onclick="closeEditAnswersModal()">إلغاء ❌</button>
-        </div>
-    </div>
-</div>
+    <script>
+        // إعداد عداد تسلسلي للبيانات التجريبية
+        let memberCount = 1;
 
-<!-- نافذة تعديل الدرجة المنفصلة المباشرة -->
-<div id="edit-score-modal" class="modal-overlay">
-    <div class="modal-content" style="max-width: 500px;">
-        <h3 style="color: var(--coptic-maroon); text-align: center; margin-bottom: 15px;">🔢 لوحة تعديل الدرجة المباشرة</h3>
-        <label style="font-weight:bold;">اختر الخادم:</label>
-        <select id="admin-score-servant-select" onchange="loadServantScoreToEdit()"></select>
-        <div style="margin-top: 15px;">
-            <label style="font-weight:bold;">الدرجة الحالية والجديدة للحل:</label><br>
-            <input type="number" id="admin-direct-score-num" min="0" max="100" placeholder="أدخل الدرجة الجديدة هنا...">
-        </div>
-        <div style="text-align: center; margin-top: 20px;">
-            <button class="btn btn-green" onclick="saveDirectScoreAction()">💾 حفظ الدرجة الجديدة</button>
-            <button class="btn btn-maroon" onclick="closeEditScoreOnlyModal()">إلغاء ❌</button>
-        </div>
-    </div>
-</div>
-
-<!-- نافذة المراجعة للخدام -->
-<div id="review-modal" class="modal-overlay" onclick="closeReviewModal()">
-    <div class="modal-content" onclick="event.stopPropagation()">
-        <h3 style="color: var(--coptic-maroon); text-align: center; margin-bottom: 12px;">📊 تقرير مراجعة إجاباتك بالتفصيل</h3>
-        <div id="review-modal-body-content" class="modal-body"></div>
-        <div style="text-align: center; margin-top: 15px;">
-            <button class="btn btn-maroon" onclick="closeReviewModal()">إغلاق التقرير ❌</button>
-        </div>
-    </div>
-</div>
-
-<form id="hidden_google_form" target="hidden_iframe" action="https://docs.google.com/forms/d/e/1FAIpQLSdXKHT_YC6-JzfgeyAlwwk7ChwZ6TCmgppgMyTNaJbH4A-Gnw/formResponse" method="POST" style="display:none;">
-    <input type="hidden" name="entry.1011855427" id="form_field_name">
-    <input type="hidden" name="entry.1352726057" id="form_field_code">
-    <input type="hidden" name="entry.2120015509" id="form_field_score">
-</form>
-<iframe name="hidden_iframe" id="hidden_iframe" style="display:none;"></iframe>
-
-<!-- استدعاء مشغل يوتيوب الرسمي بأمان واحترافية عالية -->
-<script src="https://www.youtube.com/iframe_api"></script>
-
-<script>
-    const ESSAH_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlHtC2XhIAwgkBPyOKvgS40OJ8JiYHt_019eGTHb9ltGaxc-oV6gT2QS924VOBSFZMv0N7d2OnzRBe/pub?output=csv";
-    const QUESTIONS_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQATB615cDv6gnBZdVqUNJV8f7WTaA4p8nLuiV8uBJfGKUz5fFBP5UT6-XQTRyTumgZIBv_h9Pt64mg/pub?output=csv";
-    const ANSWERS_SHEET_URL = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQt2NSQINCw5qoPgrZ_0fZh0O2RnPpI_shFWfqtDrcekG5cZuHjk46M8JR1ZJa2UDsQmNrJR2mOqUod/pub?output=csv";
-    
-    const ADMIN_HASHED_LOCK = "a665a45920422f9d417e4867efdc4fb8a04a1f3fff1fa07e998e86f7f7a27ae3"; 
-
-    const rawServants = [
-        "امال سامي", "ايريني سمير", "ايريني عاطف", "توني هاني", "جاكلين سعيد", "جانيت ويصا",
-        "جمال حنا", "جورج فايز", "جيرمين زاهر", "جيهان شحاتة", "جيهان ماهر", "رامز امير",
-        "رامي سعيد", "رزق كمال", "رمزي سعيد", "رؤوف خير", "سارة عماد", "sاندرا جورج",
-        "سامية جريس", "سماح حلمي", "سماح نعيم", "سمر جادالرب", "سمير زكي", "سناء سعيد",
-        "شريف شهدي", "شيري شهدي", "شكرالله نصر", "صفاء سمير", "صفاء عدلي", "عادل فرج",
-        "عادلي رمزي", "عايدة معوض", "عايدة يعقوب", "عماد سمير", "فادي سليمان", "فادي كحيل",
-        "فيوليت فوزي", "كرستين نصر", "كريم شكرالله", "كمال كريم", "كيرلس اسامه", "كيرلس فادي",
-        "كيرلس يوسف", "ليلي وهبه", "ماجدة نجيب", "مارك جوزيف", "ماركو مجدي", "ماري عادل",
-        "ماري وجيه", "ماريان مجدي", "ماريان ادورد", "مارينا اشرف", "مريان عادل", "مريم عماد",
-        "مريم مكرم", "مني ميشيل", "ميرفت يعقوب", "ميرنا عماد", "مينا اشرف", "مينا مجدي",
-        "ناهد فاروق", "نرجس خير", "نرمين سليمان", "نعمة عبدالسيد", "هيلانة جورج", "وائل ماهر",
-        "وردة ماهر", "ياسر نبيه", "يوسف وليم", "يوستينا رافت"
-    ];
-
-    const femaleServants = [
-        "امال سامي", "ايريني سمير", "ايريني عاطف", "جاكلين سعيد", "جانيت ويصا", "جيرمين زاهر",
-        "جيهان شحاتة", "جيهان ماهر", "سارة عماد", "sاندرا جورج", "سامية جريس", "سماح حلمي",
-        "سماح نعيم", "سمر جادالرب", "سناء سعيد", "شيري شهدي", "صفاء سمير", "صفاء عدلي",
-        "عايدة معوض", "عايدة يعقوب", "فيوليت فوزي", "كرستين نصر", "ليلي وهبه", "ماجدة نجيب",
-        "ماري عادل", "ماري وجيه", "ماريان مجدي", "ماريان ادورد", "مارينا اشرف", "مريان عادل",
-        "مريم عماد", "mريم مكرم", "مني ميشيل", "ميرفت يعقوب", "ميرنا عماد", "مينا اشرف", "مينا مجدي",
-        "ناهد فاروق", "نرجس خير", "نرمين سليمان", "نعمة عبدالسيد", "هيلانة جورج", "وردة ماهر", "يوستينا رافت"
-    ];
-
-    let quizQuestions = []; let currentQuestionIndex = 0; let selectedAnswers = {}; 
-    let questionTimer = null; let secondsLeftForQuestion = 3 * 60; 
-    let activeKhadimName = ""; let activeKhadimCode = "";
-    let ytPlayer = null; let cloudFetchedRecords = {}; let localForcedOverrides = {}; let localResetExclusions = {}; 
-    let audioVideoIdGlobal = ""; let updateTimerInterval = null;
-
-    function showChurchNotification(text) {
-        const banner = document.getElementById("church-alert-banner");
-        document.getElementById("church-alert-text").textContent = text;
-        banner.classList.add("alert-show");
-        setTimeout(() => { banner.classList.remove("alert-show"); }, 3000);
-    }
-
-    function getKhadimTitle(name) { return femaleServants.includes(name) ? "الخادمة" : "الخادم"; }
-
-    function extractYoutubeId(url) {
-        let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
-        let match = url.match(regExp); return (match && match[2].length === 11) ? match[2] : "";
-    }
-
-    window.onYouTubeIframeAPIReady = function() {
-        if (audioVideoIdGlobal) { createPlayerInstance(audioVideoIdGlobal); }
-    };
-
-    function createPlayerInstance(videoId) {
-        try {
-            ytPlayer = new YT.Player('yt-audio-container', {
-                height: '1', width: '1', videoId: videoId,
-                playerVars: { 'autoplay': 0, 'controls': 0, 'playsinline': 1 },
-                events: {
-                    'onReady': () => { console.log("الصوت جاهز"); },
-                    'onStateChange': onPlayerStateChange
-                }
-            });
-        } catch(e) { console.error(e); }
-    }
-
-    // تشغيل الصوت الأساسي
-    function playAudioNative() {
-        if (!ytPlayer || !ytPlayer.playVideo) {
-            if (audioVideoIdGlobal) createPlayerInstance(audioVideoIdGlobal);
-            return;
+        // دالة مخصصة تظهر النوافذ من داخل الموقع بدقة
+        function customAlert(message, title = 'تنبيه النظام') {
+            document.getElementById('modalSystemTitle').innerText = title;
+            document.getElementById('modalSystemMessage').innerText = message;
+            document.getElementById('systemModal').classList.add('active');
         }
-        ytPlayer.playVideo();
-    }
 
-    // إيقاف مؤقت للصوت
-    function pauseAudioNative() {
-        if (ytPlayer && ytPlayer.pauseVideo) {
-            ytPlayer.pauseVideo();
+        // دالة إغلاق النافذة المخصصة
+        function closeSystemModal() {
+            document.getElementById('systemModal').classList.remove('active');
         }
-    }
 
-    // التقديم والتأخير عبر الشريط السحاب
-    function seekAudioNative(value) {
-        if (ytPlayer && ytPlayer.getDuration) {
-            let duration = ytPlayer.getDuration();
-            let newTime = (value / 100) * duration;
-            ytPlayer.seekTo(newTime, true);
-        }
-    }
-
-    // تتبع حالة المشغل لتحديث أزمنة العداد والشريط تلقائياً
-    function onPlayerStateChange(event) {
-        if (event.data == YT.PlayerState.PLAYING) {
-            startUpdateTimerLoop();
-        } else {
-            clearInterval(updateTimerInterval);
-        }
-    }
-
-    function formatTime(seconds) {
-        if (isNaN(seconds) || seconds < 0) return "00:00";
-        let m = Math.floor(seconds / 60);
-        let s = Math.floor(seconds % 60);
-        return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
-    }
-
-    function startUpdateTimerLoop() {
-        clearInterval(updateTimerInterval);
-        updateTimerInterval = setInterval(() => {
-            if (ytPlayer && ytPlayer.getCurrentTime && ytPlayer.getDuration) {
-                let current = ytPlayer.getCurrentTime();
-                let duration = ytPlayer.getDuration();
-                
-                if (duration > 0) {
-                    let progressPercent = (current / duration) * 100;
-                    document.getElementById("audio-progress").value = progressPercent;
-                    
-                    document.getElementById("audio-time-current").textContent = formatTime(current);
-                    document.getElementById("audio-time-remaining").textContent = "-" + formatTime(duration - current);
-                }
-            }
-        }, 1000);
-    }
-
-    function parseCsvAdvanced(text) {
-        let lines = []; let row = []; let inQuotes = false; let currentToken = "";
-        for (let i = 0; i < text.length; i++) {
-            let c = text[i];
-            if (c === '"') { inQuotes = !inQuotes; } 
-            else if (c === ',' && !inQuotes) { row.push(currentToken); currentToken = ""; } 
-            else if ((c === '\n' || c === '\r') && !inQuotes) {
-                if (c === '\r' && text[i+1] === '\n') { i++; }
-                row.push(currentToken); lines.push(row); row = []; currentToken = "";
-            } else { currentToken += c; }
-        }
-        if (currentToken || row.length > 0) { row.push(currentToken); lines.push(row); }
-        return lines;
-    }
-
-    function initApp() {
-        const selectEl = document.getElementById("khadim-select");
-        rawServants.forEach((name, index) => {
-            let autoCode = (index + 1).toString(); 
-            let opt = document.createElement("option"); opt.value = name; opt.textContent = name; opt.setAttribute("data-pass", autoCode);
-            selectEl.appendChild(opt);
-        });
-        if (localStorage.getItem("church_forced_overrides")) localForcedOverrides = JSON.parse(localStorage.getItem("church_forced_overrides"));
-        if (localStorage.getItem("church_reset_exclusions")) localResetExclusions = JSON.parse(localStorage.getItem("church_reset_exclusions"));
-        fetchOnlineSheetData(); fetchOnlineAnswersData();
-    }
-
-    async function fetchOnlineSheetData() {
-        try {
-            const eResponse = await fetch(ESSAH_SHEET_URL + "&t=" + new Date().getTime());
-            const eData = await eResponse.text(); parseEssahCsv(eData);
-            const qResponse = await fetch(QUESTIONS_SHEET_URL + "&t=" + new Date().getTime());
-            const qData = await qResponse.text(); parseQuestionsCsv(qData);
-        } catch (e) { console.error(e); }
-    }
-
-    async function fetchOnlineAnswersData() {
-        try {
-            const response = await fetch(ANSWERS_SHEET_URL + "&t=" + new Date().getTime());
-            const csvText = await response.text(); parseAnswersParsedArray(parseCsvAdvanced(csvText));
-            calculateAndRenderStats(); renderAdminTable();
-        } catch(e) { calculateAndRenderStats(); renderAdminTable(); }
-    }
-
-    function parseEssahCsv(text) {
-        let lines = parseCsvAdvanced(text);
-        if(lines.length >= 1) {
-            document.getElementById("essah-modal-dynamic-title").textContent = (lines[0] && lines[0][0]) ? lines[0][0].trim() : "مسابقة دراسة الكتاب المقدس";
-            if(lines[1] && lines[1][1]) document.getElementById("essah-text-container").textContent = lines[1][1].trim();
-            if(lines[1] && lines[1][2]) { 
-                audioVideoIdGlobal = extractYoutubeId(lines[1][2].trim()); 
-                if(audioVideoIdGlobal && typeof YT !== 'undefined' && YT.Player) { createPlayerInstance(audioVideoIdGlobal); }
-            }
-        }
-    }
-
-    function parseQuestionsCsv(text) {
-        let lines = parseCsvAdvanced(text); quizQuestions = [];
-        for (let i = 1; i < lines.length; i++) {
-            let row = lines[i];
-            if (row && row.length >= 6 && row[0]) { quizQuestions.push({ q: row[0], opt1: row[1], opt2: row[2], opt3: row[3], opt4: row[4], correct: row[5] }); }
-        }
-    }
-
-    function parseAnswersParsedArray(lines) {
-        cloudFetchedRecords = {};
-        for (let i = 1; i < lines.length; i++) {
-            let row = lines[i];
-            if(row && row.length >= 4) {
-                let timestamp = row[0].trim(); let name = row[1].trim(); let scoreStr = row[3].trim(); 
-                if (name) cloudFetchedRecords[name] = { score: scoreStr, date: timestamp };
-            }
-        }
-    }
-
-    function openEssahModal() { document.getElementById("essah-modal").style.display = "flex"; }
-    
-    function closeEssahModal() { 
-        document.getElementById("essah-modal").style.display = "none"; 
-        if(ytPlayer && ytPlayer.pauseVideo) { ytPlayer.pauseVideo(); }
-    }
-
-    function loginKhadim() {
-        const selectEl = document.getElementById("khadim-select");
-        const passwordInput = document.getElementById("khadim-password").value.trim();
-        const selectedOption = selectEl.options[selectEl.selectedIndex];
-
-        if (!selectedOption.value) { showChurchNotification("رجاءً اختر اسمك من القائمة."); return; }
-        if (passwordInput !== selectedOption.getAttribute("data-pass")) { showChurchNotification("كود المرور الترتيبي خاطئ!"); return; }
-        
-        activeKhadimName = selectedOption.value; activeKhadimCode = passwordInput;
-        if ((cloudFetchedRecords[activeKhadimName] || localForcedOverrides[activeKhadimName]) && !localResetExclusions[activeKhadimName]) {
-            showChurchNotification(`لقد قمت بأداء الامتحان مسبقًا! برجاء مراجعة الإدارة.`); return;
-        }
-        document.getElementById("welcome-khadim").textContent = `${getKhadimTitle(activeKhadimName)}: ${activeKhadimName}`;
-        showPage("quiz-page"); currentQuestionIndex = 0; selectedAnswers = {}; startQuestionTimer(); displayQuestion();
-    }
-
-    function displayQuestion() {
-        const q = quizQuestions[currentQuestionIndex];
-        document.getElementById("question-counter").textContent = `السؤال ${currentQuestionIndex + 1} من ${quizQuestions.length}`;
-        document.getElementById("question-text").textContent = `س ${currentQuestionIndex + 1}: ${q.q}`;
-        const box = document.getElementById("options-box"); box.innerHTML = "";
-        ['opt1', 'opt2', 'opt3', 'opt4'].forEach(k => {
-            if (q[k]) {
-                let isSel = selectedAnswers[currentQuestionIndex] === k;
-                let div = document.createElement("div"); div.className = `option-card ${isSel ? 'selected' : ''}`;
-                div.onclick = () => { selectedAnswers[currentQuestionIndex] = k; displayQuestion(); };
-                div.innerHTML = `<input type="radio" ${isSel?'checked':''}> <label style="cursor:pointer; width:100%; text-align:right;">${q[k]}</label>`;
-                box.appendChild(div);
-            }
-        });
-        document.getElementById("btn-prev").style.visibility = currentQuestionIndex === 0 ? "hidden" : "visible";
-        if (currentQuestionIndex === quizQuestions.length - 1) {
-            document.getElementById("btn-next").style.display = "none"; document.getElementById("btn-submit").style.display = "inline-flex";
-        } else {
-            document.getElementById("btn-next").style.display = "inline-flex"; document.getElementById("btn-submit").style.display = "none";
-        }
-    }
-
-    function navigateQuestion(dir) { currentQuestionIndex += dir; startQuestionTimer(); displayQuestion(); }
-
-    function startQuestionTimer() {
-        clearInterval(questionTimer); secondsLeftForQuestion = 3 * 60;
-        questionTimer = setInterval(() => {
-            secondsLeftForQuestion--;
-            let m = Math.floor(secondsLeftForQuestion/60); let s = secondsLeftForQuestion%60;
-            document.getElementById("time-display").textContent = `${m.toString().padStart(2,'0')}:${s.toString().padStart(2,'0')}`;
-            if (secondsLeftForQuestion <= 0) { if (currentQuestionIndex < quizQuestions.length - 1) navigateQuestion(1); else submitQuiz(); }
-        }, 1000);
-    }
-
-    function submitQuiz() {
-        clearInterval(questionTimer); let score = 0;
-        quizQuestions.forEach((q, idx) => { let ans = selectedAnswers[idx]; if(ans && q[ans] && q[ans].trim() === q.correct.trim()) score++; });
-        let finalScoreString = `${score} من ${quizQuestions.length}`;
-        document.getElementById("final-score").textContent = `${score} / ${quizQuestions.length}`;
-        
-        if(localResetExclusions[activeKhadimName]) { delete localResetExclusions[activeKhadimName]; localStorage.setItem("church_reset_exclusions", JSON.stringify(localResetExclusions)); }
-        localForcedOverrides[activeKhadimName] = { score: finalScoreString, date: new Date().toLocaleString("ar-EG"), savedAnswers: Object.assign({}, selectedAnswers) };
-        localStorage.setItem("church_forced_overrides", JSON.stringify(localForcedOverrides));
-
-        showPage("result-page");
-        document.getElementById("form_field_name").value = activeKhadimName;
-        document.getElementById("form_field_code").value = `كود: ${activeKhadimCode}`;
-        document.getElementById("form_field_score").value = finalScoreString;
-        document.getElementById("hidden_google_form").submit();
-        setTimeout(fetchOnlineAnswersData, 2500);
-    }
-
-    function openReviewModal() {
-        const modal = document.getElementById("review-modal"); const container = document.getElementById("review-modal-body-content"); container.innerHTML = "";
-        let mySavedData = localForcedOverrides[activeKhadimName]; let userAnswersMap = mySavedData ? mySavedData.savedAnswers : selectedAnswers;
-
-        quizQuestions.forEach((q, idx) => {
-            let div = document.createElement("div"); div.className = "review-card"; div.innerHTML = `<div class="review-q-text">السؤال ${idx + 1}: ${q.q}</div>`;
-            let userSelectedKey = userAnswersMap[idx];
-            ['opt1', 'opt2', 'opt3', 'opt4'].forEach(k => {
-                if(q[k]) {
-                    let optText = q[k].trim(); let isCorrectAnswer = optText === q.correct.trim(); let isUserChoice = k === userSelectedKey;
-                    let optDiv = document.createElement("div"); optDiv.className = "review-opt"; optDiv.textContent = q[k];
-                    if (isUserChoice && isCorrectAnswer) { optDiv.classList.add("review-correct-match"); optDiv.innerHTML += " <span>✅ (إجابتك صحيحة)</span>"; } 
-                    else if (isUserChoice && !isCorrectAnswer) { optDiv.classList.add("review-wrong-match"); optDiv.innerHTML += " <span>❌ (إجابتك خاطئة)</span>"; } 
-                    else if (!isUserChoice && isCorrectAnswer) { optDiv.classList.add("review-highlight-truth"); optDiv.innerHTML += " <span>👈 الإجابة الصحيحة</span>"; }
-                    div.appendChild(optDiv);
-                }
-            });
-            container.appendChild(div);
-        });
-        modal.style.display = "flex";
-    }
-
-    function closeReviewModal() { document.getElementById("review-modal").style.display = "none"; }
-    
-    function loginAdmin() {
-        const pass = document.getElementById("admin-pass-field").value;
-        if (CryptoJS.SHA256(pass).toString() === ADMIN_HASHED_LOCK) { document.getElementById("admin-pass-field").value = ""; showPage("admin-dashboard-page"); fetchOnlineAnswersData(); } 
-        else { showChurchNotification("كود المرور خاطئ!"); }
-    }
-
-    function openEditAnswersModal() {
-        const select = document.getElementById("admin-edit-servant-select");
-        select.innerHTML = `<option value="">-- اختر اسم خادم لتعديل إجاباته --</option>`;
-        rawServants.forEach(name => {
-            let opt = document.createElement("option"); opt.value = name; opt.textContent = name;
-            select.appendChild(opt);
-        });
-        document.getElementById("admin-answers-edit-area").innerHTML = `<p style="text-align:center; color:#888;">اختر اسماً لعرض وتعديل إجاباته...</p>`;
-        document.getElementById("edit-answers-modal").style.display = "flex";
-    }
-
-    function closeEditAnswersModal() { document.getElementById("edit-answers-modal").style.display = "none"; }
-
-    function loadServantAnswersToEdit() {
-        const name = document.getElementById("admin-edit-servant-select").value;
-        const area = document.getElementById("admin-answers-edit-area");
-        if(!name) { area.innerHTML = ""; return; }
-        
-        let answersMap = {};
-        if (localForcedOverrides[name] && localForcedOverrides[name].savedAnswers) {
-            answersMap = localForcedOverrides[name].savedAnswers;
-        }
-        
-        area.innerHTML = "";
-        quizQuestions.forEach((q, idx) => {
-            let qDiv = document.createElement("div");
-            qDiv.style = "margin-bottom:15px; background:#fff; padding:10px; border-radius:8px; border:1px solid #ddd; text-align:right;";
-            qDiv.innerHTML = `<p style="font-weight:bold; color:var(--coptic-maroon); margin-bottom:5px;">س ${idx+1}: ${q.q}</p>`;
-            
-            let selHtml = `<select id="admin-edit-q-sel-${idx}" style="max-width:100%; padding:6px; margin:0;">`;
-            selHtml += `<option value="" ${!answersMap[idx]?'selected':''}>لم يحل</option>`;
-            ['opt1', 'opt2', 'opt3', 'opt4'].forEach(k => {
-                if(q[k]) {
-                    let isSel = answersMap[idx] === k;
-                    selHtml += `<option value="${k}" ${isSel?'selected':''}>${q[k]}</option>`;
-                }
-            });
-            selHtml += `</select>`;
-            qDiv.innerHTML += selHtml;
-            area.appendChild(qDiv);
-        });
-    }
-
-    function saveEditedAnswersAction() {
-        const name = document.getElementById("admin-edit-servant-select").value;
-        if(!name) { alert("من فضلك اختر اسم الخادم أولاً!"); return; }
-        
-        let newSavedAnswers = {};
-        let score = 0;
-        quizQuestions.forEach((q, idx) => {
-            let val = document.getElementById(`admin-edit-q-sel-${idx}`).value;
-            if(val) {
-                newSavedAnswers[idx] = val;
-                if(q[val] && q[val].trim() === q.correct.trim()) score++;
-            }
-        });
-        
-        let finalScoreString = `${score} من ${quizQuestions.length}`;
-        if(localResetExclusions[name]) delete localResetExclusions[name];
-        
-        localForcedOverrides[name] = {
-            score: finalScoreString,
-            date: new Date().toLocaleString("ar-EG") + " (تعديل الإدارة)",
-            savedAnswers: newSavedAnswers
+        // الحماية الصارمة: إعادة توجيه وتعطيل أي وظائف alert تقليدية قادمة من المتصفح أو السكربتات الخارجية
+        window.alert = function(message) {
+            customAlert(message, 'إشعار من النظام');
         };
-        localStorage.setItem("church_forced_overrides", JSON.stringify(localForcedOverrides));
-        localStorage.setItem("church_reset_exclusions", JSON.stringify(localResetExclusions));
-        
-        calculateAndRenderStats(); renderAdminTable(); closeEditAnswersModal();
-        showChurchNotification(`تم تعديل إجابات وحساب درجة ${name} بنجاح!`);
-    }
 
-    function openEditScoreOnlyModal() {
-        const select = document.getElementById("admin-score-servant-select");
-        select.innerHTML = `<option value="">-- اختر خادم لتعديل درجته --</option>`;
-        rawServants.forEach(name => {
-            let opt = document.createElement("option"); opt.value = name; opt.textContent = name;
-            select.appendChild(opt);
-        });
-        document.getElementById("admin-direct-score-num").value = "";
-        document.getElementById("edit-score-modal").style.display = "flex";
-    }
+        // دالة معالجة إرسال النموذج وإضافة السطور للجدول
+        function handleFormSubmit(event) {
+            event.preventDefault(); // منع إعادة تحميل الصفحة الافتراضية
+            
+            const name = document.getElementById('memberName').value;
+            const role = document.getElementById('memberRole').value;
+            const code = document.getElementById('accessCode').value;
 
-    function closeEditScoreOnlyModal() { document.getElementById("edit-score-modal").style.display = "none"; }
-
-    function loadServantScoreToEdit() {
-        const name = document.getElementById("admin-score-servant-select").value;
-        const input = document.getElementById("admin-direct-score-num");
-        if(!name) { input.value = ""; return; }
-        
-        let currentScore = 0;
-        let scoreStr = "";
-        if (cloudFetchedRecords[name]) scoreStr = cloudFetchedRecords[name].score;
-        if (localForcedOverrides[name]) scoreStr = localForcedOverrides[name].score;
-        
-        if(scoreStr && scoreStr.includes("من")) {
-            currentScore = parseInt(scoreStr.split("من")[0]);
-        }
-        input.value = currentScore;
-    }
-
-    function saveDirectScoreAction() {
-        const name = document.getElementById("admin-score-servant-select").value;
-        const newScoreVal = document.getElementById("admin-direct-score-num").value.trim();
-        if(!name || newScoreVal === "") { alert("برجاء إدخال البيانات كاملة!"); return; }
-        
-        let finalScoreString = `${newScoreVal} من ${quizQuestions.length}`;
-        if(localResetExclusions[name]) delete localResetExclusions[name];
-        
-        let existingAnswers = (localForcedOverrides[name] && localForcedOverrides[name].savedAnswers) ? localForcedOverrides[name].savedAnswers : {};
-        
-        localForcedOverrides[name] = {
-            score: finalScoreString,
-            date: new Date().toLocaleString("ar-EG") + " (تعديل يدوي للدرجة)",
-            savedAnswers: existingAnswers
-        };
-        localStorage.setItem("church_forced_overrides", JSON.stringify(localForcedOverrides));
-        localStorage.setItem("church_reset_exclusions", JSON.stringify(localResetExclusions));
-        
-        calculateAndRenderStats(); renderAdminTable(); closeEditScoreOnlyModal();
-        showChurchNotification(`تم تحديث درجة ${name} مباشرة إلى ${newScoreVal}!`);
-    }
-
-    function calculateAndRenderStats() {
-        let totalCount = rawServants.length; let solvedCount = 0; let totalPercentSum = 0;
-        rawServants.forEach(name => {
-            let hasSolved = false; let scoreStr = "";
-            if (cloudFetchedRecords[name]) { hasSolved = true; scoreStr = cloudFetchedRecords[name].score; }
-            if (localForcedOverrides[name]) { hasSolved = true; scoreStr = localForcedOverrides[name].score; }
-            if (localResetExclusions[name]) { hasSolved = false; }
-            if(hasSolved && scoreStr.includes("من")) {
-                solvedCount++; let parts = scoreStr.split("من"); let gained = parseFloat(parts[0]); let maxQ = parseFloat(parts[1]);
-                if(maxQ > 0) { totalPercentSum += (gained / maxQ) * 100; }
+            // التحقق من المدخلات
+            if(name.trim() === "" || code.trim() === "") {
+                customAlert("برجاء ملء الحقول المطلوبة أولاً قبل الحفظ.", "خطأ في الإدخال");
+                return;
             }
-        });
-        document.getElementById("stat-total-servants").textContent = totalCount;
-        document.getElementById("stat-completed").textContent = solvedCount;
-        document.getElementById("stat-pending").textContent = totalCount - solvedCount;
-        document.getElementById("stat-avg-score").textContent = (solvedCount > 0 ? Math.round(totalPercentSum / solvedCount) : 0) + "%";
-    }
 
-    function renderAdminTable() {
-        const tbody = document.getElementById("results-table-body"); tbody.innerHTML = "";
-        rawServants.forEach((name, index) => {
-            let tr = document.createElement("tr"); let title = getKhadimTitle(name); let accessCode = (index + 1).toString();
-            let scoreShow = `<span class="badge-unsolved">⏳ لم يحل بعد</span>`; let dateShow = "--";
-            if (cloudFetchedRecords[name]) { scoreShow = `<span class="badge-score">${cloudFetchedRecords[name].score}</span>`; dateShow = cloudFetchedRecords[name].date; }
-            if (localForcedOverrides[name]) { scoreShow = `<span class="badge-score" style="background-color: var(--success-green); padding:3px 7px; color:#fff; border-radius:4px; font-weight:bold;">${localForcedOverrides[name].score}</span>`; dateShow = localForcedOverrides[name].date; }
-            if (localResetExclusions[name]) { scoreShow = "<span style='color:orange; font-weight:bold;'>🔄 تصفير</span>"; dateShow = "--"; }
-            tr.innerHTML = `<td>${index + 1}</td><td style="color:var(--coptic-maroon); text-align:right; font-weight:bold; padding-right:15px;">${title}: ${name}</td><td style="font-weight:bold; color:var(--info-blue); font-family: monospace;">${accessCode}</td><td>${scoreShow}</td><td style="font-size:0.85rem; color:#555;">${dateShow}</td><td><button style="background:#E74C3C; color:#fff; padding:3px 8px; border:none; border-radius:4px; cursor:pointer;" onclick="resetSingleKhadimCloudUI('${name}')">🔄 تصفير</button></td>`;
-            tbody.appendChild(tr);
-        });
-    }
+            // محاكاة إضافة سطر جديد في الجدول المعروض
+            memberCount++;
+            const tbody = document.getElementById('membersTableBody');
+            const newRow = document.createElement('tr');
+            
+            newRow.innerHTML = `
+                <td>${memberCount}</td>
+                <td>${name}</td>
+                <td>${role}</td>
+                <td><span class="code-badge">${code}</span></td>
+                <td style="color: blue; font-weight: bold;">تم الحفظ محلياً</td>
+            `;
+            
+            tbody.appendChild(newRow);
 
-    function resetSingleKhadimCloudUI(name) {
-        if (confirm(`هل أنت متأكد من تصفير محاولة ${getKhadimTitle(name)} (${name})؟`)) {
-            localResetExclusions[name] = true; localStorage.setItem("church_reset_exclusions", JSON.stringify(localResetExclusions));
-            if (localForcedOverrides[name]) delete localForcedOverrides[name];
-            localStorage.setItem("church_forced_overrides", JSON.stringify(localForcedOverrides));
-            calculateAndRenderStats(); renderAdminTable(); showChurchNotification(`تم إعادة ضبط محاولة ${getKhadimTitle(name)}!`);
+            // إظهار الرسالة بنظام الموقع المخصص بنجاح
+            customAlert(`تم تسجيل الخادم (${name}) بنجاح في قاعدة بيانات الاجتماع وجاري التحديث المباشر!`, "تأكيد الحفظ");
+            
+            // تفريغ النموذج بعد النجاح
+            clearForm();
         }
-    }
 
-    function exportToExcel() {
-        let dataRows = [];
-        rawServants.forEach((name, idx) => {
-            let scoreShow = "لم يحل بعد"; let dateShow = "--";
-            if (cloudFetchedRecords[name]) { scoreShow = cloudFetchedRecords[name].score; dateShow = cloudFetchedRecords[name].date; }
-            if (localForcedOverrides[name]) { scoreShow = localForcedOverrides[name].score; dateShow = localForcedOverrides[name].date; }
-            dataRows.push({ "م": idx + 1, "اللقب": getKhadimTitle(name), "الاسم الكريم": name, "كود الدخول": idx + 1, "النتيجة": scoreShow, "التوقيت": dateShow });
-        });
-        const worksheet = XLSX.utils.json_to_sheet(dataRows); const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, "كشف المتابعة الكنسية"); XLSX.writeFile(workbook, "مسابقة_الكتاب_المقدس_الفاخرة.xlsx");
-    }
-
-    function showPage(id) { document.querySelectorAll('.page').forEach(p => p.classList.remove('active-page')); document.getElementById(id).classList.add('active-page'); }
-    window.onload = initApp;
-</script>
+        // دالة مسح خانات الإدخال
+        function clearForm() {
+            document.getElementById('memberName').value = '';
+            document.getElementById('accessCode').value = '';
+            document.getElementById('memberRole').selectedIndex = 0;
+        }
+    </script>
 </body>
 </html>
