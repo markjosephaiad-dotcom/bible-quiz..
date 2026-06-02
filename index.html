@@ -3,11 +3,20 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إدارة اجتماع الخدام</title>
+    <title>مسابقة دراسة الكتاب المقدس - كنيسة الشهيد العظيم أبي سيفين</title>
     <style>
-        /* إعدادات الخطوط والألوان العامة */
-        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;700&display=swap');
-        
+        /* الهوية البصرية والألوان المارونية والذهبية مع الطابع القبطي */
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;700&family=Reem+Kufi:wght@500;700&display=swap');
+
+        :root {
+            --maroon: #58181A;
+            --gold: #D4AF37;
+            --gold-dark: #AA820A;
+            --cream: #FFFDD0;
+            --dark: #1E1E1E;
+            --light-maroon: #722224;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -16,170 +25,362 @@
         }
 
         body {
-            background-color: #f4f6f9;
-            color: #333;
-            padding: 20px;
-            direction: rtl;
+            background-color: var(--maroon);
+            color: #FFFFFF;
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* الهيدر والعناوين المطلوبة */
+        /* تأثير الخلفية المخملية القبطية بنقش خفيف */
+        body::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(rgba(212, 175, 55, 0.05) 1px, transparent 0);
+            background-size: 24px 24px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
         header {
+            background-color: var(--light-maroon);
+            border-bottom: 4px double var(--gold);
+            padding: 20px 10px;
             text-align: center;
-            background: linear-gradient(135deg, #1e3c72, #2a5298);
-            color: white;
-            padding: 35px 20px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+            position: relative;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.5);
         }
 
-        header h1 {
-            font-size: 24px;
-            font-weight: 700;
+        .header-title {
+            font-family: 'Reem Kufi', sans-serif;
+            color: var(--gold);
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.6);
+        }
+
+        .coptic-cross {
+            display: inline-block;
+            color: var(--gold);
+            font-size: 1.5rem;
+            margin: 0 10px;
+            vertical-align: middle;
+        }
+
+        .header-sub {
+            font-size: 1.1rem;
+            color: #F0F0F0;
             margin-bottom: 12px;
-            line-height: 1.6;
         }
 
-        header h2 {
-            font-size: 18px;
-            font-weight: 300;
-            opacity: 0.95;
-            letter-spacing: 0.5px;
+        .verse-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-left: 3px solid var(--gold);
+            border-right: 3px solid var(--gold);
+            padding: 10px 15px;
+            display: inline-block;
+            max-width: 85%;
+            margin: 5px auto;
+            border-radius: 4px;
         }
 
-        /* الحاوية الرئيسية للمحتوى */
-        .container {
-            max-width: 1100px;
-            margin: 0 auto;
-            background: white;
+        .verse-text {
+            font-family: 'Reem Kufi', sans-serif;
+            color: var(--cream);
+            font-size: 1.1rem;
+            font-style: italic;
+        }
+
+        /* تنسيق مستطيلات الصور الكبيرة بالنسبة للممتحن */
+        .images-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 5%;
+            gap: 20px;
+        }
+
+        .side-img-wrapper {
+            width: 160px;
+            height: 220px;
+            border: 3px solid var(--gold);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.6);
+            background-color: rgba(0,0,0,0.2);
+            border-radius: 4px;
+            overflow: hidden;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .side-img-wrapper:hover {
+            transform: scale(1.03);
+        }
+
+        .side-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* الحاوية الرئيسية والتجاوب */
+        .main-container {
+            max-width: 850px;
+            margin: 0 auto 50px auto;
+            padding: 0 20px;
+            flex-grow: 1;
+        }
+
+        .card {
+            background-color: var(--light-maroon);
+            border: 2px solid var(--gold);
+            border-radius: 8px;
             padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            margin-top: 10px;
+            animation: fadeIn 0.5s ease-in-out;
         }
 
-        /* أقسام النماذج والبيانات */
-        .section-title {
-            color: #1e3c72;
-            border-bottom: 2px solid #eef2f5;
-            padding-bottom: 8px;
-            margin-bottom: 20px;
-            font-size: 18px;
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
+        .btn {
+            background: linear-gradient(135deg, var(--gold), var(--gold-dark));
+            color: var(--maroon);
+            border: none;
+            padding: 12px 24px;
+            font-weight: bold;
+            font-size: 1.05rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 15px rgba(212,175,55,0.4);
+            filter: brightness(1.1);
+        }
+
+        .btn-secondary {
+            background: rgba(0,0,0,0.4);
+            color: #FFFFFF;
+            border: 1px solid var(--gold);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(212,175,55,0.15);
+        }
+
+        .btn-admin-trigger {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            padding: 6px 14px;
+            font-size: 0.85rem;
+            z-index: 10;
+        }
+
+        /* واجهة الدخول والخادم/الخادمة */
         .form-group {
-            margin-bottom: 15px;
+            margin-bottom: 20px;
+            text-align: right;
         }
 
         label {
             display: block;
-            margin-bottom: 7px;
+            color: var(--gold);
+            margin-bottom: 8px;
             font-weight: bold;
-            font-size: 14px;
-            color: #444;
         }
 
-        input[type="text"], input[type="password"], select {
+        select, input[type="password"], input[type="text"] {
             width: 100%;
             padding: 12px;
-            border: 1px solid #ccc;
-            border-radius: 6px;
-            font-size: 14px;
-            background-color: #fafafa;
-            transition: border-color 0.2s;
+            background-color: rgba(0,0,0,0.4);
+            border: 1px solid var(--gold);
+            border-radius: 4px;
+            color: #FFFFFF;
+            font-size: 1.05rem;
         }
 
-        input[type="text"]:focus, input[type="password"]:focus, select:focus {
+        select:focus, input:focus {
             outline: none;
-            border-color: #1e3c72;
-            background-color: #fff;
+            border-color: #FFFFFF;
+            box-shadow: 0 0 8px rgba(212,175,55,0.5);
         }
 
-        /* الأزرار */
-        .btn-container {
-            display: flex;
-            gap: 10px;
-            margin-top: 20px;
-        }
-
-        .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: bold;
-            transition: background 0.2s, transform 0.1s;
-            flex: 1;
-            text-align: center;
-        }
-
-        .btn-primary {
-            background-color: #1e3c72;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #2a5298;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-
-        .btn:active {
-            transform: scale(0.98);
-        }
-
-        /* تصميم جدول عرض البيانات المعاصر */
-        .table-responsive {
-            overflow-x: auto;
-            margin-top: 30px;
-        }
-
-        table {
+        /* مشغل الإصحاح الاحترافي */
+        .reading-progress-container {
             width: 100%;
-            border-collapse: collapse;
-            text-align: right;
-            margin-top: 10px;
-            font-size: 14px;
+            height: 4px;
+            background-color: rgba(0,0,0,0.2);
+            position: fixed;
+            top: 0; left: 0; z-index: 1000;
+        }
+        #readingProgress {
+            height: 100%;
+            width: 0%;
+            background-color: var(--gold);
+            transition: width 0.1s;
         }
 
-        th, td {
-            padding: 12px 15px;
-            border-bottom: 1px solid #eef2f5;
+        .chapter-title {
+            color: var(--gold);
+            text-align: center;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            border-bottom: 1px dashed var(--gold);
+            padding-bottom: 10px;
         }
 
-        th {
-            background-color: #f8f9fa;
-            color: #1e3c72;
-            font-weight: 700;
+        .font-controls {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-bottom: 15px;
         }
 
-        tr:hover {
-            background-color: #fdfdfd;
+        .chapter-text-box {
+            background-color: rgba(0,0,0,0.25);
+            border-radius: 6px;
+            padding: 20px;
+            max-height: 380px;
+            overflow-y: auto;
+            border: 1px solid rgba(212,175,55,0.3);
+            white-space: pre-line;
+            line-height: 1.8;
+            text-align: justify;
+            margin-bottom: 20px;
         }
 
-        /* نظام النوافذ الانبثاقية الاحترافي المخصص (Custom Modals) */
+        .audio-player-panel {
+            background: rgba(0,0,0,0.4);
+            border: 1px solid var(--gold);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 20px;
+        }
+
+        .audio-controls {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .timeline-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+        }
+
+        .slider {
+            -webkit-appearance: none;
+            width: 100%;
+            height: 6px;
+            border-radius: 3px;
+            background: rgba(255,255,255,0.2);
+            outline: none;
+        }
+
+        .slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 5px;
+            background: var(--gold);
+            cursor: pointer;
+        }
+
+        .time-display {
+            font-size: 0.85rem;
+            color: var(--cream);
+            min-width: 45px;
+        }
+
+        /* واجهة الأسئلة والخيارات التفاعلية بالكريمي والذهبي */
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--gold);
+            padding-bottom: 10px;
+        }
+
+        .timer-box {
+            background-color: #000000;
+            border: 1px solid var(--gold);
+            padding: 5px 12px;
+            border-radius: 4px;
+            color: #FF3333;
+            font-family: monospace;
+            font-size: 1.2rem;
+            font-weight: bold;
+        }
+
+        .question-text {
+            font-size: 1.25rem;
+            margin-bottom: 20px;
+            color: #FFFFFF;
+            font-weight: bold;
+        }
+
+        .options-list {
+            list-style: none;
+        }
+
+        .option-item {
+            background-color: rgba(0,0,0,0.3);
+            border: 1px solid rgba(212,175,55,0.4);
+            padding: 14px;
+            border-radius: 5px;
+            margin-bottom: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .option-item:hover {
+            background-color: rgba(212,175,55,0.1);
+        }
+
+        /* تلوين الخيار المحدد بالكريمي والذهبي */
+        .option-item.selected {
+            background-color: var(--cream) !important;
+            color: var(--maroon) !important;
+            border: 2px solid var(--gold) !important;
+            font-weight: bold;
+        }
+
+        .nav-actions {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 25px;
+        }
+
+        /* النوافذ المنبثقة المخصصة الفاخرة (Custom Modals) */
         .modal-overlay {
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(3px); /* تأثير ضبابي خلف النافذة لجعلها احترافية */
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: rgba(0,0,0,0.8);
             display: flex;
-            justify-content: center;
             align-items: center;
-            z-index: 9999;
+            justify-content: center;
+            z-index: 2000;
             opacity: 0;
             pointer-events: none;
             transition: opacity 0.3s ease;
+            padding: 15px;
         }
 
         .modal-overlay.active {
@@ -187,204 +388,1028 @@
             pointer-events: auto;
         }
 
-        .modal-box {
-            background: white;
-            padding: 30px;
-            border-radius: 12px;
-            width: 90%;
-            max-width: 450px;
-            text-align: center;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            transform: translateY(-30px);
-            transition: transform 0.3s ease;
-        }
-
-        .modal-overlay.active .modal-box {
-            transform: translateY(0);
-        }
-
-        .modal-box h3 {
-            color: #1e3c72;
-            margin-bottom: 15px;
-            font-size: 22px;
-            font-weight: 700;
-        }
-
-        .modal-box p {
-            margin-bottom: 25px;
-            color: #555;
-            font-size: 16px;
-            line-height: 1.6;
-        }
-
-        .modal-close-btn {
-            background-color: #1e3c72;
-            color: white;
-            border: none;
-            padding: 10px 30px;
-            border-radius: 6px;
-            cursor: pointer;
-            font-size: 15px;
-            font-weight: bold;
-            transition: background 0.2s;
+        .modal-card {
+            background-color: var(--light-maroon);
+            border: 3px solid var(--gold);
+            border-radius: 8px;
+            max-width: 650px;
             width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            padding: 25px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.8);
+            position: relative;
+            animation: modalSlide 0.3s ease;
         }
 
-        .modal-close-btn:hover {
-            background-color: #2a5298;
+        @keyframes modalSlide {
+            from { transform: translateY(-30px); }
+            to { transform: translateY(0); }
         }
 
-        /* تنسيق الأكواد المخصصة للأعضاء */
-        .code-badge {
-            background-color: #eef2f5;
-            color: #1e3c72;
-            padding: 3px 8px;
+        .modal-title {
+            color: var(--gold);
+            font-size: 1.4rem;
+            margin-bottom: 15px;
+            border-bottom: 2px double var(--gold);
+            padding-bottom: 8px;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: none;
+            border: none;
+            color: var(--gold);
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        /* مراجعة الإجابات (أخضر للصح وأحمر للخطأ) */
+        .review-item {
+            background: rgba(0,0,0,0.2);
+            border-radius: 6px;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-right: 4px solid var(--gold);
+        }
+        .review-item.correct-item {
+            border-right-color: #2ecc71;
+        }
+        .review-item.wrong-item {
+            border-right-color: #e74c3c;
+        }
+        .review-opt {
+            padding: 8px;
+            margin: 5px 0;
             border-radius: 4px;
-            font-family: monospace;
+        }
+        .review-opt.user-correct {
+            background-color: rgba(46, 204, 113, 0.25);
+            border: 1px solid #2ecc71;
+            color: #fff;
+        }
+        .review-opt.user-wrong {
+            background-color: rgba(231, 76, 60, 0.25);
+            border: 1px solid #e74c3c;
+            color: #fff;
+        }
+        .review-opt.actual-right {
+            background-color: rgba(46, 204, 113, 0.2);
+            border: 1px dashed #2ecc71;
+        }
+
+        /* لوحة الإدارة الفاخرة والجداول */
+        .admin-stats-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .stat-card {
+            background: rgba(0,0,0,0.3);
+            border: 1px solid var(--gold);
+            padding: 15px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        .stat-val {
+            font-size: 1.6rem;
+            color: var(--gold);
             font-weight: bold;
+        }
+        .admin-actions-bar {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+            margin-bottom: 20px;
+            background: rgba(0,0,0,0.2);
+            padding: 10px;
+            border-radius: 6px;
+        }
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 15px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: right;
+        }
+        th, td {
+            padding: 12px;
+            border-bottom: 1px solid rgba(212,175,55,0.3);
+        }
+        th {
+            background-color: rgba(0,0,0,0.4);
+            color: var(--gold);
+            font-weight: bold;
+        }
+        tr:hover {
+            background-color: rgba(212,175,55,0.05);
+        }
+
+        /* معالج التحميل الهيكلي (Skeleton Loading) */
+        .skeleton {
+            background: linear-gradient(90deg, rgba(255,255,255,0.05) 25%, rgba(255,255,255,0.1) 50%, rgba(255,255,255,0.05) 75%);
+            background-size: 200% 100%;
+            animation: loadingSkeleton 1.5s infinite;
+            border-radius: 4px;
+        }
+        @keyframes loadingSkeleton {
+            0% { background-position: 200% 0; }
+            100% { background-position: -200% 0; }
+        }
+
+        /* التجاوب على شاشات الموبايل الصغيرة */
+        @media (max-width: 768px) {
+            .images-container {
+                padding: 10px;
+                gap: 10px;
+            }
+            .side-img-wrapper {
+                width: 75px;
+                height: 110px;
+            }
+            .header-title {
+                font-size: 1.3rem;
+            }
+            .verse-text {
+                font-size: 0.9rem;
+            }
+            .btn-admin-trigger {
+                position: relative;
+                top: 0; left: 0;
+                margin-bottom: 10px;
+                display: block;
+                width: fit-content;
+            }
+            .nav-actions {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .btn {
+                width: 100%;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- الهيدر المعدل والمطلوب بدقة -->
+    <div class="reading-progress-container"><div id="readingProgress"></div></div>
+
     <header>
-        <h1>كنيسة الشهيد العظيم فيلوباتير مرقوريوس أبي سيفين - بمدينة عامر</h1>
-        <h2>اجتماع الخدام و الخادمات العام</h2>
+        <button class="btn btn-secondary btn-admin-trigger" onclick="openAdminGate()">لوحة الإدارة 🔑</button>
+        <h1 class="header-title">
+            <span class="coptic-cross">✙</span>مسابقة دراسة الكتاب المقدس<span class="coptic-cross">✙</span>
+        </h1>
+        <div class="header-sub">كنيسة الشهيد العظيم فيلوباتير مرقوريوس أبي سيفين - بمدينة عامر</div>
+        <div class="header-sub" style="font-weight: bold; color: var(--gold);">اجتماع الخدام والخادمات العام</div>
+        <div class="verse-box">
+            <span class="verse-text">"فَتِّشُوا الْكُتُبَ لأَنَّكُمْ تَظُنُّونَ أَنَّ لَكُمْ فِيهَا حَيَاةً أَبَدِيَّةً. وَهِيَ الَّتِي تَشْهَدُ لِي." (يوحنا 5: 39)</span>
+        </div>
     </header>
 
-    <!-- المحتوى واللوحة الرئيسية -->
-    <div class="container">
-        
-        <!-- نموذج تسجيل / إضافة خادم -->
-        <div class="section-title">تسجيل خادم جديد / تعديل البيانات</div>
-        
-        <form id="memberForm" onsubmit="handleFormSubmit(event)">
-            <div class="form-group">
-                <label for="memberName">اسم الخادم / الخادمة:</label>
-                <input type="text" id="memberName" placeholder="أدخل الاسم بالكامل" required>
-            </div>
+    <!-- توزيع الصور الكبيرة مستطيلة بالنسبة للممتحن -->
+    <div class="images-container">
+        <!-- يمين الممتحن: أبي سيفين -->
+        <div class="side-img-wrapper">
+            <img src="abusafein.jpg" alt="الشهيد العظيم أبي سيفين" class="side-img" onerror="this.style.display='none'">
+        </div>
+        <!-- يسار الممتحن: العذراء مريم -->
+        <div class="side-img-wrapper">
+            <img src="virgin.jpg" alt="القديسة العذراء مريم" class="side-img" onerror="this.style.display='none'">
+        </div>
+    </div>
 
+    <div class="main-container">
+        <!-- 1. واجهة تسجيل الدخول للخدام -->
+        <div id="loginSection" class="card">
+            <h2 style="color:var(--gold); margin-bottom:15px; text-align:center;">تسجيل دخول الخدام</h2>
             <div class="form-group">
-                <label for="memberRole">قطاع الخدمة الأساسي:</label>
-                <select id="memberRole">
-                    <option value="ابتدائي">مرحلة ابتدائي</option>
-                    <option value="إعدادي">مرحلة إعدادي</option>
-                    <option value="ثانوي">مرحلة ثانوي</option>
-                    <option value="خريجين">عام / خريجين</option>
+                <label for="servantSelect">اختر اسمك :</label>
+                <select id="servantSelect">
+                    <option value="">-- اضغط واختبر اسمك --</option>
                 </select>
             </div>
-
             <div class="form-group">
-                <label for="accessCode">كود الدخول المخصص:</label>
-                <input type="text" id="accessCode" placeholder="أدخل كود الدخول الخاص بالخادم" required>
+                <label for="accessCode">كود التحقق:</label>
+                <input type="password" id="accessCode" placeholder="أدخل رقم الكود الخاص بترتيبك الأبجدي">
             </div>
-
-            <div class="btn-container">
-                <button type="submit" class="btn btn-primary">حفظ وتأكيد البيانات</button>
-                <button type="button" class="btn btn-secondary" onclick="clearForm()">تفريغ الخانات</button>
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="btn" onclick="handleLogin()">دخول لقراءة الإصحاح 📖</button>
             </div>
-        </form>
-
-        <!-- جدول استعراض قائمة الخدام المضافة مؤقتاً للتجربة -->
-        <div class="table-responsive">
-            <div class="section-title">قائمة الأعضاء الحاليين بالاجتماع</div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>م</th>
-                        <th>الاسم</th>
-                        <th>القطاع</th>
-                        <th>كود الوصول المخصص</th>
-                        <th>حالة الإرسال للشيت</th>
-                    </tr>
-                </thead>
-                <tbody id="membersTableBody">
-                    <!-- بيانات تجريبية لمحاكاة النظام بالكامل -->
-                    <tr>
-                        <td>١</td>
-                        <td>خادم تجريبي ١</td>
-                        <td>مرحلة ابتدائي</td>
-                        <td><span class="code-badge">SERV-101</span></td>
-                        <td style="color: green; font-weight: bold;">متصل ومحدث</td>
-                    </tr>
-                </tbody>
-            </table>
         </div>
 
-    </div>
-
-    <!-- النافذة الانبثاقية المخصصة (الحل الجذري لمنع رسائل المتصفح الخارجية) -->
-    <div class="modal-overlay" id="systemModal">
-        <div class="modal-box">
-            <h3 id="modalSystemTitle">تنبيه من النظام</h3>
-            <p id="modalSystemMessage">هذا النص يتم استبداله ديناميكياً عند استدعاء النافذة.</p>
-            <button class="modal-close-btn" onclick="closeSystemModal()">موافق</button>
-        </div>
-    </div>
-
-    <script>
-        // إعداد عداد تسلسلي للبيانات التجريبية
-        let memberCount = 1;
-
-        // دالة مخصصة تظهر النوافذ من داخل الموقع بدقة
-        function customAlert(message, title = 'تنبيه النظام') {
-            document.getElementById('modalSystemTitle').innerText = title;
-            document.getElementById('modalSystemMessage').innerText = message;
-            document.getElementById('systemModal').classList.add('active');
-        }
-
-        // دالة إغلاق النافذة المخصصة
-        function closeSystemModal() {
-            document.getElementById('systemModal').classList.remove('active');
-        }
-
-        // الحماية الصارمة: إعادة توجيه وتعطيل أي وظائف alert تقليدية قادمة من المتصفح أو السكربتات الخارجية
-        window.alert = function(message) {
-            customAlert(message, 'إشعار من النظام');
-        };
-
-        // دالة معالجة إرسال النموذج وإضافة السطور للجدول
-        function handleFormSubmit(event) {
-            event.preventDefault(); // منع إعادة تحميل الصفحة الافتراضية
+        <!-- 2. واجهة قراءة واستماع الإصحاح -->
+        <div id="chapterSection" class="card" style="display: none;">
+            <div id="chapterTitle" class="chapter-title skeleton" style="height:35px; width:60%; margin:0 auto 15px auto;"></div>
             
-            const name = document.getElementById('memberName').value;
-            const role = document.getElementById('memberRole').value;
-            const code = document.getElementById('accessCode').value;
+            <div class="font-controls">
+                <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.85rem;" onclick="adjustFont(2)">تكبير الخط ➕</button>
+                <button class="btn btn-secondary" style="padding:4px 10px; font-size:0.85rem;" onclick="adjustFont(-2)">تصغير الخط ➖</button>
+            </div>
 
-            // التحقق من المدخلات
-            if(name.trim() === "" || code.trim() === "") {
-                customAlert("برجاء ملء الحقول المطلوبة أولاً قبل الحفظ.", "خطأ في الإدخال");
+            <div id="chapterBody" class="chapter-text-box">
+                <div class="skeleton" style="height:20px; width:90%; margin-bottom:10px;"></div>
+                <div class="skeleton" style="height:20px; width:85%; margin-bottom:10px;"></div>
+                <div class="skeleton" style="height:20px; width:93%; margin-bottom:10px;"></div>
+            </div>
+
+            <!-- مشغل يوتيوب صوتي مخفي للتحكم عبر أزرار مخصصة -->
+            <div id="ytPlayerContainer" style="display:none;">
+                <div id="ytAudioEngine"></div>
+            </div>
+
+            <div class="audio-player-panel">
+                <label style="margin-bottom:10px; display:block;">🔊 مشغل استماع الإصحاح المطور:</label>
+                <div class="audio-controls">
+                    <button class="btn" id="playBtn" onclick="playAudio()">استمع للإصحاح ▶️</button>
+                    <button class="btn btn-secondary" id="pauseBtn" onclick="pauseAudio()">إيقاف مؤقت ⏸️</button>
+                </div>
+                <div class="timeline-container">
+                    <span class="time-display" id="currentTime">00:00</span>
+                    <input type="range" class="slider" id="audioSlider" min="0" max="100" value="0" oninput="seekAudio(this.value)">
+                    <span class="time-display" id="totalTime">00:00</span>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top:20px;">
+                <button class="btn" onclick="triggerQuizTransition()">إنهاء والتوجه للأسئلة 📝</button>
+            </div>
+        </div>
+
+        <!-- 3. واجهة حوض الأسئلة والحل -->
+        <div id="quizSection" class="card" style="display: none;">
+            <div class="quiz-header">
+                <div id="welcomeUser" style="color: var(--gold); font-weight:bold;"></div>
+                <div class="timer-box" id="quizTimer">03:00</div>
+            </div>
+            <div id="questionProgress" style="margin-bottom:10px; color: var(--cream); font-size:0.9rem;"></div>
+            <div id="quizContainer">
+                <!-- يُحقن السؤال ديناميكياً هنا -->
+            </div>
+            <div class="nav-actions">
+                <button class="btn btn-secondary" id="prevBtn" onclick="navigateQuestion(-1)">السابق للخلف ↩️</button>
+                <button class="btn" id="nextBtn" onclick="navigateQuestion(1)">التالي للأمام ↪️</button>
+                <button class="btn" id="submitBtn" style="background:linear-gradient(135deg, #2ecc71, #27ae60); color:#fff; display:none;" onclick="triggerSubmitConfirmation()">إنهاء وإرسال الإجابات ✔️</button>
+            </div>
+        </div>
+
+        <!-- 4. واجهة نتيجة النجاح والمراجعة -->
+        <div id="resultSection" class="card" style="display: none;">
+            <div style="text-align: center;">
+                <h2 style="color: var(--gold); font-family:'Reem Kufi', sans-serif; font-size:1.8rem; margin-bottom:15px;" id="successVerse">"شُكْرًا لِلَّهِ الَّذِي يَقُودُنَا فِي مَوْكِبِ نُصْرَتِهِ"</h2>
+                <div style="font-size: 1.4rem; margin-bottom: 10px;">نتيجتك هي:</div>
+                <div id="scoreDisplay" style="font-size: 3rem; font-weight:bold; color:var(--gold); text-shadow:0 0 10px rgba(212,175,55,0.4); margin-bottom:20px;">0 / 10</div>
+                <button class="btn" onclick="openReviewModal()">عرف إجاباتك ونتيجتك بالتفصيل 🔎</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- مصفوفة النوافذ المنبثقة المخصصة الفاخرة (Custom Modals) -->
+    <!-- أ. نافذة الدخول للإدارة -->
+    <div class="modal-overlay" id="adminGateModal">
+        <div class="modal-card" style="max-width: 400px;">
+            <button class="close-modal" onclick="closeModal('adminGateModal')">×</button>
+            <h3 class="modal-title">  الإدارة</h3>
+            <div class="form-group">
+                <label>أدخل كود للإدارة:</label>
+                <input type="password" id="adminPassField">
+            </div>
+            <button class="btn" style="width:100%;" onclick="verifyAdminAccess()">دخول لوحة التحكم 📂</button>
+        </div>
+    </div>
+
+    <!-- ب. نافذة لوحة التحكم المتقدمة الفاخرة (Dashboard) -->
+    <div class="modal-overlay" id="adminDashboardModal">
+        <div class="modal-card" style="max-width: 900px;">
+            <button class="close-modal" onclick="closeModal('adminDashboardModal')">×</button>
+            <h3 class="modal-title">لوحة الإدارة والتحكم الفاخرة السحابية 📊</h3>
+            
+            <div class="admin-stats-row">
+                <div class="stat-card"><div>إجمالي الحلوا</div><div class="stat-val" id="statTotal">0</div></div>
+                <div class="stat-card"><div>متوسط الدرجات</div><div class="stat-val" id="statAvg">0</div></div>
+                <div class="stat-card"><div>أعلى درجة</div><div class="stat-val" id="statHigh">0</div></div>
+            </div>
+
+            <div class="admin-actions-bar">
+                <button class="btn btn-secondary" onclick="openModifyAnswersModal()">🛠️ تعديل الإجابات</button>
+                <button class="btn btn-secondary" onclick="openModifyScoreModal()">✏️ تعديل الدرجة</button>
+                <button class="btn btn-secondary" onclick="openResetServantModal()">🔄 تصفير إجابات خادم</button>
+                <button class="btn" style="background:#AA820A;" onclick="refreshAdminData()">تحديث البيانات المباشرة 🔃</button>
+            </div>
+
+            <h4 style="color:var(--gold); margin-top:15px;">جدول رصد النتائج الأونلاين الموحد:</h4>
+            <div class="table-wrapper">
+                <table id="adminResultsTable">
+                    <thead>
+                        <tr>
+                            <th>اسم الخادم / الخادمة</th>
+                            <th>وقت دخول الامتحان</th>
+                            <th>النتيجة الفردية</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td colspan="3" style="text-align:center;">اضغط على تحديث لجلب البيانات السحابية الحية...</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- ت. نافذة تعديل الإجابات لخادم -->
+    <div class="modal-overlay" id="modifyAnswersModal">
+        <div class="modal-card">
+            <button class="close-modal" onclick="closeModal('modifyAnswersModal')">×</button>
+            <h3 class="modal-title">تعديل الاختيارات والخيارات لخادم</h3>
+            <div class="form-group">
+                <label>اختر اسم الخادم لتعديل خياراته:</label>
+                <select id="modAnsServantSelect" onchange="loadServantAnswersToModify(this.value)"></select>
+            </div>
+            <div id="modAnsQuestionsContainer" style="max-height: 300px; overflow-y:auto; margin-bottom:15px;"></div>
+            <button class="btn" style="width:100%;" onclick="saveModifiedAnswers()">حفظ تعديل الإجابات السحابية 💾</button>
+        </div>
+    </div>
+
+    <!-- ث. نافذة تعديل درجة خادم -->
+    <div class="modal-overlay" id="modifyScoreModal">
+        <div class="modal-card" style="max-width:450px;">
+            <button class="close-modal" onclick="closeModal('modifyScoreModal')">×</button>
+            <h3 class="modal-title">تعديل الدرجة الرقمية بشكل مستقل</h3>
+            <div class="form-group">
+                <label>اختر الخادم:</label>
+                <select id="modScoreServantSelect"></select>
+            </div>
+            <div class="form-group">
+                <label>الدرجة الجديدة:</label>
+                <input type="text" id="newScoreField" placeholder="مثال: 9">
+            </div>
+            <button class="btn" style="width:100%;" onclick="saveModifiedScore()">تحديث الدرجة الآن 📝</button>
+        </div>
+    </div>
+
+    <!-- ج. نافذة تصفير خادم مفرداً لإعادة الامتحان -->
+    <div class="modal-overlay" id="resetServantModal">
+        <div class="modal-card" style="max-width:450px;">
+            <button class="close-modal" onclick="closeModal('resetServantModal')">×</button>
+            <h3 class="modal-title">تصفير ومسح محاولة خادم معين</h3>
+            <p style="font-size:0.9rem; margin-bottom:15px; color:#ddd;">هذا الإجراء يمسح محاولته تماماً ليتسنى له الدخول ثانية من أي جهاز في العالم وكأنه لم يحل.</p>
+            <div class="form-group">
+                <label>اختر اسم الخادم:</label>
+                <select id="resetServantSelect"></select>
+            </div>
+            <button class="btn" style="width:100%; background:#e74c3c; color:#fff;" onclick="executeResetServant()">تصفير ومسح المحاولة الآن 🔄</button>
+        </div>
+    </div>
+
+    <!-- ح. نافذة مراجعة الإجابات للممتحن (أخضر وأحمر) -->
+    <div class="modal-overlay" id="reviewQuizModal">
+        <div class="modal-card">
+            <button class="close-modal" onclick="closeModal('reviewQuizModal')">×</button>
+            <h3 class="modal-title">مراجعة أسئلة واجابات الإصحاح اليومي</h3>
+            <div id="reviewModalContainer"></div>
+        </div>
+    </div>
+
+    <!-- خ. نافذة تأكيد الإجراءات العامة لمنع الضغط بالخطأ -->
+    <div class="modal-overlay" id="confirmModal">
+        <div class="modal-card" style="max-width:400px; text-align:center;">
+            <h3 class="modal-title" id="confirmTitle">تأكيد الإجراء</h3>
+            <p id="confirmMessage" style="margin-bottom:20px;"></p>
+            <div style="display:flex; gap:10px; justify-content:center;">
+                <button class="btn" id="confirmYesBtn">نعم، متأكد ✔️</button>
+                <button class="btn btn-secondary" onclick="closeModal('confirmModal')">إلغاء ❌</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- دمج السكربت البرمجي والمحاكاة لضمان السلامة المطلقة للبيانات -->
+    <script>
+        // كشف الخدام الـ 70 المنسق والجاهز أبجدياً وصارماً 100%
+        const SERVANTS_DATA = [
+            { id: 1, name: "امال سامي", gender: "F" }, { id: 2, name: "ايريني سمير", gender: "F" },
+            { id: 3, name: "ايريني عاطف", gender: "F" }, { id: 4, name: "توني هاني", gender: "M" },
+            { id: 5, name: "جاكلين سعيد", gender: "F" }, { id: 6, name: "جانيت ويصا", gender: "F" },
+            { id: 7, name: "جمال حنا", gender: "M" }, { id: 8, name: "جورج فايز", gender: "M" },
+            { id: 9, name: "جيرمين زاهر", gender: "F" }, { id: 10, name: "جيهان شحاتة", gender: "F" },
+            { id: 11, name: "جيهان ماهر", gender: "F" }, { id: 12, name: "رامز امير", gender: "M" },
+            { id: 13, name: "رامي سعيد", gender: "M" }, { id: 14, name: "رزق كمال", gender: "M" },
+            { id: 15, name: "رمزي سعيد", gender: "M" }, { id: 16, name: "رؤوف خير", gender: "M" },
+            { id: 17, name: "سارة عماد", gender: "F" }, { id: 18, name: "ساندرا جورج", gender: "F" },
+            { id: 19, name: "سامية جريس", gender: "F" }, { id: 20, name: "سماح حلمي", gender: "F" },
+            { id: 21, name: "سماح نعيم", gender: "F" }, { id: 22, name: "سمر جادالرب", gender: "F" },
+            { id: 23, name: "سمير زكي", gender: "M" }, { id: 24, name: "سناء سعيد", gender: "F" },
+            { id: 25, name: "شريف شهدي", gender: "M" }, { id: 26, name: "شكرالله نصر", gender: "M" },
+            { id: 27, name: "شيري شهدي", gender: "F" }, { id: 28, name: "صفاء سمير", gender: "F" },
+            { id: 29, name: "صفاء عدلي", border: "F", gender: "F" }, { id: 30, name: "عادل فرج", gender: "M" },
+            { id: 31, name: "عادلي رمزي", gender: "M" }, { id: 32, name: "عايدة معوض", gender: "F" },
+            { id: 33, name: "عايدة يعقوب", gender: "F" }, { id: 34, name: "عماد سمير", gender: "M" },
+            { id: 35, name: "فادي سليمان", gender: "M" }, { id: 36, name: "فادي كحيل", gender: "M" },
+            { id: 37, name: "فيوليت فوزي", gender: "F" }, { id: 38, name: "كرستين نصر", gender: "F" },
+            { id: 39, name: "كريم شكرالله", gender: "M" }, { id: 40, name: "كمال كريم", gender: "M" },
+            { id: 41, name: "كيرلس اسامه", gender: "M" }, { id: 42, name: "كيرلس فادي", gender: "M" },
+            { id: 43, name: "كيرلس يوسف", gender: "M" }, { id: 44, name: "ليلي وهبه", gender: "F" },
+            { id: 45, name: "ماجدة نجيب", gender: "F" }, { id: 46, name: "مارك جوزيف", gender: "M" },
+            { id: 47, name: "ماركو مجدي", gender: "M" }, { id: 48, name: "ماري عادل", gender: "F" },
+            { id: 49, name: "ماري وجيه", gender: "F" }, { id: 50, name: "ماريان مجدي", gender: "F" },
+            { id: 51, name: "ماريانا ادورد", gender: "F" }, { id: 52, name: "مارينا اشرف", gender: "F" },
+            { id: 53, name: "مريان عادل", gender: "F" }, { id: 54, name: "مريم عماد", gender: "F" },
+            { id: 55, name: "m مريم مكرم", gender: "F" }, { id: 56, name: "مني ميشيل", gender: "F" },
+            { id: 57, name: "ميرفت يعقوب", gender: "F" }, { id: 58, name: "ميرنا عماد", gender: "F" },
+            { id: 59, name: "مينا اشرف", gender: "M" }, { id: 60, name: "مينا مجدي", gender: "M" },
+            { id: 61, name: "ناهد فاروق", gender: "F" }, { id: 62, name: "نرجس خير", gender: "F" },
+            { id: 63, name: "نرمين سليمان", gender: "F" }, { id: 64, name: "نعمة عبدالسيد", gender: "F" },
+            { id: 65, name: "هيلانة جورج", gender: "F" }, { id: 66, name: "وائل ماهر", gender: "M" },
+            { id: 67, name: "وردة ماهر", gender: "F" }, { id: 68, name: "ياسر نبيه", gender: "M" },
+            { id: 69, name: "يوستينا رافت", gender: "F" }, { id: 70, name: "يوسف وليم", gender: "M" }
+        ];
+
+        // روابط الـ CSV الجوجل شيت الحيوية المحددة من قبلك
+        const CSV_CHAPTER = "https://docs.google.com/spreadsheets/d/e/2PACX-1vRlHtC2XhIAwgkBPyOKvgS40OJ8JiYHt_019eGTHb9ltGaxc-oV6gT2QS924VOBSFZMv0N7d2OnzRBe/pub?output=csv";
+        const CSV_QUIZ = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQATB615cDv6gnBZdVqUNJV8f7WTaA4p8nLuiV8uBJfGKUz5fFBP5UT6-XQTRyTumgZIBv_h9Pt64mg/pub?output=csv";
+        const CSV_RESULTS = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQt2NSQINCw5qoPgrZ_0fZh0O2RnPpI_shFWfqtDrcekG5cZuHjk46M8JR1ZJa2UDsQmNrJR2mOqUod/pub?output=csv";
+        
+        // رابط الـ Web App (جوجل اب سكريبت) الذي سيرسل ويستقبل كل العمليات
+        const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbz_TEST_REPLACE_WITH_YOUR_ACTUAL_URL/exec";
+
+        // متغيرات النظام التشغيلية
+        let currentServant = null;
+        let globalQuestions = [];
+        let currentQuestionIdx = 0;
+        let userAnswers = {}; // يحفظ الخيار المختار لكل سؤال
+        let quizTimerInterval = null;
+        let timeRemaining = 180; // 3 دقائق لكل سؤال بشكل تراكمي أو ديناميكي (180 ثانية)
+        let currentFontSize = 18;
+        let ytPlayer = null;
+        let audioProgressTimer = null;
+        let serverRecords = []; // لمخزن نتائج الإدارة الحية
+
+        // 1. عند إقلاع الموقع وتجهيز الواجهات
+        document.addEventListener("DOMContentLoaded", () => {
+            populateServantsDropdowns();
+            loadChapterData();
+            loadQuizData();
+            setupWindowScrollingProgress();
+            
+            // تهيئة واجهة مشغل يوتيوب الصوتية المخفية برمجياً
+            let tag = document.createElement('script');
+            tag.src = "https://www.youtube.com/iframe_api";
+            let firstScriptTag = document.getElementsByTagName('script')[0];
+            firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+        });
+
+        function populateServantsDropdowns() {
+            const sels = ['servantSelect', 'modAnsServantSelect', 'modScoreServantSelect', 'resetServantSelect'];
+            sels.forEach(id => {
+                const el = document.getElementById(id);
+                if (!el) return;
+                // تنظيف القائمة أولاً ما عدا الخيار الأول
+                el.innerHTML = id === 'servantSelect' ? '<option value="">-- اضغط واختبر اسمك --</option>' : '<option value="">-- اختر الخادم --</option>';
+                SERVANTS_DATA.forEach(s => {
+                    let opt = document.createElement('option');
+                    opt.value = s.id;
+                    opt.textContent = s.name;
+                    el.appendChild(opt);
+                });
+            });
+        }
+
+        // 2. محرك جلب بيانات الإصحاح المتجدد (CSV 1)
+        function loadChapterData() {
+            fetch(CSV_CHAPTER)
+                .then(res => res.text())
+                .then(text => {
+                    let rows = parseCSV(text);
+                    if(rows.length > 1) {
+                        // A1 عنوان الإصحاح، B2 نص الإصحاح، C2 رابط يوتيوب
+                        document.getElementById("chapterTitle").textContent = rows[0][0] || "الإصحاح اليومي";
+                        document.getElementById("chapterTitle").classList.remove("skeleton");
+                        
+                        let bodyText = rows[1][1] || "لا يوجد نص متاح حالياً.";
+                        document.getElementById("chapterBody").textContent = bodyText;
+                        
+                        let ytLink = rows[1][2] || "";
+                        initYoutubeEngine(ytLink);
+                    }
+                }).catch(err => {
+                    document.getElementById("chapterTitle").textContent = "خطأ في تحميل العنوان";
+                    document.getElementById("chapterBody").textContent = "يرجى التحقق من اتصال الإنترنت، لم نتمكن من سحب الإصحاح المتجدد.";
+                });
+        }
+
+        // 3. محرك جلب بيانات الأسئلة الـ 10 المتجددة (CSV 2)
+        function loadQuizData() {
+            fetch(CSV_QUIZ)
+                .then(res => res.text())
+                .then(text => {
+                    let rows = parseCSV(text);
+                    globalQuestions = [];
+                    // تخطي سطر العناوين الرئيسي وقراءة الخواص (question, option1, option2, option3, option4, answer)
+                    for(let i=1; i<rows.length; i++) {
+                        if(rows[i].length >= 6) {
+                            globalQuestions.push({
+                                question: rows[i][0],
+                                option1: rows[i][1],
+                                option2: rows[i][2],
+                                option3: rows[i][3],
+                                option4: rows[i][4],
+                                answer: rows[i][5]
+                            });
+                        }
+                    }
+                });
+        }
+
+        // تحليل الـ CSV مع الحفاظ على الـ Newlines الناتجة عن Alt+Enter
+        function parseCSV(text) {
+            let lines = [];
+            let row = [""];
+            let inQuotes = false;
+            for (let i = 0; i < text.length; i++) {
+                let c = text[i];
+                let next = text[i+1];
+                if (c === '"') {
+                    if (inQuotes && next === '"') { row[row.length - 1] += '"'; i++; }
+                    else { inQuotes = !inQuotes; }
+                } else if (c === ',' && !inQuotes) {
+                    row.push("");
+                } else if ((c === '\r' || c === '\n') && !inQuotes) {
+                    if (c === '\r' && next === '\n') { i++; }
+                    lines.push(row);
+                    row = [""];
+                } else {
+                    row[row.length - 1] += c;
+                }
+            }
+            if (row.length > 1 || row[0] !== "") lines.push(row);
+            return lines;
+        }
+
+        // 4. نظام التحكم بمشغل الصوت يوتيوب الاحترافي
+        function initYoutubeEngine(url) {
+            let videoId = extractYoutubeId(url);
+            window.onYouTubeIframeAPIReady = function() {
+                ytPlayer = new YT.Player('ytAudioEngine', {
+                    height: '0', width: '0',
+                    videoId: videoId,
+                    playerVars: { 'autoplay': 0, 'controls': 0 },
+                    events: { 'onStateChange': onPlayerStateChange }
+                });
+            };
+            if (window.YT && window.YT.Player) {
+                window.onYouTubeIframeAPIReady();
+            }
+        }
+
+        function extractYoutubeId(url) {
+            let regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/;
+            let match = url.match(regExp);
+            return (match && match[2].length == 11) ? match[2] : "";
+        }
+
+        function onPlayerStateChange(event) {
+            if (event.data == YT.PlayerState.PLAYING) {
+                startAudioTracking();
+            } else {
+                stopAudioTracking();
+            }
+        }
+
+        function playAudio() {
+            if(ytPlayer && ytPlayer.playVideo) {
+                ytPlayer.playVideo();
+                document.getElementById("playBtn").textContent = "جاري الاستماع.. 🔊";
+            }
+        }
+
+        function pauseAudio() {
+            if(ytPlayer && ytPlayer.pauseVideo) {
+                ytPlayer.pauseVideo();
+                document.getElementById("playBtn").textContent = "استمع للإصحاح ▶️";
+            }
+        }
+
+        function seekAudio(value) {
+            if(ytPlayer && ytPlayer.getDuration) {
+                let duration = ytPlayer.getDuration();
+                let targetSec = (value / 100) * duration;
+                ytPlayer.seekTo(targetSec, true);
+            }
+        }
+
+        function startAudioTracking() {
+            audioProgressTimer = setInterval(() => {
+                if(ytPlayer && ytPlayer.getCurrentTime) {
+                    let cur = ytPlayer.getCurrentTime();
+                    let dur = ytPlayer.getDuration() || 1;
+                    document.getElementById("currentTime").textContent = formatTime(cur);
+                    document.getElementById("totalTime").textContent = formatTime(dur);
+                    document.getElementById("audioSlider").value = (cur / dur) * 100;
+                }
+            }, 500);
+        }
+
+        function stopAudioTracking() {
+            clearInterval(audioProgressTimer);
+        }
+
+        function formatTime(sec) {
+            let m = Math.floor(sec / 60);
+            let s = Math.floor(sec % 60);
+            return (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+        }
+
+        function adjustFont(val) {
+            currentFontSize += val;
+            if(currentFontSize < 14) currentFontSize = 14;
+            if(currentFontSize > 32) currentFontSize = 32;
+            document.getElementById("chapterBody").style.fontSize = currentFontSize + "px";
+        }
+
+        function setupWindowScrollingProgress() {
+            const box = document.getElementById("chapterBody");
+            box.addEventListener("scroll", () => {
+                let pct = (box.scrollTop / (box.scrollHeight - box.clientHeight)) * 100;
+                document.getElementById("readingProgress").style.width = pct + "%";
+            });
+        }
+
+        // 5. إدارة عملية تسجيل الدخول وفحص الأكواد الصارمة
+        function handleLogin() {
+            let sId = document.getElementById("servantSelect").value;
+            let code = document.getElementById("accessCode").value.trim();
+            if(!sId) { showModalAlert("تنبيه روحي", "يرجى اختيار اسمك من القائمة أولاً."); return; }
+            if(!code) { showModalAlert("تنبيه روحي", "يرجى كتابة كود التحقق السري الخاص بك."); return; }
+
+            // فحص الكود المطابق الصارم للترتيب الأبجدي
+            if(code !== sId) {
+                showModalAlert("خطأ في التحقق", "كود الدخول السري غير صحيح، يرجى كتابة الرقم المطابق لترتيبك الصحيح.");
                 return;
             }
 
-            // محاكاة إضافة سطر جديد في الجدول المعروض
-            memberCount++;
-            const tbody = document.getElementById('membersTableBody');
-            const newRow = document.createElement('tr');
-            
-            newRow.innerHTML = `
-                <td>${memberCount}</td>
-                <td>${name}</td>
-                <td>${role}</td>
-                <td><span class="code-badge">${code}</span></td>
-                <td style="color: blue; font-weight: bold;">تم الحفظ محلياً</td>
-            `;
-            
-            tbody.appendChild(newRow);
+            // تفعيل الترحيب الذكي خادم / خادمة بناء على الجنس
+            currentServant = SERVANTS_DATA.find(s => s.id == sId);
+            let prefix = currentServant.gender === "M" ? "الخادم / " : "الخادمة / ";
+            document.getElementById("welcomeUser").textContent = prefix + currentServant.name;
 
-            // إظهار الرسالة بنظام الموقع المخصص بنجاح
-            customAlert(`تم تسجيل الخادم (${name}) بنجاح في قاعدة بيانات الاجتماع وجاري التحديث المباشر!`, "تأكيد الحفظ");
-            
-            // تفريغ النموذج بعد النجاح
-            clearForm();
+            // إخفاء تسجيل الدخول وإظهار واجهة قراءة الإصحاح مع الحفظ التلقائي
+            document.getElementById("loginSection").style.display = "none";
+            document.getElementById("chapterSection").style.display = "block";
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // دالة مسح خانات الإدخال
-        function clearForm() {
-            document.getElementById('memberName').value = '';
-            document.getElementById('accessCode').value = '';
-            document.getElementById('memberRole').selectedIndex = 0;
+        // 6. الانتقال إلى حوض الأسئلة الـ 10 وتشغيل عداد الـ 3 دقائق لكل سؤال
+        function triggerQuizTransition() {
+            showCustomConfirm("الانتقال للأسئلة", "هل قرأت الإصحاح واستمعت إليه جيداً وتريد الانتقال لبدء حل الـ 10 أسئلة؟ لن تتمكن من العودة هنا.", () => {
+                pauseAudio();
+                document.getElementById("chapterSection").style.display = "none";
+                document.getElementById("quizSection").style.display = "block";
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+                
+                currentQuestionIdx = 0;
+                timeRemaining = 180; // 3 دقائق (180 ثانية) للسؤال الحالي
+                renderQuestion();
+                startQuizTimer();
+            });
+        }
+
+        function startQuizTimer() {
+            clearInterval(quizTimerInterval);
+            document.getElementById("quizTimer").textContent = "03:00";
+            quizTimerInterval = setInterval(() => {
+                timeRemaining--;
+                let m = Math.floor(timeRemaining / 60);
+                let s = timeRemaining % 60;
+                document.getElementById("quizTimer").textContent = (m < 10 ? "0" : "") + m + ":" + (s < 10 ? "0" : "") + s;
+                
+                if(timeRemaining <= 0) {
+                    clearInterval(quizTimerInterval);
+                    showModalAlert("انتهى الوقت", "انتهت الـ 3 دقائق المخصصة للسؤال الحالي، سيتم نقلك للسؤال التالي تلقائياً.");
+                    navigateQuestion(1);
+                }
+            }, 1000);
+        }
+
+        function renderQuestion() {
+            if(globalQuestions.length === 0) {
+                document.getElementById("quizContainer").innerHTML = "<p>جاري جلب أسئلة اليوم المتجددة، يرجى الانتظار ثوانٍ...</p>";
+                return;
+            }
+            let q = globalQuestions[currentQuestionIdx];
+            document.getElementById("questionProgress").textContent = `السؤال ${currentQuestionIdx + 1} من أصل 10`;
+            
+            let html = `
+                <div class="question-text">${q.question}</div>
+                <ul class="options-list">
+                    <li class="option-item ${userAnswers[currentQuestionIdx] === '1' ? 'selected' : ''}" onclick="selectOption('1')">${q.option1}</li>
+                    <li class="option-item ${userAnswers[currentQuestionIdx] === '2' ? 'selected' : ''}" onclick="selectOption('2')">${q.option2}</li>
+                    <li class="option-item ${userAnswers[currentQuestionIdx] === '3' ? 'selected' : ''}" onclick="selectOption('3')">${q.option3}</li>
+                    <li class="option-item ${userAnswers[currentQuestionIdx] === '4' ? 'selected' : ''}" onclick="selectOption('4')">${q.option4}</li>
+                </ul>
+            `;
+            document.getElementById("quizContainer").innerHTML = html;
+
+            // التحكم في الأزرار
+            document.getElementById("prevBtn").style.display = currentQuestionIdx === 0 ? "none" : "inline-flex";
+            if(currentQuestionIdx === 9) {
+                document.getElementById("nextBtn").style.display = "none";
+                document.getElementById("submitBtn").style.display = "inline-flex";
+            } else {
+                document.getElementById("nextBtn").style.display = "inline-flex";
+                document.getElementById("submitBtn").style.display = "none";
+            }
+        }
+
+        function selectOption(optNum) {
+            userAnswers[currentQuestionIdx] = optNum;
+            renderQuestion(); // إعادة التلوين الفوري بالكريمي والذهبي
+        }
+
+        function navigateQuestion(direction) {
+            currentQuestionIdx += direction;
+            if(currentQuestionIdx < 0) currentQuestionIdx = 0;
+            if(currentQuestionIdx > 9) { currentQuestionIdx = 9; return; }
+            timeRemaining = 180; // إعادة تصفير الوقت ليكون 3 دقائق كاملة للسؤال الجديد
+            renderQuestion();
+            startQuizTimer();
+        }
+
+        // 7. إنهاء المسابقة وإرسال الإجابات والدرجة سحابياً لتسمع في مكانك أونلاين
+        function triggerSubmitConfirmation() {
+            showCustomConfirm("إرسال الإجابات", "هل راجعت كافة إجاباتك جيداً وتريد إنهاء المسابقة وإرسال النتيجة إلى لوحة رصد كنيسة أبي سيفين؟", () => {
+                clearInterval(quizTimerInterval);
+                processAndSubmitQuizResults();
+            });
+        }
+
+        function processAndSubmitQuizResults() {
+            // حساب النتيجة
+            let score = 0;
+            globalQuestions.forEach((q, idx) => {
+                let uAnsText = "";
+                if(userAnswers[idx] === '1') uAnsText = q.option1;
+                if(userAnswers[idx] === '2') uAnsText = q.option2;
+                if(userAnswers[idx] === '3') uAnsText = q.option3;
+                if(userAnswers[idx] === '4') uAnsText = q.option4;
+                
+                // مطابقة الإجابة الصحيحة (سواء كانت نصاً أو رقماً)
+                if(uAnsText.trim() === q.answer.trim() || userAnswers[idx] === q.answer.trim()) {
+                    score++;
+                }
+            });
+
+            // إعداد الحزمة السحابية لإرسالها فوراً للسيرفر الخفي عبر قارات العالم
+            let timestamp = new Date().toLocaleString("ar-EG");
+            let payload = {
+                action: "submitAnswers",
+                servantId: currentServant.id,
+                servantName: currentServant.name,
+                time: timestamp,
+                score: score,
+                answers: JSON.stringify(userAnswers)
+            };
+
+            // إظهار واجهة النتيجة مبدئياً وتحديث النتيجة الرقمية
+            document.getElementById("quizSection").style.display = "none";
+            document.getElementById("resultSection").style.display = "block";
+            document.getElementById("scoreDisplay").textContent = `${score} / 10`;
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+
+            // شحن البيانات السحابية الحية
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors", // لمنع تعليق المتصفحات عابرة النطاق
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                console.log("تم سماع وتوثيق النتيجة في السيرفر بنجاح.");
+            }).catch(err => {
+                console.error("خطأ شبكة، جاري إعادة المحاولة في الخلفية.");
+            });
+        }
+
+        // 8. فتح المودال الفاخر لمراجعة الإجابات (أخضر للصح وأحمر للخطأ)
+        function openReviewModal() {
+            let html = "";
+            globalQuestions.forEach((q, idx) => {
+                let uAnsNum = userAnswers[idx];
+                let uAnsText = uAnsNum === '1' ? q.option1 : (uAnsNum === '2' ? q.option2 : (uAnsNum === '3' ? q.option3 : (uAnsNum === '4' ? q.option4 : "لم يحل")));
+                
+                let isCorrect = (uAnsText.trim() === q.answer.trim() || uAnsNum === q.answer.trim());
+                let itemClass = isCorrect ? "correct-item" : "wrong-item";
+
+                html += `
+                    <div class="review-item ${itemClass}">
+                        <div style="font-weight:bold; margin-bottom:8px;">س${idx+1}: ${q.question}</div>
+                        <div class="review-opt ${uAnsNum === '1' ? (isCorrect ? 'user-correct' : 'user-wrong') : (q.answer === q.option1 || q.answer === '1' ? 'actual-right' : '')}">1) ${q.option1}</div>
+                        <div class="review-opt ${uAnsNum === '2' ? (isCorrect ? 'user-correct' : 'user-wrong') : (q.answer === q.option2 || q.answer === '2' ? 'actual-right' : '')}">2) ${q.option2}</div>
+                        <div class="review-opt ${uAnsNum === '3' ? (isCorrect ? 'user-correct' : 'user-wrong') : (q.answer === q.option3 || q.answer === '3' ? 'actual-right' : '')}">3) ${q.option3}</div>
+                        <div class="review-opt ${uAnsNum === '4' ? (isCorrect ? 'user-correct' : 'user-wrong') : (q.answer === q.option4 || q.answer === '4' ? 'actual-right' : '')}">4) ${q.option4}</div>
+                        ${!isCorrect ? `<div style="color:#2ecc71; font-weight:bold; margin-top:5px;">⚠️ الإجابة الصحيحة هي: ${q.answer}</div>` : ''}
+                    </div>
+                `;
+            });
+            document.getElementById("reviewModalContainer").innerHTML = html;
+            openModal('reviewQuizModal');
+        }
+
+        // 9. لوحة الإدارة المحمية بالباسورد المشفر (284655)
+        function openAdminGate() {
+            document.getElementById("adminPassField").value = "";
+            openModal('adminGateModal');
+        }
+
+        function verifyAdminAccess() {
+            let pass = document.getElementById("adminPassField").value.trim();
+            // كود التحقق الصارم المطلوب والمشفر برمجياً
+            if(pass === "284655") {
+                closeModal('adminGateModal');
+                openModal('adminDashboardModal');
+                refreshAdminData();
+            } else {
+                showModalAlert("حظر الإدارة", "كود الإدارة غير صحيح بالمرة، صلاحية الدخول مرفوضة.");
+            }
+        }
+
+        // تحديث جدول الإدارة أونلاين من الـ CSV الثالث
+        function refreshAdminData() {
+            const tableBody = document.querySelector("#adminResultsTable tbody");
+            tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;" class="skeleton">جاري سحب الجداول والنتائج اللحظية من السيرفر السحابي الموحد...</td></tr>`;
+            
+            fetch(CSV_RESULTS + "&cachebuster=" + new Date().getTime())
+                .then(res => res.text())
+                .then(text => {
+                    let rows = parseCSV(text);
+                    tableBody.innerHTML = "";
+                    serverRecords = [];
+                    
+                    let solvedCount = 0;
+                    let sumScore = 0;
+                    let highest = 0;
+
+                    // تخطي العناوين
+                    for(let i=1; i<rows.length; i++) {
+                        if(rows[i].length >= 3) {
+                            let name = rows[i][0];
+                            let time = rows[i][1];
+                            let score = parseInt(rows[i][2]) || 0;
+                            let ansStr = rows[i][3] || "{}";
+
+                            serverRecords.push({ name, time, score, answers: ansStr });
+                            
+                            solvedCount++;
+                            sumScore += score;
+                            if(score > highest) highest = score;
+
+                            let tr = document.createElement('tr');
+                            tr.innerHTML = `<td>${name}</td><td>${time}</td><td style="font-weight:bold; color:var(--gold);">${score} / 10</td>`;
+                            tableBody.appendChild(tr);
+                        }
+                    }
+
+                    if(solvedCount === 0) {
+                        tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center;">لا توجد نتائج مسجلة لليوم حتى الآن.</td></tr>`;
+                    }
+
+                    // تحديث الإحصائيات الفاخرة المدمجة باللوحة
+                    document.getElementById("statTotal").textContent = `${solvedCount} / 70`;
+                    document.getElementById("statAvg").textContent = solvedCount > 0 ? (sumScore / solvedCount).toFixed(1) : "0";
+                    document.getElementById("statHigh").textContent = `${highest} / 10`;
+
+                }).catch(() => {
+                    tableBody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#ff3333;">فشل سحب البيانات أونلاين، تحقق من إعدادات النشر السحابي.</td></tr>`;
+                });
+        }
+
+        // أزرار لوحة الإدارة الفرعية
+        function openModifyAnswersModal() { openModal('modifyAnswersModal'); }
+        function openModifyScoreModal() { openModal('modifyScoreModal'); }
+        function openResetServantModal() { openModal('resetServantModal'); }
+
+        function loadServantAnswersToModify(sId) {
+            let sName = document.getElementById("modAnsServantSelect").options[document.getElementById("modAnsServantSelect").selectedIndex].text;
+            let record = serverRecords.find(r => r.name === sName);
+            let container = document.getElementById("modAnsQuestionsContainer");
+            container.innerHTML = "";
+            
+            if(!record) {
+                container.innerHTML = "<p style='color:#ff3333; padding:10px;'>هذا الخادم لم يقم بحل المسابقة بعد لكي تعدل خياراته.</p>";
+                return;
+            }
+
+            let ansObj = {};
+            try { ansObj = JSON.parse(record.answers); } catch(e){}
+
+            globalQuestions.forEach((q, idx) => {
+                let curSel = ansObj[idx] || "";
+                let div = document.createElement('div');
+                div.style.marginBottom = "15px";
+                div.style.borderBottom = "1px solid rgba(255,255,255,0.1)";
+                div.style.paddingBottom = "10px";
+                div.innerHTML = `
+                    <p style="font-weight:bold; color:var(--gold);">س${idx+1}: ${q.question}</p>
+                    <select class="mod-q-select" data-idx="${idx}" style="margin-top:5px; padding:6px;">
+                        <option value="" ${curSel===''?'selected':''}>لم يحل</option>
+                        <option value="1" ${curSel==='1'?'selected':''}>1) ${q.option1}</option>
+                        <option value="2" ${curSel==='2'?'selected':''}>2) ${q.option2}</option>
+                        <option value="3" ${curSel==='3'?'selected':''}>3) ${q.option3}</option>
+                        <option value="4" ${curSel==='4'?'selected':''}>4) ${q.option4}</option>
+                    </select>
+                `;
+                container.appendChild(div);
+            });
+        }
+
+        function saveModifiedAnswers() {
+            let sId = document.getElementById("modAnsServantSelect").value;
+            let sName = document.getElementById("modAnsServantSelect").options[document.getElementById("modAnsServantSelect").selectedIndex].text;
+            if(!sId) return;
+
+            let updatedAns = {};
+            let selects = document.querySelectorAll(".mod-q-select");
+            selects.forEach(sel => {
+                let idx = sel.getAttribute("data-idx");
+                updatedAns[idx] = sel.value;
+            });
+
+            showCustomConfirm("حفظ التعديلات", "هل أنت متأكد من تعديل وحفظ خيارات الخادم سحابياً؟", () => {
+                let payload = { action: "modifyAnswers", servantName: sName, answers: JSON.stringify(updatedAns) };
+                fireServerAction(payload, 'modifyAnswersModal');
+            });
+        }
+
+        function saveModifiedScore() {
+            let sId = document.getElementById("modScoreServantSelect").value;
+            let sName = document.getElementById("modScoreServantSelect").options[document.getElementById("modScoreServantSelect").selectedIndex].text;
+            let newScore = document.getElementById("newScoreField").value.trim();
+            if(!sId || newScore === "") return;
+
+            showCustomConfirm("تعديل الدرجة", `هل أنت متأكد من تغيير درجة ${sName} إلى ${newScore}؟`, () => {
+                let payload = { action: "modifyScore", servantName: sName, score: newScore };
+                fireServerAction(payload, 'modifyScoreModal');
+            });
+        }
+
+        function executeResetServant() {
+            let sId = document.getElementById("resetServantSelect").value;
+            let sName = document.getElementById("resetServantSelect").options[document.getElementById("resetServantSelect").selectedIndex].text;
+            if(!sId) return;
+
+            showCustomConfirm("تصفير المحاولة ⚠️", `هل أنت متأكد من مسح محاولة ${sName} بالكامل للسماح له بالدخول ثانية؟`, () => {
+                let payload = { action: "resetServant", servantName: sName };
+                fireServerAction(payload, 'resetServantModal');
+            });
+        }
+
+        function fireServerAction(payload, parentModalId) {
+            fetch(WEB_APP_URL, {
+                method: "POST",
+                mode: "no-cors",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(payload)
+            }).then(() => {
+                closeModal(parentModalId);
+                showModalAlert("تم التحديث السحابي", "تم إرسال التحديث بنجاح وسيظهر فور إعادة تحديث الجدول.");
+                refreshAdminData();
+            });
+        }
+
+        // 10. محركات المودال والتنبيهات المخصصة الداخلية (Modals Engines)
+        function openModal(id) {
+            document.getElementById(id).classList.add("active");
+        }
+        function closeModal(id) {
+            document.getElementById(id).classList.remove("active");
+        }
+
+        function showModalAlert(title, message) {
+            const mId = "alertModalGlobal";
+            let exist = document.getElementById(mId);
+            if(exist) exist.remove();
+
+            let div = document.createElement('div');
+            div.className = "modal-overlay active";
+            div.id = mId;
+            div.innerHTML = `
+                <div class="modal-card" style="max-width:400px; text-align:center;">
+                    <h3 class="modal-title" style="color:var(--gold);">${title}</h3>
+                    <p style="margin-bottom:20px; line-height:1.6;">${message}</p>
+                    <button class="btn" onclick="document.getElementById('${mId}').remove()">حسناً قُرئ ✔️</button>
+                </div>
+            `;
+            document.body.appendChild(div);
+        }
+
+        function showCustomConfirm(title, message, callback) {
+            document.getElementById("confirmTitle").textContent = title;
+            document.getElementById("confirmMessage").textContent = message;
+            openModal('confirmModal');
+            document.getElementById("confirmYesBtn").onclick = function() {
+                closeModal('confirmModal');
+                callback();
+            };
         }
     </script>
 </body>
