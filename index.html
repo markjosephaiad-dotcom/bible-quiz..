@@ -9,11 +9,12 @@
         @import url('https://fonts.googleapis.com/css2?family=Amiri:ital,wght@0,700;1,700&family=Cairo:wght@400;700&family=Reem+Kufi:wght@500;700&display=swap');
 
         :root {
-            --maroon: #58181A;          /* الماروني الكنيسي */
-            --maroon-light: #722224;    /* الماروني الفاتح */
+            --maroon: #58181A;          /* الماروني الكنيسي الأثري */
+            --maroon-light: #722224;    /* الماروني الفاتح التفاعلي */
             --cream: #FDFBF7;           /* الكريمي الهادئ والمريح جداً للعين كخلفية */
-            --cream-card: #F5EFEB;      /* لون كريمي أغمق قليلاً للبطاقات */
-            --gold: #D4AF37;            /* الذهبي الأرثوذكسي */
+            --cream-card: #F7F2EC;      /* لون كريمي ملكي حريري للبطاقات */
+            --gold: #D4AF37;            /* الذهبي الأرثوذكسي الملكي */
+            --gold-glow: rgba(212, 175, 55, 0.3);
             --dark-text: #2B2B2B;       /* نصوص داكنة مريحة للعين */
         }
 
@@ -152,9 +153,91 @@
             animation: fadeIn 0.5s ease-in-out;
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
+        /* 👑 تصميم مربع تسجيل الدخول الملكي الحي والواقعي 👑 */
+        .royal-login-card {
+            background-color: var(--cream-card);
+            position: relative;
+            border: 3px double var(--maroon);
+            outline: 1px solid var(--gold);
+            outline-offset: -8px; /* إطار داخلي ذهبي ملوكي */
+            border-radius: 12px;
+            padding: 45px 40px;
+            box-shadow: 
+                0 15px 35px rgba(88, 24, 26, 0.12),
+                0 5px 15px rgba(0, 0, 0, 0.06),
+                inset 0 0 30px rgba(212, 175, 55, 0.05); /* توهج داخلي دافئ */
+            margin-top: 15px;
+            animation: fadeIn 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* الزخارف الجانبية العتيقة داخل المربع الملكي */
+        .royal-login-card::before, .royal-login-card::after {
+            content: "✙";
+            position: absolute;
+            color: var(--gold);
+            font-size: 1.2rem;
+            opacity: 0.8;
+        }
+        .royal-login-card::before { top: 12px; right: 12px; }
+        .royal-login-card::after { bottom: 12px; left: 12px; }
+
+        .royal-title {
+            font-family: 'Reem Kufi', sans-serif;
+            color: var(--maroon);
+            text-align: center;
+            font-size: 1.8rem;
+            font-weight: 700;
+            margin-bottom: 30px;
+            letter-spacing: 0.5px;
+            position: relative;
+        }
+
+        /* خط زخرفي تحت العنوان الحركي */
+        .royal-title::after {
+            content: "";
+            display: block;
+            width: 80px;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--gold), transparent);
+            margin: 8px auto 0 auto;
+        }
+
+        /* الحقول والقوائم المنسدلة التفاعلية والواقعية */
+        .form-group {
+            margin-bottom: 25px;
+            text-align: right;
+        }
+
+        label {
+            display: block;
+            color: var(--maroon);
+            margin-bottom: 10px;
+            font-weight: 700;
+            font-size: 1.05rem;
+        }
+
+        /* تصميم مدخلات حية متوهجة عند التفاعل */
+        .royal-input {
+            width: 100%;
+            padding: 14px 16px;
+            background-color: #FFFFFF;
+            border: 1.5px solid rgba(88, 24, 26, 0.3);
+            border-radius: 6px;
+            color: var(--dark-text);
+            font-size: 1.05rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .royal-input:focus {
+            outline: none;
+            border-color: var(--gold);
+            background-color: #FFF;
+            box-shadow: 
+                0 0 0 4px var(--gold-glow),
+                inset 0 2px 4px rgba(88, 24, 26, 0.05);
+            transform: translateY(-1px);
         }
 
         /* الأزرار باللون الماروني والذهبي المريح */
@@ -162,23 +245,32 @@
             background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
             color: #FFFFFF;
             border: none;
-            padding: 12px 24px;
+            padding: 14px 30px;
             font-weight: bold;
-            font-size: 1.05rem;
-            border-radius: 5px;
+            font-size: 1.1rem;
+            border-radius: 6px;
             cursor: pointer;
-            transition: all 0.25s ease;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 5px 15px rgba(88, 24, 26, 0.2);
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .btn:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 15px rgba(88, 24, 26, 0.3);
-            filter: brightness(1.2);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(88, 24, 26, 0.35);
+            filter: brightness(1.15);
+        }
+
+        .btn:active {
+            transform: translateY(-1px);
+        }
+
+        .btn-royal-submit {
+            width: 100%;
+            border: 1px solid var(--gold);
         }
 
         .btn-secondary {
@@ -203,33 +295,9 @@
             color: var(--gold);
         }
 
-        /* الحقول والقوائم المنسدلة */
-        .form-group {
-            margin-bottom: 20px;
-            text-align: right;
-        }
-
-        label {
-            display: block;
-            color: var(--maroon);
-            margin-bottom: 8px;
-            font-weight: bold;
-        }
-
-        select, input[type="password"], input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            background-color: #FFFFFF;
-            border: 1px solid var(--maroon);
-            border-radius: 4px;
-            color: var(--dark-text);
-            font-size: 1.05rem;
-        }
-
-        select:focus, input:focus {
-            outline: none;
-            border-color: var(--gold);
-            box-shadow: 0 0 8px rgba(88, 24, 26, 0.15);
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
         /* شريط تقدم القراءة */
@@ -372,7 +440,6 @@
             background-color: rgba(88, 24, 26, 0.04);
         }
 
-        /* تمييز الخيار المحدد */
         .option-item.selected {
             background-color: var(--maroon) !important;
             color: #FFFFFF !important;
@@ -456,10 +523,11 @@
         .review-opt.actual-right { background-color: rgba(46, 204, 113, 0.1); border: 1px dashed #2ecc71; }
 
         /* جداول لوحة التحكم */
-        .table-wrapper { overflow-x: auto; margin-top: 15px; }
+        .table-wrapper { overflow-x: auto; margin-top: 15px; border: 1px solid var(--maroon); border-radius: 4px; }
         table { width: 100%; border-collapse: collapse; text-align: right; background: #FFF; }
         th, td { padding: 12px; border-bottom: 1px solid rgba(0,0,0,0.08); }
-        th { background-color: var(--maroon); color: #FFF; }
+        th { background-color: var(--maroon); color: #FFF; font-weight: bold; }
+        tr:nth-child(even) { background-color: var(--cream-card); }
 
         @media (max-width: 768px) {
             .images-container { padding: 10px; gap: 10px; }
@@ -478,7 +546,6 @@
 
     <header>
         <button class="btn btn-admin-trigger" onclick="openAdminGate()">لوحة الإدارة 🔑</button>
-        <!-- اسم الكنيسة في الأعلى بخط فني فاخر وبدون تجزئة -->
         <div class="church-title">كنيسة الشهيد العظيم فيلوباتير مرقوريوس أبي سيفين - بمدينة عامر</div>
         <h1 class="header-title">
             <span class="coptic-cross">✙</span>مسابقة دراسة الكتاب المقدس<span class="coptic-cross">✙</span>
@@ -499,22 +566,25 @@
     </div>
 
     <div class="main-container">
-        <!-- 1. واجهة تسجيل الدخول للخدام -->
-        <div id="loginSection" class="card">
-            <h2 style="color:var(--maroon); margin-bottom:20px; text-align:center; font-weight:bold;">تسجيل دخول الخدام</h2>
+        <!-- 👑 1. واجهة تسجيل الدخول الملكية الحية المحدثة للخدام 👑 -->
+        <div id="loginSection" class="royal-login-card">
+            <h2 class="royal-title">تسجيل دخول الخدام للمسابقة</h2>
+            
             <div class="form-group">
-                <label for="servantSelect">اختر اسمك الكريم:</label>
-                <select id="servantSelect">
-                    <option value="">-- اضغط واختبر اسمك من القائمة --</option>
+                <label for="servantSelect">اختر اسمك الكريم من القائمة:</label>
+                <select id="servantSelect" class="royal-input">
+                    <option value="">-- اضغط هنا واختبر اسمك المبارك --</option>
                 </select>
             </div>
+            
             <div class="form-group">
                 <label for="accessCode">كود التحقق السري (رقمك الأبجدي):</label>
-                <!-- إضافة مستمع حدث الضغط على زر إنتر يدخل مباشرة -->
-                <input type="password" id="accessCode" placeholder="أدخل رقم الكود واضغط Enter للدخول" onkeydown="if(event.key === 'Enter') handleLogin()">
+                <!-- دعم كامل ومباشر لزر الإنتر Enter للدخول بدون ماوس -->
+                <input type="password" id="accessCode" class="royal-input" placeholder="أدخل رقم الكود الخاص بك واضغط Enter فوراُ" onkeydown="if(event.key === 'Enter') handleLogin()">
             </div>
-            <div style="text-align: center; margin-top: 25px;">
-                <button class="btn" onclick="handleLogin()">دخول لقراءة الإصحاح 📖</button>
+            
+            <div style="text-align: center; margin-top: 35px;">
+                <button class="btn btn-royal-submit" onclick="handleLogin()">دخول لقراءة الإصحاح المقدس 📖</button>
             </div>
         </div>
 
@@ -570,9 +640,34 @@
                 
                 <div style="display:flex; gap:15px; justify-content:center; flex-wrap:wrap;">
                     <button class="btn btn-secondary" onclick="openReviewModal()">عرض الإجابات بالتفصيل 🔎</button>
-                    <!-- زر الإنهاء والعودة لصفحة البداية الحرة -->
                     <button class="btn" style="background:var(--maroon);" onclick="backToHome()">الإنهاء والعودة للرئيسية 🏠</button>
                 </div>
+            </div>
+        </div>
+
+        <!-- 5. واجهة لوحة الإدارة المستقلة لعرض التقارير والنتائج -->
+        <div id="adminPanelSection" class="card" style="display: none;">
+            <h2 style="color:var(--maroon); text-align:center; margin-bottom:20px; font-weight:bold;">📊 لوحة تحكم المسؤول والنتائج المرفوعة</h2>
+            <p style="text-align:center; margin-bottom:15px; font-size:0.95rem; color:#666;">تعرض هذه اللوحة البيانات المتوفرة والمسجلة حالياً على النظام.</p>
+            
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>الاسم الكريم للخدام</th>
+                            <th>معرّف الإصحاح</th>
+                            <th>النتيجة المسجلة</th>
+                            <th>حالة الحظر المحلي</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableBody">
+                        <!-- يتم حقن بيانات المتابعة هنا برمجياً -->
+                    </tbody>
+                </table>
+            </div>
+            
+            <div style="text-align: center; margin-top: 25px;">
+                <button class="btn" onclick="exitAdminPanel()">الخروج والعودة للرئيسية 🚪</button>
             </div>
         </div>
     </div>
@@ -584,7 +679,7 @@
             <h3 class="modal-title">خزنة الإدارة</h3>
             <div class="form-group">
                 <label>أدخل كلمة مرور المسؤول:</label>
-                <input type="password" id="adminPassField" onkeydown="if(event.key === 'Enter') verifyAdminAccess()">
+                <input type="password" id="adminPassField" class="royal-input" placeholder="اكتب الباسورد واضغط Enter" onkeydown="if(event.key === 'Enter') verifyAdminAccess()">
             </div>
             <button class="btn" style="width:100%;" onclick="verifyAdminAccess()">دخول 📂</button>
         </div>
@@ -610,10 +705,7 @@
     </div>
 
     <script>
-        // كود معرّف الإصحاح الحالي - قم بتغييره (مثلاً يوحنا1، يوحنا2) عندما تقوم بتغيير الأسئلة لمنع الحظر عن الخدام تلقائياً!
         const CURRENT_CHAPTER_ID = "john_chapter_1";
-
-        // رابط الـ Web App المأخوذ من سكريبت جوجل شيت لترحيل البيانات الحية فوراُ للجدول الرئيسي
         const GOOGLE_SHEET_WEBAPP_URL = "YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL_HERE";
 
         const SERVANTS_DATA = [
@@ -696,19 +788,17 @@
             };
         }
 
-        // تسجيل الدخول والتحقق من القفل
         function handleLogin() {
             const srvId = document.getElementById('servantSelect').value;
             const codeInput = document.getElementById('accessCode').value.trim();
 
             if(!srvId) {
-                triggerConfirm("تنبيه", "برجاء اختيار اسم الخادم أولاً.", () => {});
+                triggerConfirm("تنبيه الفخامة", "برجاء اختيار اسم الخادم أولاً لمباشرة المسابقة.", () => {});
                 return;
             }
 
-            // التحقق من الحظر المحلي للإصحاح الحالي لمنع تكرار الدخول
             if(localStorage.getItem(`blocked_${CURRENT_CHAPTER_ID}_user_${srvId}`)) {
-                triggerConfirm("عذراً، غير مسموح", "لقد قمت بحل هذا الامتحان سابقاً! لا يمكنك الدخول حتى يقوم المسؤول بتغيير الأسحاح والأسئلة الشيت.", () => {});
+                triggerConfirm("عذراً، غير مسموح", "لقد قمت بحل هذا الامتحان سابقاً! لا يمكنك الدخول حتى يقوم المسؤول بتغيير الإصحاح والأسئلة في الشيت.", () => {});
                 return;
             }
 
@@ -723,7 +813,6 @@
             }
         }
 
-        // أداء مشغل الصوت التفاعلي
         const audio = document.getElementById('audioEngine');
         function playAudio() { audio.play(); }
         function pauseAudio() { audio.pause(); }
@@ -797,16 +886,14 @@
             });
         }
 
-        // الإرسال والمنع والتسميع الفعلي في الشيت
         function forceSubmitAnswers() {
             clearInterval(quizTimerInterval);
             let score = 0;
             quizQuestions.forEach(q => { if(userAnswers[q.id] === q.right) score++; });
 
-            // 1. تفعيل الحظر الفوري على متصفح الخادم لمنعه تماماً من الدخول ثانية
             localStorage.setItem(`blocked_${CURRENT_CHAPTER_ID}_user_${currentServant.id}`, "true");
+            localStorage.setItem(`score_${CURRENT_CHAPTER_ID}_user_${currentServant.id}`, `${score} / ${quizQuestions.length}`);
 
-            // 2. إرسال البيانات فورياً للشيت الخارجي عبر دالة Fetch الخلفية
             if(GOOGLE_SHEET_WEBAPP_URL !== "YOUR_GOOGLE_APPS_SCRIPT_WEBAPP_URL_HERE") {
                 fetch(GOOGLE_SHEET_WEBAPP_URL, {
                     method: 'POST',
@@ -819,10 +906,9 @@
                         chapterId: CURRENT_CHAPTER_ID,
                         timestamp: new Date().toISOString()
                     })
-                }).catch(e => console.log("تحذير السحابة العابر للشبكات"));
+                }).catch(e => console.log("تحذير"));
             }
 
-            // عرض واجهة النتيجة
             document.getElementById('quizSection').style.display = 'none';
             document.getElementById('resultSection').style.display = 'block';
             document.getElementById('readingProgress').style.width = "100%";
@@ -848,7 +934,6 @@
             openModal('reviewQuizModal');
         }
 
-        // وظيفة إنهاء المسابقة تماماً والرجوع الفوري للصفحة الرئيسية
         function backToHome() {
             currentServant = null;
             userAnswers = {};
@@ -861,16 +946,43 @@
             document.getElementById('readingProgress').style.width = "0%";
         }
 
-        function openAdminGate() { openModal('adminGateModal'); }
+        function openAdminGate() { 
+            openModal('adminGateModal'); 
+            setTimeout(() => document.getElementById('adminPassField').focus(), 100);
+        }
+
         function verifyAdminAccess() {
             const pass = document.getElementById('adminPassField').value;
             if(pass === "7070") {
                 closeModal('adminGateModal');
                 document.getElementById('adminPassField').value = "";
-                alert("تم التحقق بنجاح! السكربت الحالي مهيأ ومحمي لمنع الرسائل والمحاولات المكررة.");
+                
+                document.getElementById('loginSection').style.display = 'none';
+                document.getElementById('chapterSection').style.display = 'none';
+                document.getElementById('quizSection').style.display = 'none';
+                document.getElementById('resultSection').style.display = 'none';
+                document.getElementById('adminPanelSection').style.display = 'block';
+                
+                let tableHtml = "";
+                SERVANTS_DATA.forEach(srv => {
+                    let isBlocked = localStorage.getItem(`blocked_${CURRENT_CHAPTER_ID}_user_${srv.id}`) ? "🛑 محظور (تم الحل)" : "🟢 متاح للحل";
+                    let savedScore = localStorage.getItem(`score_${CURRENT_CHAPTER_ID}_user_${srv.id}`) || "لم يحل بعد";
+                    tableHtml += `<tr>
+                        <td><strong>${srv.name}</strong></td>
+                        <td>${CURRENT_CHAPTER_ID}</td>
+                        <td><span style="color:var(--maroon); font-weight:bold;">${savedScore}</span></td>
+                        <td>${isBlocked}</td>
+                    </tr>`;
+                });
+                document.getElementById('adminTableBody').innerHTML = tableHtml;
             } else {
-                alert("رمز حماية الإدارة غير صحيح!");
+                alert("رمز حماية الإدارة غير صحيح! برجاء إدخال الباسورد الصحيح 7070");
             }
+        }
+
+        function exitAdminPanel() {
+            document.getElementById('adminPanelSection').style.display = 'none';
+            document.getElementById('loginSection').style.display = 'block';
         }
     </script>
 </body>
